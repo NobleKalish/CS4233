@@ -93,7 +93,7 @@ public class Coordinate extends Point {
     }
 
     /**
-     * Description
+     * Determines the distance between two points
      * 
      * @param coordinate
      * @return a coordinate with the distance between two coordinates

@@ -8,7 +8,6 @@
 
 package gpv.chess;
 
-import java.util.stream.Stream;
 import gpv.*;
 import gpv.util.*;
 
@@ -22,7 +21,6 @@ import gpv.util.*;
 public class ChessPiece implements Piece<ChessPieceDescriptor> {
     private final ChessPieceDescriptor descriptor;
     private boolean hasMoved; // true if this piece has moved
-    private PieceMovementRules[] pieceMovementRules;
 
     /**
      * The only constructor for a ChessPiece instance. Requires a descriptor.
