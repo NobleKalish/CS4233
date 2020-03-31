@@ -59,7 +59,8 @@ public class ChessPiece implements Piece<ChessPieceDescriptor> {
      */
     @Override
     public boolean canMove(Coordinate from, Coordinate to, Board b) {
-        return (validPieceMovement(from, to, b) && validCoordinates(from, to, b) && isPieceFromCoordinate(from, b)
+        return (validPieceMovement(from, to, b) && validCoordinates(from, to, b)
+                && isPieceFromCoordinate(from, b)
                 && canPieceLandAtToCoordinate(to, b));
     }
 

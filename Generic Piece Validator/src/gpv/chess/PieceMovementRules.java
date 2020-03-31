@@ -14,7 +14,8 @@ import gpv.util.*;
 import static gpv.util.Coordinate.makeCoordinate;
 
 /**
- * Description
+ * Describes the movement rules for each piece. Only pawns use different rules based on
+ * color.
  * 
  * @version Mar 25, 2020
  */
@@ -50,6 +51,16 @@ public enum PieceMovementRules implements PieceRules {
     private List<ChessPieceDescriptor> descriptors;
     private PieceRules rule;
 
+    /**
+     * Creates a PieceMovementRule with a PieceRules rule and variable argument of
+     * ChessPieceDescriptor
+     * 
+     * @param rule
+     *            The PieceRules lmabda that supplies the method for validMove
+     * @param descriptor
+     *            A variable argument of ChessPieceDescriptors used to define what pieces
+     *            each rule applies to
+     */
     PieceMovementRules(PieceRules rule, ChessPieceDescriptor... descriptor) {
         this.descriptors = Arrays.asList(descriptor);
         this.rule = rule;
@@ -88,31 +99,43 @@ public enum PieceMovementRules implements PieceRules {
 
     private static boolean noPiecesInPath(Coordinate from, Coordinate distance,
             Board board) {
-        return (isPieceInHorizontalFirstPath(distance, from, board) || isPieceInVerticalFirstPath(distance,from, board));
+        return (isPieceInHorizontalFirstPath(distance, from, board)
+                || isPieceInVerticalFirstPath(distance, from, board));
     }
 
-    private static boolean isPieceInVerticalFirstPath(Coordinate distance, Coordinate from,
-            Board board) {
+    private static boolean isPieceInVerticalFirstPath(Coordinate distance,
+            Coordinate from, Board board) {
         for (int y = 1; y < distance.getColumn(); y++) {
-            for (int x = 1; x < distance.getRow(); x++) {
-                Coordinate newCoord = makeCoordinate((x + from.getRow()),
-                        (y + from.getColumn()));
-                if (board.getPieceAt(newCoord) != null) {
-                    return false;
-                }
+            Coordinate newCoord = makeCoordinate((from.getRow()),
+                    (y + from.getColumn()));
+            if (board.getPieceAt(newCoord) != null) {
+                return false;
+            }
+        }
+        for (int x = 1; x < distance.getRow(); x++) {
+            Coordinate newCoord = makeCoordinate((x + from.getRow()),
+                    (from.getColumn() + distance.getColumn()));
+            if (board.getPieceAt(newCoord) != null) {
+                return false;
             }
         }
         return true;
     }
 
-    private static boolean isPieceInHorizontalFirstPath(Coordinate distance, Coordinate from,
-            Board board) {
+    private static boolean isPieceInHorizontalFirstPath(Coordinate distance,
+            Coordinate from, Board board) {
         for (int x = 1; x < distance.getRow(); x++) {
-            for (int y = 1; y < distance.getColumn(); y++) {
-                Coordinate newCoord = makeCoordinate((x + from.getRow()), (y + from.getColumn()));
-                if (board.getPieceAt(newCoord) != null) {
-                    return false;
-                }
+            Coordinate newCoord = makeCoordinate((x + from.getRow()),
+                    (from.getColumn()));
+            if (board.getPieceAt(newCoord) != null) {
+                return false;
+            }
+        }
+        for (int y = 1; y < distance.getColumn(); y++) {
+            Coordinate newCoord = makeCoordinate((from.getRow() + distance.getRow()),
+                    (y + from.getColumn()));
+            if (board.getPieceAt(newCoord) != null) {
+                return false;
             }
         }
         return true;
@@ -157,10 +180,16 @@ public enum PieceMovementRules implements PieceRules {
 
     }
 
+    /**
+     * @return rules
+     */
     public PieceRules getRules() {
         return this.rule;
     }
 
+    /**
+     * @return descriptors
+     */
     public List<ChessPieceDescriptor> getDescriptors() {
         return this.descriptors;
     }
@@ -176,6 +205,7 @@ public enum PieceMovementRules implements PieceRules {
 
     /**
      * Get all values in the enum
+     * 
      * @return a stream of all values in enum
      */
     public static Stream<PieceMovementRules> stream() {

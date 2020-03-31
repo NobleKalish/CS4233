@@ -85,6 +85,19 @@ class ChessPieceTests {
         assertTrue(bq.hasMoved());
     }
 
+    /**
+     * Test loops through and tests various valid and invalid moves for each test piece
+     * and black and white pawns
+     * 
+     * @param expected
+     *            The expected output of canMove either True or False
+     * @param from
+     *            Where the piece is starting from
+     * @param to
+     *            Where the piece is moving to
+     * @param piece
+     *            The ChessPieceDescriptor for the factory to make
+     */
     @ParameterizedTest
     @MethodSource("pieceMoveProvider")
     void allPieceMoveTest(boolean expected, Coordinate from, Coordinate to,
@@ -119,6 +132,10 @@ class ChessPieceTests {
                         WHITEPAWN),
                 Arguments.of(true, makeCoordinate(1, 2), makeCoordinate(1, 3),
                         WHITEPAWN),
+                Arguments.of(false, makeCoordinate(1, 2), makeCoordinate(1, 3),
+                        BLACKPAWN),
+                Arguments.of(true, makeCoordinate(1, 7), makeCoordinate(1, 6),
+                        BLACKPAWN),
                 Arguments.of(true, makeCoordinate(1, 1), makeCoordinate(2, 1),
                         WHITEROOK),
                 Arguments.of(true, makeCoordinate(1, 1), makeCoordinate(8, 1),
@@ -207,6 +224,18 @@ class ChessPieceTests {
                 board));
     }
 
+    /**
+     * Test looping through making sure each piece can capture
+     * 
+     * @param expected
+     *            Expected output: True or False
+     * @param from
+     *            Where the piece is starting
+     * @param to
+     *            Where the piece is moving to
+     * @param piece
+     *            The ChessPeiceDescriptor we are testings
+     */
     @ParameterizedTest
     @MethodSource("captureMoveProvider")
     void testCaptureMoves(boolean expected, Coordinate from, Coordinate to,
