@@ -29,7 +29,7 @@ public enum PieceMovementRules implements PieceRules {
     }, ChessPieceDescriptor.BLACKPAWN),
 
     KINGRULES((Coordinate from, Coordinate to, Board board) -> {
-        return (kingExpectedMoves(from, to));
+        return (kingExpectedMoves(from, to, board));
     }, ChessPieceDescriptor.WHITEKING, ChessPieceDescriptor.BLACKKING),
 
     QUEENRULES((Coordinate from, Coordinate to, Board board) -> {
@@ -141,14 +141,64 @@ public enum PieceMovementRules implements PieceRules {
         return true;
     }
 
-    private static boolean kingExpectedMoves(Coordinate from, Coordinate to) {
+    private static boolean kingExpectedMoves(Coordinate from, Coordinate to,
+            Board b) {
         Coordinate distance = from.distance(to);
-        return !(distance.getColumn() > 1 && distance.getRow() > 1);
+        return ((distance.getColumn() <= 1 && distance.getColumn() >= -1
+                && (distance.getRow() >= -1 && distance.getColumn() <= 1))
+                || isCastling(from, to, distance, b));
     }
 
-    private static boolean isFirstMove(Coordinate distance, Coordinate from,
+    private static boolean isCastling(Coordinate from, Coordinate to,
+            Coordinate distance, Board b) {
+        return ((distance.getColumn() == 0
+                && (distance.getRow() == 2 || distance.getRow() == -2))
+                && isKingFirstMove(from, b) && isRookFirstMove(distance, from, b)
+                && noOtherPiecesInWay(distance, from, b));
+    }
+
+    private static boolean noOtherPiecesInWay(Coordinate distance, Coordinate from, Board b) {
+        if (distance.getRow() == 2) {
+            for (int x = 6; x < b.nRows-1; x++) {
+                if (b.getPieceAt(makeCoordinate(x, from.getColumn())) != null) {
+                    return false;
+                }
+            }
+        } else {
+            for (int x = 2; x < 5; x++) {
+                if (b.getPieceAt(makeCoordinate(x, from.getColumn())) != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean isRookFirstMove(Coordinate distance, Coordinate from, Board b) {
+        if (from.getColumn() == 1) {
+            if (distance.getRow() == 2) {
+                return (b.getPieceAt(makeCoordinate(7, 1)) != null);
+            } else {
+                return (b.getPieceAt(makeCoordinate(1,1)) != null);
+            }
+        } else {
+            if (distance.getRow() == 2) {
+                return (b.getPieceAt(makeCoordinate(7, b.getnColumns())) != null);
+            } else {
+                return (b.getPieceAt(makeCoordinate(1, b.getnColumns())) != null);
+            }
+        }
+    }
+
+    private static boolean isKingFirstMove(Coordinate from, Board b) {
+        return (from.getColumn() == 1 || from.getColumn() == b.getnColumns())
+                && (from.getRow() == 5);
+    }
+
+    private static boolean isPawnFirstMove(Coordinate distance, Coordinate from,
             Board board) {
-        return (distance.getColumn() == 2 && distance.getRow() == 0
+        return ((distance.getColumn() == 2 || distance.getColumn() == -2)
+                && distance.getRow() == 0
                 && (from.getColumn() == 2 || from.getColumn() == board.nRows - 1));
     }
 
@@ -163,14 +213,15 @@ public enum PieceMovementRules implements PieceRules {
         Coordinate distance = from.distance(to);
         return (distance.getColumn() == 1 && distance.getRow() == 0)
                 || (canWhitePawnAttack(distance, to, board)
-                        || isFirstMove(distance, from, board));
+                        || isPawnFirstMove(distance, from, board));
     }
 
     private static boolean blackPawnExpectedMoves(Coordinate from, Coordinate to,
             Board board) {
         Coordinate distance = from.distance(to);
         return (distance.getColumn() == -1 && distance.getRow() == 0)
-                || (canBlackPawnAttack(distance, to, board));
+                || (canBlackPawnAttack(distance, to, board)
+                        || isPawnFirstMove(distance, from, board));
     }
 
     private static boolean canBlackPawnAttack(Coordinate distance, Coordinate to,

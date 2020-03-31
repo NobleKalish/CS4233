@@ -265,4 +265,24 @@ class ChessPieceTests {
                 Arguments.of(true, makeCoordinate(1, 2), makeCoordinate(3, 4),
                         WHITEQUEEN));
     }
+    
+    @Test
+    void castlingTest() {
+        ChessPiece whiteKing = factory.makePiece(WHITEKING);
+        ChessPiece whiteRook = factory.makePiece(WHITEROOK);
+        board.putPieceAt(whiteKing, makeCoordinate(5,1));
+        board.putPieceAt(whiteRook, makeCoordinate(1,1));
+        assertTrue(whiteKing.canMove(makeCoordinate(5,1), makeCoordinate(3,1), board));
+    }
+    
+    @Test
+    void castlingFailsTest() {
+        ChessPiece whiteKing = factory.makePiece(WHITEKING);
+        ChessPiece whiteRook = factory.makePiece(WHITEROOK);
+        ChessPiece whiteKnight = factory.makePiece(WHITEKNIGHT);
+        board.putPieceAt(whiteKing, makeCoordinate(5,1));
+        board.putPieceAt(whiteRook, makeCoordinate(1,1));
+        board.putPieceAt(whiteKnight, makeCoordinate(2,1));
+        assertFalse(whiteKing.canMove(makeCoordinate(5,1), makeCoordinate(3,1), board));
+    }
 }
