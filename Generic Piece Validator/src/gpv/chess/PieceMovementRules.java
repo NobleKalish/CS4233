@@ -89,6 +89,44 @@ public enum PieceMovementRules implements PieceRules {
                 && noPiecesInPath(from, distance, board));
     }
 
+    private static boolean noPiecesInDiagonalPath(Coordinate from, Coordinate distance,
+            Board board) {
+        if (distance.getX() > 0 && distance.getY() > 0) {
+            for (int i = 1; i < distance.getX(); i++) {
+                Coordinate newCoord = makeCoordinate((i + from.getRow()),
+                        (i + from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
+            }
+        } else if (distance.getX() < 0 && distance.getY() < 0) {
+            for (int i = -1; i > distance.getX(); i--) {
+                Coordinate newCoord = makeCoordinate((i + from.getRow()),
+                        (i + from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
+            }
+        } else if (distance.getX() > 0 && distance.getY() < 0) {
+            for (int i = 1; i < distance.getX(); i++) {
+                Coordinate newCoord = makeCoordinate((i + from.getRow()),
+                        (i - from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
+            }
+        } else {
+            for (int i = -1; i > distance.getX(); i--) {
+                Coordinate newCoord = makeCoordinate((i + from.getRow()),
+                        (i - from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private static boolean queenExpectedMoves(Coordinate from, Coordinate to,
             Board board) {
         Coordinate distance = from.distance(to);
@@ -99,43 +137,54 @@ public enum PieceMovementRules implements PieceRules {
 
     private static boolean noPiecesInPath(Coordinate from, Coordinate distance,
             Board board) {
-        return (isPieceInHorizontalFirstPath(distance, from, board)
-                || isPieceInVerticalFirstPath(distance, from, board));
+        if (distance.getRow() == 0) {
+            return isPieceInVerticalPath(distance, from, board);
+        } else if (distance.getColumn() == 0){
+            return(isPieceInHorizontalPath(distance, from, board));
+        } else {
+            return(noPiecesInDiagonalPath(from, distance, board));
+        }
     }
 
-    private static boolean isPieceInVerticalFirstPath(Coordinate distance,
+    private static boolean isPieceInVerticalPath(Coordinate distance,
             Coordinate from, Board board) {
-        for (int y = 1; y < distance.getColumn(); y++) {
-            Coordinate newCoord = makeCoordinate((from.getRow()),
-                    (y + from.getColumn()));
-            if (board.getPieceAt(newCoord) != null) {
-                return false;
+        if (distance.getY() > 0) {
+            for (int y = 1; y < distance.getColumn(); y++) {
+                Coordinate newCoord = makeCoordinate((from.getRow()),
+                        (y + from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
             }
-        }
-        for (int x = 1; x < distance.getRow(); x++) {
-            Coordinate newCoord = makeCoordinate((x + from.getRow()),
-                    (from.getColumn() + distance.getColumn()));
-            if (board.getPieceAt(newCoord) != null) {
-                return false;
+        } else {
+            for (int y = -1; y > distance.getColumn(); y--) {
+                Coordinate newCoord = makeCoordinate((from.getRow()),
+                        (y + from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    private static boolean isPieceInHorizontalFirstPath(Coordinate distance,
+    private static boolean isPieceInHorizontalPath(Coordinate distance,
             Coordinate from, Board board) {
-        for (int x = 1; x < distance.getRow(); x++) {
-            Coordinate newCoord = makeCoordinate((x + from.getRow()),
-                    (from.getColumn()));
-            if (board.getPieceAt(newCoord) != null) {
-                return false;
+        if (distance.getX() > 0) {
+            for (int x = 1; x < distance.getRow(); x++) {
+                Coordinate newCoord = makeCoordinate((x + from.getRow()),
+                        (from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
             }
-        }
-        for (int y = 1; y < distance.getColumn(); y++) {
-            Coordinate newCoord = makeCoordinate((from.getRow() + distance.getRow()),
-                    (y + from.getColumn()));
-            if (board.getPieceAt(newCoord) != null) {
-                return false;
+        } else {
+            for (int x = -1; x > distance.getRow(); x--) {
+                Coordinate newCoord = makeCoordinate((x + from.getRow()),
+                        (from.getColumn()));
+                if (board.getPieceAt(newCoord) != null) {
+                    return false;
+                }
             }
         }
         return true;
