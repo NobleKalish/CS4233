@@ -43,4 +43,11 @@ public interface Board<C extends Coordinate>
      */
     LocationType getLocationType(C coord);
     
+    /**
+     * Description
+     * @param coord
+     * @param lt
+     */
+    void setLocationType(C coord, LocationType lt);
+    
 }
