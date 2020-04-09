@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
 import escape.board.*;
-import escape.board.coordinate.SquareCoordinate;
+import escape.board.coordinate.*;
 import escape.piece.PieceName;
 
 /*******************************************************************************
@@ -23,12 +23,12 @@ import escape.piece.PieceName;
  */
 public class OrthoSquareBoardTest {
     private BoardBuilder bb;
-    private SquareBoard board;
+    private OrthoSquareBoard board;
 
     @BeforeEach
     public void setupTest() throws Exception {
-        bb = new BoardBuilder(new File("config/board/BoardConfig1.xml"));
-        board = (SquareBoard) bb.makeBoard();
+        bb = new BoardBuilder(new File("config/board/OrthoBoard.xml"));
+        board = (OrthoSquareBoard) bb.makeBoard();
         assertNotNull(board);
     }
 
@@ -37,19 +37,20 @@ public class OrthoSquareBoardTest {
         // Now I will do some tests on this board and its contents.
         assertEquals(board.getMaxX(), 8);
         assertEquals(board.getMaxY(), 8);
+        assertTrue(board.getClass() == OrthoSquareBoard.class);
     }
 
     @Test
     void testPutPieceAt() throws Exception {
-        SquareCoordinate sc = SquareCoordinate.makeCoordinate(2, 2);
-        assertNotNull(board.getPieceAt(sc));
-        assertEquals(PieceName.HORSE, board.getPieceAt(sc).getName());
+        OrthoCoordinate oc = OrthoCoordinate.makeCoordinate(2, 2);
+        assertNotNull(board.getPieceAt(oc));
+        assertEquals(PieceName.HORSE, board.getPieceAt(oc).getName());
     }
 
     @Test
     void testPutLocationAt() throws Exception {
-        SquareCoordinate sc = SquareCoordinate.makeCoordinate(3, 5);
-        assertNotNull(board.getLocationType(sc));
-        assertEquals(LocationType.BLOCK, board.getLocationType(sc));
+        OrthoCoordinate oc = OrthoCoordinate.makeCoordinate(3, 5);
+        assertNotNull(board.getLocationType(oc));
+        assertEquals(LocationType.BLOCK, board.getLocationType(oc));
     }
 }
