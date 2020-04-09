@@ -23,4 +23,5 @@ public interface Coordinate {
      * @return the distance from this coordinate to the other coordinate
      */
     int distanceTo(Coordinate c);
+    
 }

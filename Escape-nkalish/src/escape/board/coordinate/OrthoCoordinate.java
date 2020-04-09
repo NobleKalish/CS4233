@@ -12,6 +12,8 @@
 
 package escape.board.coordinate;
 
+import java.util.Objects;
+
 /**
  * Description
  * @version Apr 8, 2020
@@ -32,6 +34,29 @@ public class OrthoCoordinate implements Coordinate{
     public int distanceTo(Coordinate c) {
         // TODO Auto-generated method stub
         return 0;
+    }
+    
+    /*
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+    
+    /*
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof OrthoCoordinate)) {
+            return false;
+        }
+        OrthoCoordinate other = (OrthoCoordinate) obj;
+        return x == other.x && y == other.y;
     }
     
     public static OrthoCoordinate makeCoordinate(int x, int y) {

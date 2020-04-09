@@ -13,7 +13,7 @@
 package escape.board;
 
 import static escape.board.LocationType.CLEAR;
-import escape.board.coordinate.SquareCoordinate;
+import escape.board.coordinate.*;
 import escape.piece.EscapePiece;
 import escape.util.*;
 
@@ -24,23 +24,44 @@ import escape.util.*;
 public enum Boards implements BoardRules {
     SQUAREBOARD(bi -> {
         SquareBoard sb = new SquareBoard(bi.getxMax(), bi.getyMax());
-        addLocations(sb, bi.getLocationInitializers());
+        
+        for (LocationInitializer li : bi.getLocationInitializers()) {
+            SquareCoordinate c = SquareCoordinate.makeCoordinate(li.x, li.y);
+            if (li.pieceName != null) {
+                sb.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
+            }
+            if (li.locationType != null && li.locationType != CLEAR) {
+                sb.setLocationType(c, li.locationType);
+            }
+        }        
         return sb;
-    }),
+    }, CoordinateID.SQUARE),
+    
     ORTHOBOARD(bi -> {
         OrthoSquareBoard ob = new OrthoSquareBoard(bi.getxMax(), bi.getyMax());
-        addLocations(ob, bi.getLocationInitializers());
+        
+        for (LocationInitializer li : bi.getLocationInitializers()) {
+            OrthoCoordinate c = OrthoCoordinate.makeCoordinate(li.x, li.y);
+            if (li.pieceName != null) {
+                ob.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
+            }
+            if (li.locationType != null && li.locationType != CLEAR) {
+                ob.setLocationType(c, li.locationType);
+            }
+        }        
         return ob;
-    });
+    }, CoordinateID.ORTHOSQUARE);
     
     private BoardRules initalizer;
+    private CoordinateID id;
     
     /**
      * Description
      * @param object
      */
-    Boards(BoardRules initalizer) {
+    Boards(BoardRules initalizer, CoordinateID id) {
         this.initalizer = initalizer;
+        this.id = id;
     }
     
     /*
@@ -50,17 +71,8 @@ public enum Boards implements BoardRules {
     public Board initalizeBoard(BoardInitializer bi) {
         return this.initalizer.initalizeBoard(bi);
     }
-
-    private static void addLocations(Board b, LocationInitializer... initializers) {
-        for (LocationInitializer li : initializers) {
-            SquareCoordinate c = SquareCoordinate.makeCoordinate(li.x, li.y);
-            if (li.pieceName != null) {
-                b.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
-            }
-
-            if (li.locationType != null && li.locationType != CLEAR) {
-                b.setLocationType(c, li.locationType);
-            }
-        }
+    
+    public CoordinateID getID() {
+        return this.id;
     }
 }

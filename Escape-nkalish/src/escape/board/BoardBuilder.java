@@ -9,6 +9,8 @@ package escape.board;
 
 import static escape.board.LocationType.CLEAR;
 import java.io.*;
+import java.util.Optional;
+import java.util.stream.Stream;
 import javax.xml.bind.*;
 import escape.board.coordinate.SquareCoordinate;
 import escape.piece.EscapePiece;
@@ -37,23 +39,7 @@ public class BoardBuilder {
     }
 
     public Board makeBoard() {
-        // Change next when we have Hex boards too.
-        SquareBoard board = new SquareBoard(bi.getxMax(), bi.getyMax());
-        initializeBoard(board, bi.getLocationInitializers());
-        return board;
-    }
-
-    private void initializeBoard(SquareBoard b,
-            LocationInitializer... initializers) {
-        for (LocationInitializer li : initializers) {
-            SquareCoordinate c = SquareCoordinate.makeCoordinate(li.x, li.y);
-            if (li.pieceName != null) {
-                b.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
-            }
-
-            if (li.locationType != null && li.locationType != CLEAR) {
-                b.setLocationType(c, li.locationType);
-            }
-        }
+        Optional<Boards> board = Stream.of(Boards.values()).filter(b -> b.getID() == bi.getCoordinateId()).findAny();
+        return board.get().initalizeBoard(bi);
     }
 }
