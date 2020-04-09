@@ -12,8 +12,12 @@ SQUARE BOARD DESIGN(Easiest design first):
 	- putSquareAt & getSquareAt
 		- assertNotNull(getSquareAt(3,5): TRUE
 		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
-	- 
+-SQUARE COORDINATE:
+	- DistacneTo
+		- (1,1)->(2,2): 1 PASS
+	 	- (1,2)->(3,5): 3 PASS
+	 	- (1,2)->(5,5): 5 PASS
 ORTHOSQUARE:
-- 
+- Similar system as 
 HEX:
 - 

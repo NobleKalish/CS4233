@@ -36,4 +36,6 @@ public interface Board<C extends Coordinate>
      */
     void putPieceAt(EscapePiece p, C coord);
     
+    LocationType getLocationAt(C coord);
+    
 }

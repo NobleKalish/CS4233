@@ -21,33 +21,11 @@ import escape.piece.PieceName;
 class BoardTest {
 
     private BoardBuilder bb;
-    private SquareBoard board;
 
-    @BeforeEach
-    public void setupTest() throws Exception {
+    @Test
+    public void boardBuilderTest() throws Exception {
         bb = new BoardBuilder(new File("config/board/BoardConfig1.xml"));
-        board = (SquareBoard) bb.makeBoard();
-        assertNotNull(board);
+        assertNotNull(bb.makeBoard());
     }
-
-    @Test
-    void buildSquareBoard1() throws Exception {
-        // Now I will do some tests on this board and its contents.
-        assertEquals(board.getMaxX(), 8);
-        assertEquals(board.getMaxY(), 8);
-    }
-
-    @Test
-    void testPutPieceAt() throws Exception {
-        SquareCoordinate sc = SquareCoordinate.makeCoordinate(2, 2);
-        assertNotNull(board.getPieceAt(sc));
-        assertEquals(PieceName.HORSE, board.getPieceAt(sc).getName());
-    }
-
-    @Test
-    void testPutLocationAt() throws Exception {
-        SquareCoordinate sc = SquareCoordinate.makeCoordinate(3, 5);
-        assertNotNull(board.getLocationType(sc));
-        assertEquals(LocationType.BLOCK, board.getLocationType(sc));
-    }
+    
 }
