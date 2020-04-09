@@ -36,6 +36,11 @@ public interface Board<C extends Coordinate>
      */
     void putPieceAt(EscapePiece p, C coord);
     
-    LocationType getLocationAt(C coord);
+    /**
+     * Description
+     * @param coord
+     * @return
+     */
+    LocationType getLocationType(C coord);
     
 }
