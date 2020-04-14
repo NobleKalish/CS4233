@@ -1,0 +1,40 @@
+TODO:
+
+SQUARE BOARD DESIGN(Easiest design first):
+- Implement basic coordinate system (x, y)
+	- Create a square board
+		- Config maxX=8, maxY=8
+		- Board.getMaxX = 8: TRUE
+		- Board.getMaxY = 8: TRUE
+		- Make a board that has 8 rows and 8 columns 
+	- putPieceAt & getPieceAt
+		- assertNotNull(getPieceAt(2,2)): TRUE
+	- putSquareAt & getSquareAt
+		- assertNotNull(getSquareAt(3,5): TRUE
+		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
+-SQUARE COORDINATE:
+	- DistacneTo
+		- (1,1)->(2,2): 1 PASS
+	 	- (1,2)->(3,5): 3 PASS
+	 	- (1,2)->(5,5): 5 PASS
+
+ORTHOSQUARE:
+- Similar system as SQUARE BOARD
+	- Create an ortho square board
+		- Config maxX=8, maxY=8
+		- Board.getMaxX = 8: TRUE
+		- Board.getMaxY = 8: TRUE
+		- Make a board that has 8 rows and 8 columns 
+	- putPieceAt & getPieceAt
+		- assertNotNull(getPieceAt(2,2)): TRUE
+	- putSquareAt & getSquareAt
+		- assertNotNull(getSquareAt(3,5): TRUE
+		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
+-SQUARE COORDINATE:
+	- DistacneTo
+		- (1,1)->(2,2): 2 PASS
+	 	- (1,2)->(3,5): 5 PASS
+	 	- (1,2)->(5,5): 7 PASS
+
+HEX:
+- 
