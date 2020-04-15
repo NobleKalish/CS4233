@@ -33,6 +33,7 @@ public class BoardBuilder {
 	 * @param fileName
 	 * @throws Exception
 	 */
+	@Inject
 	public BoardBuilder(File fileName, @BoardFactoryAnnotation BoardFactory factory) throws Exception {
 		JAXBContext contextObj = JAXBContext.newInstance(BoardInitializer.class);
 		Unmarshaller mub = contextObj.createUnmarshaller();
