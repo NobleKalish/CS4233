@@ -18,11 +18,11 @@ import java.util.Objects;
  * Description
  * @version Apr 8, 2020
  */
-public class OrthoCoordinate implements Coordinate{
+public class OrthoSquareCoordinate implements Coordinate{
     private final int x;
     private final int y;
 
-    private OrthoCoordinate(int x, int y) {
+    private OrthoSquareCoordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -52,15 +52,15 @@ public class OrthoCoordinate implements Coordinate{
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof OrthoCoordinate)) {
+        if (!(obj instanceof OrthoSquareCoordinate)) {
             return false;
         }
-        OrthoCoordinate other = (OrthoCoordinate) obj;
+        OrthoSquareCoordinate other = (OrthoSquareCoordinate) obj;
         return x == other.x && y == other.y;
     }
     
-    public static OrthoCoordinate makeCoordinate(int x, int y) {
-        return new OrthoCoordinate(x,y);
+    public static OrthoSquareCoordinate makeCoordinate(int x, int y) {
+        return new OrthoSquareCoordinate(x,y);
     }
     
     public int getX() {

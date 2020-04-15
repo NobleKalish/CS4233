@@ -10,8 +10,6 @@ package escape.board;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
-import escape.board.coordinate.SquareCoordinate;
-import escape.piece.PieceName;
 
 /**
  * Description

@@ -11,16 +11,17 @@ package escape.board;
 import java.util.*;
 import escape.board.coordinate.*;
 import escape.piece.EscapePiece;
+import escape.util.BoardInitializer;
 
 /**
  * Description
  * 
  * @version Apr 8, 2020
  */
-public class OrthoSquareBoard implements Board<OrthoCoordinate> {
+public class OrthoSquareBoard implements Board<OrthoSquareCoordinate> {
     
-    Map<OrthoCoordinate, LocationType> squares;
-    Map<OrthoCoordinate, EscapePiece> pieces;
+    Map<OrthoSquareCoordinate, LocationType> squares;
+    Map<OrthoSquareCoordinate, EscapePiece> pieces;
 
     private final int xMax;
     private final int yMax;
@@ -36,7 +37,7 @@ public class OrthoSquareBoard implements Board<OrthoCoordinate> {
      * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
      */
     @Override
-    public EscapePiece getPieceAt(OrthoCoordinate coord) {
+    public EscapePiece getPieceAt(OrthoSquareCoordinate coord) {
         return this.pieces.get(coord);
     }
 
@@ -44,7 +45,7 @@ public class OrthoSquareBoard implements Board<OrthoCoordinate> {
      * @see escape.board.Board#putPieceAt(escape.piece.EscapePiece, escape.board.coordinate.Coordinate)
      */
     @Override
-    public void putPieceAt(EscapePiece p, OrthoCoordinate coord) {
+    public void putPieceAt(EscapePiece p, OrthoSquareCoordinate coord) {
         this.pieces.put(coord, p);
     }
 
@@ -52,7 +53,7 @@ public class OrthoSquareBoard implements Board<OrthoCoordinate> {
      * @see escape.board.Board#getLocationType(escape.board.coordinate.Coordinate)
      */
     @Override
-    public LocationType getLocationType(OrthoCoordinate coord) {
+    public LocationType getLocationType(OrthoSquareCoordinate coord) {
         return this.squares.get(coord);
     }
 
@@ -60,7 +61,7 @@ public class OrthoSquareBoard implements Board<OrthoCoordinate> {
      * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
      */
     @Override
-    public void setLocationType(OrthoCoordinate coord, LocationType lt) {
+    public void setLocationType(OrthoSquareCoordinate coord, LocationType lt) {
         this.squares.put(coord, lt);
     }
 
@@ -71,4 +72,13 @@ public class OrthoSquareBoard implements Board<OrthoCoordinate> {
     public int getMaxY() {
         return this.yMax;
     }
+
+	/*
+	 * @see escape.board.Board#initalizeBoard(escape.util.BoardInitializer)
+	 */
+	@Override
+	public void initalizeBoard(BoardInitializer bi) {
+		// TODO Auto-generated method stub
+		
+	}
 }

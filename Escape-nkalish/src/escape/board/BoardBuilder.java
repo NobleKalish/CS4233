@@ -7,14 +7,14 @@
  *******************************************************************************/
 package escape.board;
 
-import static escape.board.LocationType.CLEAR;
 import java.io.*;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.xml.bind.*;
-import escape.board.coordinate.SquareCoordinate;
-import escape.piece.EscapePiece;
+import com.google.inject.Inject;
+import escape.exception.EscapeException;
 import escape.util.*;
+import escape.board.annotations.*;
 
 /**
  * A Builder class for creating Boards. It is only an example and builds just Square
@@ -23,23 +23,29 @@ import escape.util.*;
  * @version Apr 2, 2020
  */
 public class BoardBuilder {
-    private BoardInitializer bi;
+	private BoardInitializer bi;
+	private BoardFactory factory;
 
-    /**
-     * The constructor for this takes a file name. It is either an absolute path or a path
-     * relative to the beginning of this project.
-     * 
-     * @param fileName
-     * @throws Exception
-     */
-    public BoardBuilder(File fileName) throws Exception {
-        JAXBContext contextObj = JAXBContext.newInstance(BoardInitializer.class);
-        Unmarshaller mub = contextObj.createUnmarshaller();
-        bi = (BoardInitializer) mub.unmarshal(new FileReader(fileName));
-    }
+	/**
+	 * The constructor for this takes a file name. It is either an absolute path or a path
+	 * relative to the beginning of this project.
+	 * 
+	 * @param fileName
+	 * @throws Exception
+	 */
+	public BoardBuilder(File fileName, @BoardFactoryAnnotation BoardFactory factory) throws Exception {
+		JAXBContext contextObj = JAXBContext.newInstance(BoardInitializer.class);
+		Unmarshaller mub = contextObj.createUnmarshaller();
+		bi = (BoardInitializer) mub.unmarshal(new FileReader(fileName));
+		this.factory = factory;
+	}
 
-    public Board makeBoard() {
-        Optional<Boards> board = Stream.of(Boards.values()).filter(b -> b.getID() == bi.getCoordinateId()).findAny();
-        return board.get().initalizeBoard(bi);
-    }
+	public Board makeBoard() throws EscapeException {
+		return this.factory.buildBoard(bi);
+	}
+
+	@Inject
+	public Board initializeSquareBoard(@SquareBoardAnnotation Board board) {
+		return null;
+	}
 }

@@ -10,6 +10,7 @@ package escape.board;
 import java.util.*;
 import escape.board.coordinate.SquareCoordinate;
 import escape.piece.EscapePiece;
+import escape.util.BoardInitializer;
 
 /**
  * An example of how a Board might be implemented. This board has square coordinates and
@@ -65,4 +66,13 @@ public class SquareBoard implements Board<SquareCoordinate> {
     public int getMaxY() {
         return this.yMax;
     }
+
+	/*
+	 * @see escape.board.Board#initalizeBoard(escape.util.BoardInitializer)
+	 */
+	@Override
+	public void initalizeBoard(BoardInitializer bi) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -42,14 +42,14 @@ public class OrthoSquareBoardTest {
 
     @Test
     void testPutPieceAt() throws Exception {
-        OrthoCoordinate oc = OrthoCoordinate.makeCoordinate(2, 2);
+        OrthoSquareCoordinate oc = OrthoSquareCoordinate.makeCoordinate(2, 2);
         assertNotNull(board.getPieceAt(oc));
         assertEquals(PieceName.HORSE, board.getPieceAt(oc).getName());
     }
 
     @Test
     void testPutLocationAt() throws Exception {
-        OrthoCoordinate oc = OrthoCoordinate.makeCoordinate(3, 5);
+        OrthoSquareCoordinate oc = OrthoSquareCoordinate.makeCoordinate(3, 5);
         assertNotNull(board.getLocationType(oc));
         assertEquals(LocationType.BLOCK, board.getLocationType(oc));
     }

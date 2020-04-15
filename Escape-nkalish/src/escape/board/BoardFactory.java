@@ -12,13 +12,13 @@
 
 package escape.board;
 
-import escape.util.*;
+import escape.util.BoardInitializer;
 
 /**
  * Description
  * @version Apr 8, 2020
  */
-@FunctionalInterface
-public interface BoardRules {
-    Board initalizeBoard(BoardInitializer bi);
+
+public interface BoardFactory {
+    Board buildBoard(BoardInitializer bi);
 }
