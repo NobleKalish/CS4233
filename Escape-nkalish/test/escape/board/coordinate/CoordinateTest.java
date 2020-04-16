@@ -36,5 +36,22 @@ class CoordinateTest {
                 Arguments.of(SquareCoordinate.makeCoordinate(1, 2),
                         SquareCoordinate.makeCoordinate(5, 5), 4));
     }
+    
+    @ParameterizedTest
+    @MethodSource("orthoSquareCoordinateDistanceProvider")
+    public void testOrthoCoordinateDistance(OrthoSquareCoordinate start, OrthoSquareCoordinate end,
+            int expectedDistance) {
+        assertEquals(start.distanceTo(end), expectedDistance);
+    }
+
+    static Stream<Arguments> orthoSquareCoordinateDistanceProvider() {
+        return Stream.of(
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(1, 1),
+                        OrthoSquareCoordinate.makeCoordinate(2, 2), 2),
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(1, 2),
+                        OrthoSquareCoordinate.makeCoordinate(3, 5), 5),
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(1, 2),
+                        OrthoSquareCoordinate.makeCoordinate(5, 5), 7));
+    }
 
 }

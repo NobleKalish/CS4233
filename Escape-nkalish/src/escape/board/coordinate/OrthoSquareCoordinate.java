@@ -32,8 +32,11 @@ public class OrthoSquareCoordinate implements Coordinate{
      */
     @Override
     public int distanceTo(Coordinate c) {
-        // TODO Auto-generated method stub
-        return 0;
+    	OrthoSquareCoordinate coord = (OrthoSquareCoordinate) c;
+    	int distance = 0;
+    	distance += (coord.getX() - this.getX());
+    	distance += (coord.getY() - this.getY());
+        return distance;
     }
     
     /*
