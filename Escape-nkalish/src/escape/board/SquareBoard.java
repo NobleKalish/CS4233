@@ -10,26 +10,23 @@ package escape.board;
 import java.util.*;
 import escape.board.coordinate.SquareCoordinate;
 import escape.piece.EscapePiece;
-import escape.util.BoardInitializer;
 
 /**
  * An example of how a Board might be implemented. This board has square coordinates and
  * finite bounds, represented by xMax and yMax. All methods required by the Board
- * interface have been implemented. Students would naturally add methods based upon theire
+ * interface have been implemented. Students would naturally add methods based upon their
  * design.
  * 
  * @version Apr 2, 2020
  */
 public class SquareBoard implements Board<SquareCoordinate> {
-    Map<SquareCoordinate, LocationType> squares;
-    Map<SquareCoordinate, EscapePiece> pieces;
+    private Map<SquareCoordinate, LocationType> squares;
+    private Map<SquareCoordinate, EscapePiece> pieces;
 
-    private final int xMax;
-    private final int yMax;
+    private int xMax;
+    private int yMax;
 
-    public SquareBoard(int xMax, int yMax) {
-        this.xMax = xMax;
-        this.yMax = yMax;
+    public SquareBoard() {
         pieces = new HashMap<>();
         squares = new HashMap<>();
     }
@@ -58,21 +55,20 @@ public class SquareBoard implements Board<SquareCoordinate> {
     public LocationType getLocationType(SquareCoordinate c) {
         return this.squares.get(c);
     }
+    
+    public void setXMax(int xMax) {
+    	this.xMax = xMax;
+    }
+    
+    public void setYMax(int yMax) {
+    	this.yMax = yMax;
+    }
 
-    public int getMaxX() {
+    public int getXMax() {
         return this.xMax;
     }
 
-    public int getMaxY() {
+    public int getYMax() {
         return this.yMax;
     }
-
-	/*
-	 * @see escape.board.Board#initalizeBoard(escape.util.BoardInitializer)
-	 */
-	@Override
-	public void initalizeBoard(BoardInitializer bi) {
-		// TODO Auto-generated method stub
-		
-	}
 }

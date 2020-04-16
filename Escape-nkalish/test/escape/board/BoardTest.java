@@ -10,6 +10,7 @@ package escape.board;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
+import com.google.inject.*;
 
 /**
  * Description
@@ -18,12 +19,11 @@ import org.junit.jupiter.api.*;
  */
 class BoardTest {
 
-    private BoardBuilder bb;
-
     @Test
     public void boardBuilderTest() throws Exception {
-        bb = new BoardBuilder(new File("config/board/BoardConfig1.xml"));
-        assertNotNull(bb.makeBoard());
+    	Injector injector = Guice.createInjector(new BoardModule());
+        BoardBuilder bb = injector.getInstance(BoardBuilder.class);
+        assertNotNull(bb);
     }
     
 }

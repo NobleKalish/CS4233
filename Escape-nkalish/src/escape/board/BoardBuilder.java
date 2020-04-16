@@ -8,13 +8,13 @@
 package escape.board;
 
 import java.io.*;
-import java.util.Optional;
-import java.util.stream.Stream;
 import javax.xml.bind.*;
 import com.google.inject.Inject;
 import escape.exception.EscapeException;
+import escape.piece.EscapePiece;
 import escape.util.*;
 import escape.board.annotations.*;
+import escape.board.coordinate.*;
 
 /**
  * A Builder class for creating Boards. It is only an example and builds just Square
@@ -24,7 +24,8 @@ import escape.board.annotations.*;
  */
 public class BoardBuilder {
 	private BoardInitializer bi;
-	private BoardFactory factory;
+	private Board squareBoard;
+	private Board orthoSquareBoard;
 
 	/**
 	 * The constructor for this takes a file name. It is either an absolute path or a path
@@ -33,20 +34,67 @@ public class BoardBuilder {
 	 * @param fileName
 	 * @throws Exception
 	 */
-	@Inject
-	public BoardBuilder(File fileName, @BoardFactoryAnnotation BoardFactory factory) throws Exception {
+	public BoardBuilder() throws Exception {
+	}
+
+	public void setBuildInitializer(File fileName) throws Exception {
 		JAXBContext contextObj = JAXBContext.newInstance(BoardInitializer.class);
 		Unmarshaller mub = contextObj.createUnmarshaller();
 		bi = (BoardInitializer) mub.unmarshal(new FileReader(fileName));
-		this.factory = factory;
 	}
 
 	public Board makeBoard() throws EscapeException {
-		return this.factory.buildBoard(bi);
+		switch(bi.getCoordinateId()) {
+			case HEX:
+				throw new EscapeException("Board does not exist!");
+			case ORTHOSQUARE:
+				return makeOrthoBoard();
+			case SQUARE:
+				return makeSquareBoard(); 
+			default:
+				throw new EscapeException("Board does not exist!");
+		}
+	}
+
+	private Board makeSquareBoard() {
+		SquareBoard board = (SquareBoard) this.squareBoard;
+		board.setXMax(bi.getxMax());
+		board.setYMax(bi.getyMax());
+		for (LocationInitializer li : bi.getLocationInitializers()) {
+			SquareCoordinate coord = SquareCoordinate.makeCoordinate(li.x, li.y);
+			if (li.pieceName != null) {
+				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
+			}
+			if (li.locationType != null && li.locationType != LocationType.CLEAR) {
+				board.setLocationType(coord, li.locationType);
+			}
+		}
+		return board;
+	}
+	
+	private Board makeOrthoBoard() {
+		OrthoSquareBoard board = (OrthoSquareBoard) this.orthoSquareBoard;
+		board.setXMax(bi.getxMax());
+		board.setYMax(bi.getyMax());
+		for (LocationInitializer li : bi.getLocationInitializers()) {
+			OrthoSquareCoordinate coord = OrthoSquareCoordinate.makeCoordinate(li.x, li.y);
+			if (li.pieceName != null) {
+				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
+			}
+			if (li.locationType != null && li.locationType != LocationType.CLEAR) {
+				board.setLocationType(coord, li.locationType);
+			}
+		}
+		return board;
 	}
 
 	@Inject
-	public Board initializeSquareBoard(@SquareBoardAnnotation Board board) {
-		return null;
+	public void setSquareBoard(@SquareBoardAnnotation Board board) {
+		this.squareBoard = board;
+	}
+
+	@Inject
+	public void setOrthoSquareBoard(@OrthoBoardAnnotation Board board) {
+		this.orthoSquareBoard = board;
 	}
 }

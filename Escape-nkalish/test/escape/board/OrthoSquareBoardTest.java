@@ -2,6 +2,7 @@ package escape.board;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
+import com.google.inject.*;
 import escape.board.coordinate.*;
 import escape.piece.PieceName;
 
@@ -27,7 +28,9 @@ public class OrthoSquareBoardTest {
 
     @BeforeEach
     public void setupTest() throws Exception {
-        bb = new BoardBuilder(new File("config/board/OrthoBoard.xml"));
+    	Injector injector = Guice.createInjector(new BoardModule());
+        bb = injector.getInstance(BoardBuilder.class);
+        bb.setBuildInitializer(new File("config/board/OrthoBoard.xml"));
         board = (OrthoSquareBoard) bb.makeBoard();
         assertNotNull(board);
     }
@@ -35,8 +38,8 @@ public class OrthoSquareBoardTest {
     @Test
     void buildSquareBoard() throws Exception {
         // Now I will do some tests on this board and its contents.
-        assertEquals(board.getMaxX(), 8);
-        assertEquals(board.getMaxY(), 8);
+        assertEquals(board.getXMax(), 8);
+        assertEquals(board.getYMax(), 8);
         assertTrue(board.getClass() == OrthoSquareBoard.class);
     }
 

@@ -15,6 +15,7 @@ package escape.board;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
+import com.google.inject.*;
 import escape.board.coordinate.SquareCoordinate;
 import escape.piece.PieceName;
 
@@ -28,7 +29,9 @@ public class SquareBoardTest {
 
     @BeforeEach
     public void setupTest() throws Exception {
-        bb = new BoardBuilder(new File("config/board/BoardConfig1.xml"));
+    	Injector injector = Guice.createInjector(new BoardModule());
+        bb = injector.getInstance(BoardBuilder.class);
+        bb.setBuildInitializer(new File("config/board/BoardConfig1.xml"));
         board = (SquareBoard) bb.makeBoard();
         assertNotNull(board);
     }
@@ -36,8 +39,8 @@ public class SquareBoardTest {
     @Test
     void buildSquareBoard() throws Exception {
         // Now I will do some tests on this board and its contents.
-        assertEquals(board.getMaxX(), 8);
-        assertEquals(board.getMaxY(), 8);
+        assertEquals(board.getXMax(), 8);
+        assertEquals(board.getYMax(), 8);
     }
 
     @Test

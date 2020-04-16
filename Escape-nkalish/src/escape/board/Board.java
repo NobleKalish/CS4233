@@ -10,7 +10,6 @@ package escape.board;
 
 import escape.board.coordinate.Coordinate;
 import escape.piece.EscapePiece;
-import escape.util.BoardInitializer;
 
 /**
  * Interface that defines the methods that any board instance must apply.
@@ -27,12 +26,6 @@ public interface Board<C extends Coordinate> {
 	 * @return the piece or null if there is none
 	 */
 	EscapePiece getPieceAt(C coord);
-	
-	
-	/**
-	 * Description
-	 */
-	void initalizeBoard(BoardInitializer bi);
 
 	/**
 	 * Place a piece on the board at a specified location.
@@ -44,21 +37,5 @@ public interface Board<C extends Coordinate> {
 	 *            the coordinate where the piece must be placed
 	 */
 	void putPieceAt(EscapePiece p, C coord);
-
-	/**
-	 * Description
-	 * 
-	 * @param coord
-	 * @return
-	 */
-	LocationType getLocationType(C coord);
-
-	/**
-	 * Description
-	 * 
-	 * @param coord
-	 * @param lt
-	 */
-	void setLocationType(C coord, LocationType lt);
 
 }

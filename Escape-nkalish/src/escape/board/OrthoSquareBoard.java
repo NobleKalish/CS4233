@@ -11,7 +11,6 @@ package escape.board;
 import java.util.*;
 import escape.board.coordinate.*;
 import escape.piece.EscapePiece;
-import escape.util.BoardInitializer;
 
 /**
  * Description
@@ -23,12 +22,10 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate> {
     Map<OrthoSquareCoordinate, LocationType> squares;
     Map<OrthoSquareCoordinate, EscapePiece> pieces;
 
-    private final int xMax;
-    private final int yMax;
+    private int xMax;
+    private int yMax;
     
-    public OrthoSquareBoard(int xMax, int yMax) {
-        this.xMax = xMax;
-        this.yMax = yMax;
+    public OrthoSquareBoard() {
         this.squares = new HashMap<>();
         this.pieces = new HashMap<>();
     }
@@ -49,36 +46,27 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate> {
         this.pieces.put(coord, p);
     }
 
-    /*
-     * @see escape.board.Board#getLocationType(escape.board.coordinate.Coordinate)
-     */
-    @Override
     public LocationType getLocationType(OrthoSquareCoordinate coord) {
         return this.squares.get(coord);
     }
-
-    /*
-     * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
-     */
-    @Override
+    
     public void setLocationType(OrthoSquareCoordinate coord, LocationType lt) {
         this.squares.put(coord, lt);
     }
 
-    public int getMaxX() {
+    public int getXMax() {
         return this.xMax;
     }
 
-    public int getMaxY() {
+    public int getYMax() {
         return this.yMax;
     }
-
-	/*
-	 * @see escape.board.Board#initalizeBoard(escape.util.BoardInitializer)
-	 */
-	@Override
-	public void initalizeBoard(BoardInitializer bi) {
-		// TODO Auto-generated method stub
-		
-	}
+    
+    public void setXMax(int xMax) {
+    	this.xMax = xMax;
+    }
+    
+    public void setYMax(int yMax) {
+    	this.yMax = yMax;
+    }
 }
