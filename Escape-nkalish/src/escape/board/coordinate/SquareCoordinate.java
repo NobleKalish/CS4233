@@ -34,8 +34,8 @@ public class SquareCoordinate implements Coordinate {
     @Override
     public int distanceTo(Coordinate c) {
         SquareCoordinate to = (SquareCoordinate) c;
-        int xDistance = to.getX() - this.getX();
-        int yDistance = to.getY() - this.getY();
+        int xDistance = Math.abs(to.getX() - this.getX());
+        int yDistance = Math.abs(to.getY() - this.getY());
         int distance = 0;
         while (xDistance != 0 && yDistance !=0) {
             distance++;

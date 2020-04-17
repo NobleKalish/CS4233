@@ -18,24 +18,7 @@ import org.junit.jupiter.params.provider.*;
  * 
  * @version Mar 28, 2020
  */
-class CoordinateTest {
-
-    @ParameterizedTest
-    @MethodSource("squareCoordinateDistanceProvider")
-    public void testCoordinateDistance(SquareCoordinate start, SquareCoordinate end,
-            int expectedDistance) {
-        assertEquals(start.distanceTo(end), expectedDistance);
-    }
-
-    static Stream<Arguments> squareCoordinateDistanceProvider() {
-        return Stream.of(
-                Arguments.of(SquareCoordinate.makeCoordinate(1, 1),
-                        SquareCoordinate.makeCoordinate(2, 2), 1),
-                Arguments.of(SquareCoordinate.makeCoordinate(1, 2),
-                        SquareCoordinate.makeCoordinate(3, 5), 3),
-                Arguments.of(SquareCoordinate.makeCoordinate(1, 2),
-                        SquareCoordinate.makeCoordinate(5, 5), 4));
-    }
+class OrthoSquareCoordinateTest {
     
     @ParameterizedTest
     @MethodSource("orthoSquareCoordinateDistanceProvider")

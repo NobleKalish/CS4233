@@ -30,11 +30,45 @@ ORTHOSQUARE:
 	- putSquareAt & getSquareAt
 		- assertNotNull(getSquareAt(3,5): TRUE
 		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
--SQUARE COORDINATE:
+-ORTHO SQUARE COORDINATE:
 	- DistacneTo
 		- (1,1)->(2,2): 2 PASS
 	 	- (1,2)->(3,5): 5 PASS
 	 	- (1,2)->(5,5): 7 PASS
 
 HEX:
-- 
+- Can be inifinite or finite
+	- Create an Hex board
+		- config maxX=10, maxY=10
+		- Board.getMaxX = 10, Board.getMinX = -10: TRUE
+		- Board.getMaxY = 10, Board.getMinY = -10: TRUE
+		- Make board with 0,0 in the middke of the board
+	- putPieceAt & getPieceAt
+		- assertNotNull(getPieceAt(2,2)): TRUE
+		- assertNotNull(getPieceAt(-2,2)): TRUE
+		- assertNotNull(getPieceAt(2,-2)): TRUE
+		- assertNotNull(getPieceAt(-2,-2)): TRUE
+	- putSquareAt & getSquareAt
+		- assertNotNull(getSquareAt(3,5): TRUE
+		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
+		- assertNotNull(getSquareAt(-3,5): TRUE
+		- assertEquals(BLOCK, getSquareAt(-3,5)): TRUE
+		- assertNotNull(getSquareAt(3,-5): TRUE
+		- assertEquals(BLOCK, getSquareAt(3,-5)): TRUE
+		- assertNotNull(getSquareAt(-3,-5): TRUE
+		- assertEquals(BLOCK, getSquareAt(-3,-5)): TRUE
+- HEX COORDINATE:
+	- DistanceTo
+		- (1,1)->(2,2): 2 PASS
+	 	- (1,2)->(3,5): 5 PASS
+	 	- (1,2)->(5,5): 7 PASS
+	 	- (1,2)->(-5,-3): 7 PASS
+	 	- (1,2)->(-5,7): 7 PASS
+		
+		
+		
+		
+		
+		
+		
+		

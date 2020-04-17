@@ -24,5 +24,6 @@ public class BoardModule extends AbstractModule {
 				.to(SquareBoard.class);
 		bind(Board.class).annotatedWith(OrthoBoardAnnotation.class)
 				.to(OrthoSquareBoard.class);
+		bind(Board.class).annotatedWith(HexBoardAnnotation.class).to(HexBoard.class);
 	}
 }

@@ -36,7 +36,7 @@ public class OrthoSquareBoardTest {
     }
 
     @Test
-    void buildSquareBoard() throws Exception {
+    void buildOrthoSquareBoard() throws Exception {
         // Now I will do some tests on this board and its contents.
         assertEquals(board.getXMax(), 8);
         assertEquals(board.getYMax(), 8);

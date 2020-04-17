@@ -26,6 +26,7 @@ public class BoardBuilder {
 	private BoardInitializer bi;
 	private Board squareBoard;
 	private Board orthoSquareBoard;
+	private Board hexBoard;
 
 	/**
 	 * The constructor for this takes a file name. It is either an absolute path or a path
@@ -44,16 +45,32 @@ public class BoardBuilder {
 	}
 
 	public Board makeBoard() throws EscapeException {
-		switch(bi.getCoordinateId()) {
+		switch (bi.getCoordinateId()) {
 			case HEX:
-				throw new EscapeException("Board does not exist!");
+				return makeHexBoard();
 			case ORTHOSQUARE:
 				return makeOrthoBoard();
 			case SQUARE:
-				return makeSquareBoard(); 
+				return makeSquareBoard();
 			default:
 				throw new EscapeException("Board does not exist!");
 		}
+	}
+
+	private Board makeHexBoard() {
+		HexBoard board = (HexBoard) this.hexBoard;
+		board.setXMax(bi.getxMax());
+		board.setYMax(bi.getyMax());
+		for (LocationInitializer li : bi.getLocationInitializers()) {
+			HexCoordinate coord = HexCoordinate.makeCoordinate(li.x, li.y);
+			if (li.pieceName != null) {
+				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
+			}
+			if (li.locationType != null && li.locationType != LocationType.CLEAR) {
+				board.setLocationType(coord, li.locationType);
+			}
+		}
+		return board;
 	}
 
 	private Board makeSquareBoard() {
@@ -71,13 +88,14 @@ public class BoardBuilder {
 		}
 		return board;
 	}
-	
+
 	private Board makeOrthoBoard() {
 		OrthoSquareBoard board = (OrthoSquareBoard) this.orthoSquareBoard;
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
 		for (LocationInitializer li : bi.getLocationInitializers()) {
-			OrthoSquareCoordinate coord = OrthoSquareCoordinate.makeCoordinate(li.x, li.y);
+			OrthoSquareCoordinate coord = OrthoSquareCoordinate.makeCoordinate(li.x,
+					li.y);
 			if (li.pieceName != null) {
 				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
 			}
@@ -96,5 +114,10 @@ public class BoardBuilder {
 	@Inject
 	public void setOrthoSquareBoard(@OrthoBoardAnnotation Board board) {
 		this.orthoSquareBoard = board;
+	}
+	
+	@Inject
+	public void setHexBoard(@HexBoardAnnotation Board board) {
+		this.hexBoard = board;
 	}
 }

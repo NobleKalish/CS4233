@@ -34,8 +34,8 @@ public class OrthoSquareCoordinate implements Coordinate{
     public int distanceTo(Coordinate c) {
     	OrthoSquareCoordinate coord = (OrthoSquareCoordinate) c;
     	int distance = 0;
-    	distance += (coord.getX() - this.getX());
-    	distance += (coord.getY() - this.getY());
+    	distance += Math.abs(coord.getX() - this.getX());
+    	distance += Math.abs(coord.getY() - this.getY());
         return distance;
     }
     
