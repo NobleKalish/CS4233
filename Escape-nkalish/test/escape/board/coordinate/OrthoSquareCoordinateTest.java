@@ -8,8 +8,10 @@
 
 package escape.board.coordinate;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Stream;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
@@ -35,6 +37,11 @@ class OrthoSquareCoordinateTest {
                         OrthoSquareCoordinate.makeCoordinate(3, 5), 5),
                 Arguments.of(OrthoSquareCoordinate.makeCoordinate(1, 2),
                         OrthoSquareCoordinate.makeCoordinate(5, 5), 7));
+    }
+    
+    @Test
+    public void testEquals() {
+    	assertFalse(OrthoSquareCoordinate.makeCoordinate(1, 1).equals(OrthoSquareCoordinate.makeCoordinate(3, 1)));
     }
 
 }

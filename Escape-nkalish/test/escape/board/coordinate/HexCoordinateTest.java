@@ -12,8 +12,10 @@
 
 package escape.board.coordinate;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.stream.Stream;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
@@ -42,5 +44,10 @@ public class HexCoordinateTest {
         				HexCoordinate.makeCoordinate(-5, -3), 11),
                 Arguments.of(HexCoordinate.makeCoordinate(1, 2),
                         HexCoordinate.makeCoordinate(-5, 7), 6));
+    }
+    
+    @Test
+    public void testEquals() {
+    	assertFalse(HexCoordinate.makeCoordinate(1, 1).equals(HexCoordinate.makeCoordinate(1, 3)));
     }
 }

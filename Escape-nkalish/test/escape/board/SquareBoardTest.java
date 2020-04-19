@@ -14,10 +14,14 @@ package escape.board;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import com.google.inject.*;
-import escape.board.coordinate.SquareCoordinate;
-import escape.piece.PieceName;
+import escape.board.coordinate.*;
+import escape.exception.EscapeException;
+import escape.piece.*;
 
 /**
  * Description
@@ -55,5 +59,40 @@ public class SquareBoardTest {
         SquareCoordinate sc = SquareCoordinate.makeCoordinate(3, 5);
         assertNotNull(board.getLocationType(sc));
         assertEquals(LocationType.BLOCK, board.getLocationType(sc));
+    }
+    
+    @Test
+	void testBadFile() throws Exception {
+		bb.setBuildInitializer(new File("config/board/BadSquareBoard.xml"));
+		try {
+			board = (SquareBoard) bb.makeBoard();
+		} catch (EscapeException e) {
+			assertNotNull(e);
+			assertEquals(e.getMessage(), "Coordinates are not in bounds!");
+		}
+	}
+    
+    @ParameterizedTest
+    @MethodSource("coordinateTestProvider")
+    public void testPutPieceOnBoard(SquareCoordinate start, EscapePiece p) {
+		assertThrows(EscapeException.class, () -> board.putPieceAt(p, start));
+    }
+
+    static Stream<Arguments> coordinateTestProvider() {
+        return Stream.of(
+                Arguments.of(SquareCoordinate.makeCoordinate(-1, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)),
+                Arguments.of(SquareCoordinate.makeCoordinate(10, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("setLocationTypeTestProvider")
+    public void testPutLocationOnBoard(SquareCoordinate start, LocationType lt) {
+		assertThrows(EscapeException.class, () -> board.setLocationType(start, lt));
+    }
+
+    static Stream<Arguments> setLocationTypeTestProvider() {
+        return Stream.of(
+                Arguments.of(SquareCoordinate.makeCoordinate(-1, 1), LocationType.BLOCK),
+                Arguments.of(SquareCoordinate.makeCoordinate(10, 1), LocationType.BLOCK));
     }
 }

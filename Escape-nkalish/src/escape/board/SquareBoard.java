@@ -9,6 +9,7 @@ package escape.board;
 
 import java.util.*;
 import escape.board.coordinate.SquareCoordinate;
+import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 
 /**
@@ -45,11 +46,26 @@ public class SquareBoard implements Board<SquareCoordinate> {
 	 */
 	@Override
 	public void putPieceAt(EscapePiece p, SquareCoordinate coord) {
-		this.pieces.put(coord, p);
+		if (coordsInBound(coord)) {
+			this.pieces.put(coord, p);
+		} else {
+			throw new EscapeException("Coordinates are not in bounds!");
+		}
 	}
 
 	public void setLocationType(SquareCoordinate c, LocationType lt) {
-		squares.put(c, lt);
+		if (coordsInBound(c)) {
+			this.squares.put(c, lt);
+		} else {
+			throw new EscapeException("Coordinates are not in bounds!");
+		}
+	}
+
+	private boolean coordsInBound(SquareCoordinate c) {
+		if (c.getX() <= 0 || c.getY() <= 0) {
+			return false;
+		}
+		return (c.getX() <= this.xMax && c.getY() <= this.yMax);
 	}
 
 	public LocationType getLocationType(SquareCoordinate c) {

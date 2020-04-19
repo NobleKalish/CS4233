@@ -12,8 +12,10 @@
 
 package escape.board.coordinate;
 
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.stream.Stream;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
@@ -38,6 +40,11 @@ public class SquareCoordinateTest {
                         SquareCoordinate.makeCoordinate(3, 5), 3),
                 Arguments.of(SquareCoordinate.makeCoordinate(1, 2),
                         SquareCoordinate.makeCoordinate(5, 5), 4));
+    }
+    
+    @Test
+    public void testEquals() {
+    	assertFalse(SquareCoordinate.makeCoordinate(1, 1).equals(SquareCoordinate.makeCoordinate(5, 1)));
     }
 
 }

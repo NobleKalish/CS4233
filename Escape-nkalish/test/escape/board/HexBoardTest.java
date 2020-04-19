@@ -10,10 +10,14 @@ package escape.board;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import com.google.inject.*;
 import escape.board.coordinate.*;
-import escape.piece.PieceName;
+import escape.exception.EscapeException;
+import escape.piece.*;
 
 /**
  * Description
@@ -53,6 +57,41 @@ public class HexBoardTest {
 		HexCoordinate hc = HexCoordinate.makeCoordinate(3, 5);
 		assertNotNull(board.getLocationType(hc));
 		assertEquals(LocationType.BLOCK, board.getLocationType(hc));
+	}
+	
+	@ParameterizedTest
+    @MethodSource("coordinateTestProvider")
+    public void testPutPieceOnBoard(HexCoordinate start, EscapePiece p) {
+		assertThrows(EscapeException.class, () -> board.putPieceAt(p, start));
+    }
+
+    static Stream<Arguments> coordinateTestProvider() {
+        return Stream.of(
+                Arguments.of(HexCoordinate.makeCoordinate(-1, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)),
+                Arguments.of(HexCoordinate.makeCoordinate(10, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("setLocationTypeTestProvider")
+    public void testPutLocationOnBoard(HexCoordinate start, LocationType lt) {
+		assertThrows(EscapeException.class, () -> board.setLocationType(start, lt));
+    }
+
+    static Stream<Arguments> setLocationTypeTestProvider() {
+        return Stream.of(
+                Arguments.of(HexCoordinate.makeCoordinate(-1, 1), LocationType.BLOCK),
+                Arguments.of(HexCoordinate.makeCoordinate(10, 1), LocationType.BLOCK));
+    }
+	
+	@Test
+	void testBadFile() throws Exception {
+		bb.setBuildInitializer(new File("config/board/BadHexBoard.xml"));
+		try {
+			board = (HexBoard) bb.makeBoard();
+		} catch (EscapeException e) {
+			assertNotNull(e);
+			assertEquals(e.getMessage(), "Coordinates are not in bounds!");
+		}
 	}
 
 }

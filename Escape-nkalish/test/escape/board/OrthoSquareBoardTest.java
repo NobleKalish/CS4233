@@ -1,10 +1,14 @@
 package escape.board;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import com.google.inject.*;
 import escape.board.coordinate.*;
-import escape.piece.PieceName;
+import escape.exception.EscapeException;
+import escape.piece.*;
 
 /*******************************************************************************
  * This files was developed for CS4233: Object-Oriented Analysis & Design.
@@ -55,5 +59,40 @@ public class OrthoSquareBoardTest {
         OrthoSquareCoordinate oc = OrthoSquareCoordinate.makeCoordinate(3, 5);
         assertNotNull(board.getLocationType(oc));
         assertEquals(LocationType.BLOCK, board.getLocationType(oc));
+    }
+    
+    @Test
+	void testBadFile() throws Exception {
+		bb.setBuildInitializer(new File("config/board/BadOrthoBoard.xml"));
+		try {
+			board = (OrthoSquareBoard) bb.makeBoard();
+		} catch (EscapeException e) {
+			assertNotNull(e);
+			assertEquals(e.getMessage(), "Coordinates are not in bounds!");
+		}
+	}
+    
+    @ParameterizedTest
+    @MethodSource("coordinateTestProvider")
+    public void testPutPieceOnBoard(OrthoSquareCoordinate start, EscapePiece p) {
+		assertThrows(EscapeException.class, () -> board.putPieceAt(p, start));
+    }
+
+    static Stream<Arguments> coordinateTestProvider() {
+        return Stream.of(
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(-1, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)),
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(10, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)));
+    }
+    
+    @ParameterizedTest
+    @MethodSource("setLocationTypeTestProvider")
+    public void testPutLocationOnBoard(OrthoSquareCoordinate start, LocationType lt) {
+		assertThrows(EscapeException.class, () -> board.setLocationType(start, lt));
+    }
+
+    static Stream<Arguments> setLocationTypeTestProvider() {
+        return Stream.of(
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(-1, 1), LocationType.BLOCK),
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(10, 1), LocationType.BLOCK));
     }
 }

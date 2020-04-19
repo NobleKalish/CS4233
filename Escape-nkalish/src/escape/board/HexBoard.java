@@ -10,6 +10,7 @@ package escape.board;
 
 import java.util.*;
 import escape.board.coordinate.*;
+import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 
 /**
@@ -43,11 +44,36 @@ public class HexBoard implements Board<HexCoordinate> {
 	 */
 	@Override
 	public void putPieceAt(EscapePiece p, HexCoordinate coord) {
-		this.pieces.put(coord, p);
+		if (this.coordsInBound(coord)) {
+			this.pieces.put(coord, p);
+		} else {
+			throw new EscapeException("Coordinates are not in bounds!");
+		}
 	}
 
+	/**
+	 * Set the location type at a given coordinate with given location type
+	 * @param c Coordinate to set the location type at
+	 * @param lt LocationType to set at the given coordinate
+	 */
 	public void setLocationType(HexCoordinate c, LocationType lt) {
-		hexes.put(c, lt);
+		if (coordsInBound(c)) {
+			this.hexes.put(c, lt);
+		} else {
+			throw new EscapeException("Coordinates are not in bounds!");
+		}
+	}
+	
+	private boolean coordsInBound(HexCoordinate c) {
+		if (c.getX() < 0 || c.getY() < 0) {
+			return false;
+		}
+		if (this.xMax == 0 && this.yMax == 0) {
+			return true;
+		} else if (Math.abs(c.getX()) <= this.xMax && Math.abs(c.getY()) <= this.yMax) {
+			return true;
+		}
+		return false;
 	}
 
 	public LocationType getLocationType(HexCoordinate c) {

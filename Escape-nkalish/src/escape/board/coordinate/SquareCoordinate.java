@@ -23,6 +23,12 @@ public class SquareCoordinate implements Coordinate {
         this.y = y;
     }
 
+    /**
+     * Creates a new SquareCoordinate
+     * @param x The X coordinate
+     * @param y The Y coordinate
+     * @return a new SquareCoordinate
+     */
     public static SquareCoordinate makeCoordinate(int x, int y) {
         return new SquareCoordinate(x, y);
     }
@@ -74,9 +80,6 @@ public class SquareCoordinate implements Coordinate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
         if (!(obj instanceof SquareCoordinate)) {
             return false;
         }

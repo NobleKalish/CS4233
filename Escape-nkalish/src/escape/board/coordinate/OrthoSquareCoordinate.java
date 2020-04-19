@@ -52,9 +52,6 @@ public class OrthoSquareCoordinate implements Coordinate{
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
         if (!(obj instanceof OrthoSquareCoordinate)) {
             return false;
         }
@@ -62,6 +59,12 @@ public class OrthoSquareCoordinate implements Coordinate{
         return x == other.x && y == other.y;
     }
     
+    /**
+     * Creates a new OrthoSquareCoordinate
+     * @param x The X coordinate
+     * @param y The Y coordinate
+     * @return a new OrthoSquareCoordinate
+     */
     public static OrthoSquareCoordinate makeCoordinate(int x, int y) {
         return new OrthoSquareCoordinate(x,y);
     }

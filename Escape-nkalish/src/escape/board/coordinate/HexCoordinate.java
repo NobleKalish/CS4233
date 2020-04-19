@@ -9,7 +9,6 @@
 package escape.board.coordinate;
 
 import java.util.Objects;
-import java.math.*;
 
 /**
  * Description
@@ -54,9 +53,6 @@ public class HexCoordinate implements Coordinate {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
 		if (!(obj instanceof HexCoordinate)) {
 			return false;
 		}
@@ -64,6 +60,12 @@ public class HexCoordinate implements Coordinate {
 		return x == other.x && y == other.y;
 	}
 
+	/**
+	 * Creates a coordinate based on the given x and y
+	 * @param x The X coordinate
+	 * @param y The Y coordiante
+	 * @return a new HexCoordinate
+	 */
 	public static HexCoordinate makeCoordinate(int x, int y) {
 		return new HexCoordinate(x, y);
 	}
