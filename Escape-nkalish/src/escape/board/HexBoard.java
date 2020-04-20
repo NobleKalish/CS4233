@@ -45,7 +45,11 @@ public class HexBoard implements Board<HexCoordinate> {
 	@Override
 	public void putPieceAt(EscapePiece p, HexCoordinate coord) {
 		if (this.coordsInBound(coord)) {
-			this.pieces.put(coord, p);
+			if (p == null) {
+				this.pieces.remove(coord);
+			} else {
+				this.pieces.put(coord, p);
+			}
 		} else {
 			throw new EscapeException("Coordinates are not in bounds!");
 		}

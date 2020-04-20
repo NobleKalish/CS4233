@@ -67,8 +67,8 @@ public class HexBoardTest {
 
     static Stream<Arguments> coordinateTestProvider() {
         return Stream.of(
-                Arguments.of(HexCoordinate.makeCoordinate(-1, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)),
-                Arguments.of(HexCoordinate.makeCoordinate(10, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)));
+                Arguments.of(HexCoordinate.makeCoordinate(-1, 1), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE)),
+                Arguments.of(HexCoordinate.makeCoordinate(10, 1), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE)));
     }
     
     @ParameterizedTest
@@ -92,6 +92,15 @@ public class HexBoardTest {
 			assertNotNull(e);
 			assertEquals(e.getMessage(), "Coordinates are not in bounds!");
 		}
+	}
+	
+	@Test
+	void testRemovingPiece() {
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE);
+		board.putPieceAt(p, HexCoordinate.makeCoordinate(5, 5));
+		assertEquals(p, board.getPieceAt(HexCoordinate.makeCoordinate(5, 5)));
+		board.putPieceAt(null, HexCoordinate.makeCoordinate(5, 5));
+		assertEquals(null, board.getPieceAt(HexCoordinate.makeCoordinate(5, 5)));
 	}
 
 }

@@ -80,8 +80,8 @@ public class SquareBoardTest {
 
     static Stream<Arguments> coordinateTestProvider() {
         return Stream.of(
-                Arguments.of(SquareCoordinate.makeCoordinate(-1, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)),
-                Arguments.of(SquareCoordinate.makeCoordinate(10, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)));
+                Arguments.of(SquareCoordinate.makeCoordinate(-1, 1), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE)),
+                Arguments.of(SquareCoordinate.makeCoordinate(10, 1), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE)));
     }
     
     @ParameterizedTest
@@ -95,4 +95,13 @@ public class SquareBoardTest {
                 Arguments.of(SquareCoordinate.makeCoordinate(-1, 1), LocationType.BLOCK),
                 Arguments.of(SquareCoordinate.makeCoordinate(10, 1), LocationType.BLOCK));
     }
+    
+    @Test
+	void testRemovingPiece() {
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE);
+		board.putPieceAt(p, SquareCoordinate.makeCoordinate(5, 5));
+		assertEquals(p, board.getPieceAt(SquareCoordinate.makeCoordinate(5, 5)));
+		board.putPieceAt(null, SquareCoordinate.makeCoordinate(5, 5));
+		assertEquals(null, board.getPieceAt(SquareCoordinate.makeCoordinate(5, 5)));
+	}
 }

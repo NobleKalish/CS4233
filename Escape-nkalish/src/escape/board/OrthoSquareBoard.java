@@ -45,8 +45,11 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate> {
     @Override
     public void putPieceAt(EscapePiece p, OrthoSquareCoordinate coord) {
     	if (coordsInBound(coord)) {
-			this.pieces.put(coord, p);
-		} else {
+    		if (p == null) {
+				this.pieces.remove(coord);
+			} else {
+				this.pieces.put(coord, p);
+			}		} else {
 			throw new EscapeException("Coordinates are not in bounds!");
 		}
     }

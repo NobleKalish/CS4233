@@ -80,8 +80,8 @@ public class OrthoSquareBoardTest {
 
     static Stream<Arguments> coordinateTestProvider() {
         return Stream.of(
-                Arguments.of(OrthoSquareCoordinate.makeCoordinate(-1, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)),
-                Arguments.of(OrthoSquareCoordinate.makeCoordinate(10, 1), new EscapePiece(Player.PLAYER1, PieceName.HORSE)));
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(-1, 1), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE)),
+                Arguments.of(OrthoSquareCoordinate.makeCoordinate(10, 1), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE)));
     }
     
     @ParameterizedTest
@@ -95,4 +95,14 @@ public class OrthoSquareBoardTest {
                 Arguments.of(OrthoSquareCoordinate.makeCoordinate(-1, 1), LocationType.BLOCK),
                 Arguments.of(OrthoSquareCoordinate.makeCoordinate(10, 1), LocationType.BLOCK));
     }
+    
+    @Test
+	void testRemovingPiece() {
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE);
+		board.putPieceAt(p, OrthoSquareCoordinate.makeCoordinate(5, 5));
+		assertEquals(p, board.getPieceAt(OrthoSquareCoordinate.makeCoordinate(5, 5)));
+		board.putPieceAt(null, OrthoSquareCoordinate.makeCoordinate(5, 5));
+		assertEquals(null, board.getPieceAt(OrthoSquareCoordinate.makeCoordinate(5, 5)));
+	}
+
 }

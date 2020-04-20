@@ -24,9 +24,9 @@ import escape.board.coordinate.*;
  */
 public class BoardBuilder {
 	private BoardInitializer bi;
-	private Board squareBoard;
-	private Board orthoSquareBoard;
-	private Board hexBoard;
+	private Board<SquareCoordinate> squareBoard;
+	private Board<OrthoSquareCoordinate> orthoSquareBoard;
+	private Board<HexCoordinate> hexBoard;
 
 	/**
 	 * The constructor for this takes a file name. It is either an absolute path or a path

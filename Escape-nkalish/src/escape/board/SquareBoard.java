@@ -47,8 +47,11 @@ public class SquareBoard implements Board<SquareCoordinate> {
 	@Override
 	public void putPieceAt(EscapePiece p, SquareCoordinate coord) {
 		if (coordsInBound(coord)) {
-			this.pieces.put(coord, p);
-		} else {
+			if (p == null) {
+				this.pieces.remove(coord);
+			} else {
+				this.pieces.put(coord, p);
+			}		} else {
 			throw new EscapeException("Coordinates are not in bounds!");
 		}
 	}
