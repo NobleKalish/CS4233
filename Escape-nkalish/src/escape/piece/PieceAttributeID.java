@@ -7,23 +7,18 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Copyright ©2016 Gary F. Pollice
+ * Copyright ©2020 Gary F. Pollice
  *******************************************************************************/
 
-package escape.board.annotations;
-
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.*;
-import com.google.inject.BindingAnnotation;
+package escape.piece;
 
 /**
- * Description
- * @version Apr 17, 2020
+ * This enumeration contains the IDs for the piece attributes in the Escape game.
+ * You may add methods to this if you need to. All master tests will only
+ * use the actual enumeration values.
+ * @version Apr 21, 2020
  */
-@BindingAnnotation 
-@Target({ FIELD, PARAMETER, METHOD }) 
-@Retention(RUNTIME)
-public @interface HexBoardAnnotation {
-
+public enum PieceAttributeID
+{
+    VALUE, DISTANCE, JUMP, UNBLOCK, FLY;
 }

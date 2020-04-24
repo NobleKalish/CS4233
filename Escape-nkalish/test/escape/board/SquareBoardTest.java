@@ -33,9 +33,8 @@ public class SquareBoardTest {
 
     @BeforeEach
     public void setupTest() throws Exception {
-    	Injector injector = Guice.createInjector(new BoardModule());
-        bb = injector.getInstance(BoardBuilder.class);
-        bb.setBuildInitializer(new File("config/board/BoardConfig1.xml"));
+    	BoardBuilder bb = new BoardBuilder(new File("config/board/BoardConfig1.xml"));
+        assertNotNull(bb);
         board = (SquareBoard) bb.makeBoard();
         assertNotNull(board);
     }
@@ -63,7 +62,7 @@ public class SquareBoardTest {
     
     @Test
 	void testBadFile() throws Exception {
-		bb.setBuildInitializer(new File("config/board/BadSquareBoard.xml"));
+    	bb = new BoardBuilder(new File("config/board/BadSquareBoard.xml"));
 		try {
 			board = (SquareBoard) bb.makeBoard();
 		} catch (EscapeException e) {

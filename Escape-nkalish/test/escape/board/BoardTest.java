@@ -21,8 +21,7 @@ class BoardTest {
 
     @Test
     public void boardBuilderTest() throws Exception {
-    	Injector injector = Guice.createInjector(new BoardModule());
-        BoardBuilder bb = injector.getInstance(BoardBuilder.class);
+        BoardBuilder bb = new BoardBuilder(new File("config/board/BoardConfig1.xml"));
         assertNotNull(bb);
     }
     

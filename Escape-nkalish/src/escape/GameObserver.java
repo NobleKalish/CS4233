@@ -7,24 +7,19 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Copyright ©2016 Gary F. Pollice
+ * Copyright ©2020 Gary F. Pollice
  *******************************************************************************/
 
-package escape.board.annotations;
-
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.*;
-import com.google.inject.BindingAnnotation;
+package escape;
 
 /**
- * Description
- * @version Apr 15, 2020
+ * The interface for a client to use to get messages from the
+ * game manager by registering an observer. Any implementation of this
+ * must override the equals() method.
+ * 
+ * @version Apr 23, 2020
  */
-
-@BindingAnnotation 
-@Target({ FIELD, PARAMETER, METHOD }) 
-@Retention(RUNTIME)
-public @interface OrthoBoardAnnotation {
-
+public interface GameObserver
+{
+    
 }

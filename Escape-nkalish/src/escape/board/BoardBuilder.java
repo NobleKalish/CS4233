@@ -9,11 +9,9 @@ package escape.board;
 
 import java.io.*;
 import javax.xml.bind.*;
-import com.google.inject.Inject;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 import escape.util.*;
-import escape.board.annotations.*;
 import escape.board.coordinate.*;
 
 /**
@@ -24,9 +22,6 @@ import escape.board.coordinate.*;
  */
 public class BoardBuilder {
 	private BoardInitializer bi;
-	private Board<SquareCoordinate> squareBoard;
-	private Board<OrthoSquareCoordinate> orthoSquareBoard;
-	private Board<HexCoordinate> hexBoard;
 
 	/**
 	 * The constructor for this takes a file name. It is either an absolute path or a path
@@ -35,15 +30,7 @@ public class BoardBuilder {
 	 * @param fileName
 	 * @throws Exception
 	 */
-	public BoardBuilder() throws Exception {
-	}
-
-	/**
-	 * Sets the BoardInitializer for the board by supplying a file
-	 * @param fileName
-	 * @throws Exception
-	 */
-	public void setBuildInitializer(File fileName) throws Exception {
+	public BoardBuilder(File fileName) throws Exception {
 		JAXBContext contextObj = JAXBContext.newInstance(BoardInitializer.class);
 		Unmarshaller mub = contextObj.createUnmarshaller();
 		bi = (BoardInitializer) mub.unmarshal(new FileReader(fileName));
@@ -51,10 +38,12 @@ public class BoardBuilder {
 
 	/**
 	 * Makes the board based on the config provided by the board initializer
+	 * 
 	 * @return the board used to play the game on
-	 * @throws EscapeException if board provided by config file doesn't exist
+	 * @throws EscapeException
+	 *             if board provided by config file doesn't exist
 	 */
-	public Board makeBoard() throws EscapeException {
+	public Board<?> makeBoard() throws EscapeException {
 		switch (bi.getCoordinateId()) {
 			case HEX:
 				return makeHexBoard();
@@ -67,8 +56,8 @@ public class BoardBuilder {
 		}
 	}
 
-	private Board makeHexBoard() {
-		HexBoard board = (HexBoard) this.hexBoard;
+	private HexBoard makeHexBoard() {
+		HexBoard board = new HexBoard();
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
 		for (LocationInitializer li : bi.getLocationInitializers()) {
@@ -83,8 +72,8 @@ public class BoardBuilder {
 		return board;
 	}
 
-	private Board makeSquareBoard() {
-		SquareBoard board = (SquareBoard) this.squareBoard;
+	private SquareBoard makeSquareBoard() {
+		SquareBoard board = new SquareBoard();
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
 		for (LocationInitializer li : bi.getLocationInitializers()) {
@@ -99,8 +88,8 @@ public class BoardBuilder {
 		return board;
 	}
 
-	private Board makeOrthoBoard() {
-		OrthoSquareBoard board = (OrthoSquareBoard) this.orthoSquareBoard;
+	private OrthoSquareBoard makeOrthoBoard() {
+		OrthoSquareBoard board = new OrthoSquareBoard();
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
 		for (LocationInitializer li : bi.getLocationInitializers()) {
@@ -114,32 +103,5 @@ public class BoardBuilder {
 			}
 		}
 		return board;
-	}
-
-	/**
-	 * Sets the square board field using guice injection
-	 * @param board
-	 */
-	@Inject
-	public void setSquareBoard(@SquareBoardAnnotation Board board) {
-		this.squareBoard = board;
-	}
-
-	/**
-	 * Sets the ortho board field using guice injection
-	 * @param board
-	 */
-	@Inject
-	public void setOrthoSquareBoard(@OrthoBoardAnnotation Board board) {
-		this.orthoSquareBoard = board;
-	}
-	
-	/**
-	 * Sets the hex board field using guice injection
-	 * @param board
-	 */
-	@Inject
-	public void setHexBoard(@HexBoardAnnotation Board board) {
-		this.hexBoard = board;
 	}
 }

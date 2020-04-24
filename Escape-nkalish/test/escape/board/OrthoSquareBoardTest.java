@@ -32,9 +32,7 @@ public class OrthoSquareBoardTest {
 
     @BeforeEach
     public void setupTest() throws Exception {
-    	Injector injector = Guice.createInjector(new BoardModule());
-        bb = injector.getInstance(BoardBuilder.class);
-        bb.setBuildInitializer(new File("config/board/OrthoBoard.xml"));
+    	BoardBuilder bb = new BoardBuilder(new File("config/board/OrthoBoard.xml"));
         board = (OrthoSquareBoard) bb.makeBoard();
         assertNotNull(board);
     }
@@ -63,7 +61,7 @@ public class OrthoSquareBoardTest {
     
     @Test
 	void testBadFile() throws Exception {
-		bb.setBuildInitializer(new File("config/board/BadOrthoBoard.xml"));
+    	bb = new BoardBuilder(new File("config/board/BadOrthoBoard.xml"));
 		try {
 			board = (OrthoSquareBoard) bb.makeBoard();
 		} catch (EscapeException e) {

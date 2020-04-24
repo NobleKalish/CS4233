@@ -30,9 +30,7 @@ public class HexBoardTest {
 
 	@BeforeEach
 	public void setupTest() throws Exception {
-		Injector injector = Guice.createInjector(new BoardModule());
-		bb = injector.getInstance(BoardBuilder.class);
-		bb.setBuildInitializer(new File("config/board/HexBoard.xml"));
+    	BoardBuilder bb = new BoardBuilder(new File("config/board/HexBoard.xml"));
 		board = (HexBoard) bb.makeBoard();
 		assertNotNull(board);
 	}
@@ -85,7 +83,7 @@ public class HexBoardTest {
 	
 	@Test
 	void testBadFile() throws Exception {
-		bb.setBuildInitializer(new File("config/board/BadHexBoard.xml"));
+		bb = new BoardBuilder(new File("config/board/BadHexBoard.xml"));
 		try {
 			board = (HexBoard) bb.makeBoard();
 		} catch (EscapeException e) {
