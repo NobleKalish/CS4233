@@ -22,7 +22,6 @@ import escape.board.coordinate.*;
  */
 public class BoardBuilder {
 	private BoardInitializer bi;
-
 	/**
 	 * The constructor for this takes a file name. It is either an absolute path or a path
 	 * relative to the beginning of this project.
@@ -60,13 +59,17 @@ public class BoardBuilder {
 		HexBoard board = new HexBoard();
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
-		for (LocationInitializer li : bi.getLocationInitializers()) {
-			HexCoordinate coord = HexCoordinate.makeCoordinate(li.x, li.y);
-			if (li.pieceName != null) {
-				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
-			}
-			if (li.locationType != null && li.locationType != LocationType.CLEAR) {
-				board.setLocationType(coord, li.locationType);
+		if (bi.getLocationInitializers() != null) {
+			for (LocationInitializer li : bi.getLocationInitializers()) {
+				HexCoordinate coord = HexCoordinate.makeCoordinate(li.x, li.y);
+				if (li.pieceName != null) {
+					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
+							coord);
+				}
+				if (li.locationType != null
+						&& li.locationType != LocationType.CLEAR) {
+					board.setLocationType(coord, li.locationType);
+				}
 			}
 		}
 		return board;
@@ -76,13 +79,17 @@ public class BoardBuilder {
 		SquareBoard board = new SquareBoard();
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
-		for (LocationInitializer li : bi.getLocationInitializers()) {
-			SquareCoordinate coord = SquareCoordinate.makeCoordinate(li.x, li.y);
-			if (li.pieceName != null) {
-				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
-			}
-			if (li.locationType != null && li.locationType != LocationType.CLEAR) {
-				board.setLocationType(coord, li.locationType);
+		if (bi.getLocationInitializers() != null) {
+			for (LocationInitializer li : bi.getLocationInitializers()) {
+				SquareCoordinate coord = SquareCoordinate.makeCoordinate(li.x, li.y);
+				if (li.pieceName != null) {
+					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
+							coord);
+				}
+				if (li.locationType != null
+						&& li.locationType != LocationType.CLEAR) {
+					board.setLocationType(coord, li.locationType);
+				}
 			}
 		}
 		return board;
@@ -92,14 +99,18 @@ public class BoardBuilder {
 		OrthoSquareBoard board = new OrthoSquareBoard();
 		board.setXMax(bi.getxMax());
 		board.setYMax(bi.getyMax());
-		for (LocationInitializer li : bi.getLocationInitializers()) {
-			OrthoSquareCoordinate coord = OrthoSquareCoordinate.makeCoordinate(li.x,
-					li.y);
-			if (li.pieceName != null) {
-				board.putPieceAt(new EscapePiece(li.player, li.pieceName), coord);
-			}
-			if (li.locationType != null && li.locationType != LocationType.CLEAR) {
-				board.setLocationType(coord, li.locationType);
+		if (bi.getLocationInitializers() != null) {
+			for (LocationInitializer li : bi.getLocationInitializers()) {
+				OrthoSquareCoordinate coord = OrthoSquareCoordinate
+						.makeCoordinate(li.x, li.y);
+				if (li.pieceName != null) {
+					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
+							coord);
+				}
+				if (li.locationType != null
+						&& li.locationType != LocationType.CLEAR) {
+					board.setLocationType(coord, li.locationType);
+				}
 			}
 		}
 		return board;

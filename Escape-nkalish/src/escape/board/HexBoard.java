@@ -57,8 +57,11 @@ public class HexBoard implements Board<HexCoordinate> {
 
 	/**
 	 * Set the location type at a given coordinate with given location type
-	 * @param c Coordinate to set the location type at
-	 * @param lt LocationType to set at the given coordinate
+	 * 
+	 * @param c
+	 *            Coordinate to set the location type at
+	 * @param lt
+	 *            LocationType to set at the given coordinate
 	 */
 	public void setLocationType(HexCoordinate c, LocationType lt) {
 		if (coordsInBound(c)) {
@@ -67,14 +70,12 @@ public class HexBoard implements Board<HexCoordinate> {
 			throw new EscapeException("Coordinates are not in bounds!");
 		}
 	}
-	
+
 	private boolean coordsInBound(HexCoordinate c) {
-		if (c.getX() < 0 || c.getY() < 0) {
-			return false;
-		}
 		if (this.xMax == 0 && this.yMax == 0) {
 			return true;
-		} else if (Math.abs(c.getX()) <= this.xMax && Math.abs(c.getY()) <= this.yMax) {
+		} else if (c.getX() <= this.xMax && c.getY() <= this.yMax && c.getX() >= 0
+				&& c.getY() >= 0) {
 			return true;
 		}
 		return false;
