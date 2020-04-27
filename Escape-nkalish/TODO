@@ -69,10 +69,61 @@ HEX:
 							BETA
 =============================================================================
 
+- Implement EscapeGameManager
+	- Implement Move
+	- Implement getPieceAt
+		- 
+	- Implement makeCoordinate
 
-		
-		
-		
-		
-		
+- Modify EscapeGameBuilder
+	- Create a instance by providing a config file path
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
