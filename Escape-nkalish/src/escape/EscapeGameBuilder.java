@@ -10,6 +10,7 @@ package escape;
 
 import java.io.*;
 import javax.xml.bind.*;
+import escape.exception.EscapeException;
 import escape.util.EscapeGameInitializer;
 
 /**
@@ -45,8 +46,16 @@ public class EscapeGameBuilder {
 	 * 
 	 * @return
 	 */
-	public EscapeGameManager makeGameManager() {
-		// To be implemented
-		return null;
+	public EscapeGameManager<?> makeGameManager() throws Exception{
+		switch(gameInitializer.getCoordinateType()) {
+			case HEX:
+				return new HexGameManager();
+			case ORTHOSQUARE:
+				return new OrthoGameManager();
+			case SQUARE:
+				return new SquareGameManager();
+			default:
+				throw new EscapeException("Coordinate Type does not exist!");
+		}
 	}
 }

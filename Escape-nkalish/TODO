@@ -71,12 +71,29 @@ HEX:
 
 - Implement EscapeGameManager
 	- Implement Move
+		- SquareGameManager
+			- Can have linear/orthogonal/diagonal/omni
+		- OrthoGameManager
+			- Can have Orthogonal/linear
+		- HexGameManager
+			- Can have Linear/diagonal/omni 
 	- Implement getPieceAt
 		- 
 	- Implement makeCoordinate
+		-
 
 - Modify EscapeGameBuilder
 	- Create a instance by providing a config file path
+		- Create board(reuse board builder class?)
+		- Add pieces to board
+		- Add non-clear block to board
+		- Create an instance of game manager that uses the coordinates the board will be using
+			- SquareEscapeBoard
+				- Creates instance of a SquareGameManager: TRUE
+			- OrthoEscapeBoard
+				- Creates instance of a OrthoGameManager: TRUE
+			- HexEscapeBoard
+				- Creates instance of a HexGameManager: TRUE
 
 
 

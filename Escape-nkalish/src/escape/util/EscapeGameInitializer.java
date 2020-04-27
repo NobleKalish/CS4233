@@ -1,13 +1,9 @@
 /*******************************************************************************
- * This files was developed for CS4233: Object-Oriented Analysis & Design.
- * The course was taken at Worcester Polytechnic Institute.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Copyright ©2020 Gary F. Pollice
+ * This files was developed for CS4233: Object-Oriented Analysis & Design. The course was
+ * taken at Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License
+ * v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Copyright ©2020 Gary F. Pollice
  *******************************************************************************/
 
 package escape.util;
@@ -17,104 +13,99 @@ import javax.xml.bind.annotation.XmlRootElement;
 import escape.board.coordinate.CoordinateID;
 
 /**
- * An example of reading a game configuration file and the board and piece
- * initializers that it 
+ * An example of reading a game configuration file and the board and piece initializers
+ * that it
+ * 
  * @version Apr 22, 2020
  */
 @XmlRootElement
-public class EscapeGameInitializer
-{
+public class EscapeGameInitializer {
 	private CoordinateID coordinateType;
-	
+
 	// Board items
 	private int xMax, yMax;
 	private LocationInitializer[] locationInitializers;
-	
+
 	// Piece items
-	private PieceTypeInitializer[] pieceTypes; 	// At least one
-    
-    public EscapeGameInitializer()
-    {
-        // Needed for JAXB
-    }
+	private PieceTypeInitializer[] pieceTypes; // At least one
 
-    /**
-     * @return the coordinateType
-     */
-    public CoordinateID getCoordinateType()
-    {
-        return coordinateType;
-    }
+	public EscapeGameInitializer() {
+		// Needed for JAXB
+	}
 
-    /**
-     * @param coordinateType the coordinateType to set
-     */
-    public void setCoordinateType(CoordinateID coordinateType)
-    {
-        this.coordinateType = coordinateType;
-    }
+	/**
+	 * @return the coordinateType
+	 */
+	public CoordinateID getCoordinateType() {
+		return coordinateType;
+	}
+
+	/**
+	 * @param coordinateType
+	 *            the coordinateType to set
+	 */
+	public void setCoordinateType(CoordinateID coordinateType) {
+		this.coordinateType = coordinateType;
+	}
 
 	/**
 	 * @return the xMax
 	 */
-	public int getxMax()
-	{
+	public int getxMax() {
 		return xMax;
 	}
 
 	/**
-	 * @param xMax the xMax to set
+	 * @param xMax
+	 *            the xMax to set
 	 */
-	public void setxMax(int xMax)
-	{
+	public void setxMax(int xMax) {
 		this.xMax = xMax;
 	}
 
 	/**
 	 * @return the yMax
 	 */
-	public int getyMax()
-	{
+	public int getyMax() {
 		return yMax;
 	}
 
 	/**
-	 * @param yMax the yMax to set
+	 * @param yMax
+	 *            the yMax to set
 	 */
-	public void setyMax(int yMax)
-	{
+	public void setyMax(int yMax) {
 		this.yMax = yMax;
 	}
 
 	/**
 	 * @return the locationInitializers
 	 */
-	public LocationInitializer[] getLocationInitializers()
-	{
+	public LocationInitializer[] getLocationInitializers() {
 		return locationInitializers;
 	}
 
 	/**
-	 * @param locationInitializers the locationInitializers to set
+	 * @param locationInitializers
+	 *            the locationInitializers to set
 	 */
-	public void setLocationInitializers(LocationInitializer ... locationInitializers)
-	{
+	public void setLocationInitializers(
+			LocationInitializer... locationInitializers) {
 		this.locationInitializers = locationInitializers;
 	}
 
 	/**
 	 * @return the types
 	 */
-	public PieceTypeInitializer[] getPieceTypes()
-	{
+	public PieceTypeInitializer[] getPieceTypes() {
 		return pieceTypes;
 	}
 
 	/**
-	 * @param types the types to set
+	 * @param types
+	 *            the types to set
 	 */
-	public void setPieceTypes(PieceTypeInitializer ... types)
-	{
+	public void setPieceTypes(PieceTypeInitializer... types) {
 		this.pieceTypes = types;
 	}
 
@@ -122,12 +113,11 @@ public class EscapeGameInitializer
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "EscapeGameInitializer [xMax=" + xMax + ", yMax=" + yMax
-		    + ", coordinateType=" + coordinateType + ", locationInitializers="
-		    + Arrays.toString(locationInitializers) + ", types="
-		    + Arrays.toString(pieceTypes) + "]";
+				+ ", coordinateType=" + coordinateType + ", locationInitializers="
+				+ Arrays.toString(locationInitializers) + ", types="
+				+ Arrays.toString(pieceTypes) + "]";
 	}
-	
+
 }

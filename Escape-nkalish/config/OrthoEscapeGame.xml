@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <escapeGameInitializer>
-	<coordinateType>SQUARE</coordinateType>
+	<coordinateType>ORTHOSQUARE</coordinateType>
     <!-- Board items -->
     <xMax>20</xMax>
     <yMax>25</yMax>

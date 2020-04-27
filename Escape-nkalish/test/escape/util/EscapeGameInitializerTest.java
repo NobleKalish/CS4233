@@ -56,10 +56,10 @@ public class EscapeGameInitializerTest
         	"            <intValue>5</intValue>\n" + 
         	"        </attributes>\n" + 
         	"    </pieceTypes>\n" + 
-        	"    <pieceTypes>\n" + 
-        	"        <attributes>\n" + 
+        	"    <pieceTypes>\n" +  
         	"        <movementPattern>LINEAR</movementPattern>\n" + 
         	"        <pieceName>HORSE</pieceName>\n" + 
+        	"        <attributes>\n" +
         	"            <id>UNBLOCK</id>\n" + 
         	"            <attrType>BOOLEAN</attrType>\n" + 
         	"            <booleanValue>false</booleanValue>\n" + 
