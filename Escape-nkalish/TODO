@@ -70,17 +70,33 @@ HEX:
 =============================================================================
 
 - Implement EscapeGameManager
+	- SquareGameManager
+		- Creates a SquareBoard
+	- OrthoGameManger
+		- Creates a OrthoSquareBoard
+	- HexGameManager
+		- Creates a HexBoard
 	- Implement Move
 		- SquareGameManager
 			- Can have linear/orthogonal/diagonal/omni
 		- OrthoGameManager
-			- Can have Orthogonal/linear
+			- Can have Orthogonal/omni
 		- HexGameManager
-			- Can have Linear/diagonal/omni 
+			- Can have Linear/omni 
 	- Implement getPieceAt
-		- 
+		- SquareGameManager (SquareGameManager.xml)
+			- getPieceAt(2,2)-> EscapePiece(PLAYER1, HORSE): TRUE 
+		- OrthoGameManager
+			- 
+		- HexGameManager
+			- 
 	- Implement makeCoordinate
-		-
+		- SquareGameManager
+			- makeCoordinate(2,2) -> SquareCoordinate(2,2): True
+		- OrthoGameManager
+			- 
+		- HexGameManager
+			- 
 
 - Modify EscapeGameBuilder
 	- Create a instance by providing a config file path

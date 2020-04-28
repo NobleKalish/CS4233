@@ -46,14 +46,23 @@ public class EscapeGameBuilder {
 	 * 
 	 * @return
 	 */
-	public EscapeGameManager<?> makeGameManager() throws Exception{
-		switch(gameInitializer.getCoordinateType()) {
+	public EscapeGameManager<?> makeGameManager() throws Exception {
+		switch (gameInitializer.getCoordinateType()) {
 			case HEX:
-				return new HexGameManager();
+				return new HexGameManager(gameInitializer.getxMax(),
+						gameInitializer.getyMax(),
+						gameInitializer.getLocationInitializers(),
+						gameInitializer.getPieceTypes());
 			case ORTHOSQUARE:
-				return new OrthoGameManager();
+				return new OrthoGameManager(gameInitializer.getxMax(),
+						gameInitializer.getyMax(),
+						gameInitializer.getLocationInitializers(),
+						gameInitializer.getPieceTypes());
 			case SQUARE:
-				return new SquareGameManager();
+				return new SquareGameManager(gameInitializer.getxMax(),
+						gameInitializer.getyMax(),
+						gameInitializer.getLocationInitializers(),
+						gameInitializer.getPieceTypes());
 			default:
 				throw new EscapeException("Coordinate Type does not exist!");
 		}
