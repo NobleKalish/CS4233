@@ -164,12 +164,12 @@ public class SquareGameManagerTests {
 				.makeGameManager();
 
 		// unblock false -> can't pass over block
-//		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 6),
-//				gameManager.makeCoordinate(4, 8)));
-//
-//		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
-//				.makeGameManager();
-//		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 6),
+				gameManager.makeCoordinate(4, 8)));
+
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
+		
 		// unblock true -> can't land on block
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 3),
 				gameManager.makeCoordinate(2, 4)));

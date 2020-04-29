@@ -185,6 +185,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			first.add(from);
 			fringes.add(first);
 			for (int x = 1; x <= distance; x++) {
+				int oldVisitedSize = visited.size();
 				ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
 				if (fringes.size() < x) {
 					break;
@@ -263,6 +264,9 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					if (visited.contains(to)) {
 						return true;
 					}
+				}
+				if (oldVisitedSize == visited.size()) {
+					return false;
 				}
 				fringes.add(nextFringes);
 			}
