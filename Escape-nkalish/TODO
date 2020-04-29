@@ -79,6 +79,10 @@ HEX:
 	- Implement Move
 		- SquareGameManager
 			- Can have linear/orthogonal/diagonal/omni
+			- Diagonal no attributes
+				- move((8,1), (7,2)): TRUE
+			- Diagonal unblock
+				- 
 		- OrthoGameManager
 			- Can have Orthogonal/omni
 		- HexGameManager
@@ -97,6 +101,11 @@ HEX:
 			- 
 		- HexGameManager
 			- 
+			
+- Move (Checklist)
+	- There exists a piece at the from coordinate 
+	- If a piece exists at the to coordinate it is of opposite player
+	- 
 
 - Modify EscapeGameBuilder
 	- Create a instance by providing a config file path

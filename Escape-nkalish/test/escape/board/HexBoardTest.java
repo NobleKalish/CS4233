@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
-import com.google.inject.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.*;
