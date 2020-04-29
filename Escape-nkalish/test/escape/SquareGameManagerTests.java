@@ -1,6 +1,10 @@
 package escape;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.SquareCoordinate;
@@ -215,5 +219,236 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 4)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 4)));
+	}
+	
+	@SuppressWarnings({
+			"rawtypes", "unchecked"
+	})
+	@Test
+	public void SquareOmniMasterTest() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/edgeTests/SquareOmni.xml"));
+		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		// Exercise the game now: make moves, check the board, etc.
+		
+		//jump over two pieces -> false
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(4, 2)));
+		
+		//jump over one piece at time -> true
+		assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(4, 2)));
+		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
+		gameManager = gameBuilder.makeGameManager();//reset board
+		
+		//jump over one piece at time, multi times -> true
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(6, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//capture enemy piece ->
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(3, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//unblock false -> can't land on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(1, 3)));
+		
+		//unblock false -> can't pass over block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(1, 4)));
+		
+		//jump over one piece to then capture enemy piece -> true
+	 	assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(3, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//unblock true -> can't end on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2), gameManager.makeCoordinate(3, 3)));
+		
+		//unblock true -> can pass over  block
+		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2), gameManager.makeCoordinate(3, 5)));
+		
+		//jump false -> can't jump
+		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 7), gameManager.makeCoordinate(4, 7)));
+		
+		//Fly -> can't end on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(1, 6)));
+		
+		//Fly -> can jump many pieces 
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(4, 7)));
+		
+	    gameManager = gameBuilder.makeGameManager();//reset board
+	    //Fly -> can't go past distance set (5)
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(8, 2)));
+	    
+	    //Fly -> can go to max distance set (5)
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(6, 2)));
+	    
+	    //Distance -> can't go past distance set (4)
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(6, 1), gameManager.makeCoordinate(8, 8)));
+	    
+	    //Distance -> can go to max distance set (4)
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(6, 1), gameManager.makeCoordinate(8, 5)));
+	    //Exit removes piece
+	    assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(8, 5)));
+	    
+	    //can't pass over an exit
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(11, 1), gameManager.makeCoordinate(11, 5)));
+	    
+	    //FLY -> can pass over an exit
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(9, 1), gameManager.makeCoordinate(9, 6)));
+	    
+	}
+	
+	@SuppressWarnings({
+		"rawtypes", "unchecked"
+	})
+	@Test
+	public void SquareOrthoMasterTest() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/edgeTests/SquareOrtho.xml"));
+		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		// Exercise the game now: make moves, check the board, etc.
+		
+		//jump over two pieces -> false
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(4, 2)));
+		
+		//jump over one piece at time -> true
+		assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(4, 2)));
+		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
+		gameManager = gameBuilder.makeGameManager();//reset board
+		
+		//jump over one piece at time, multi times -> true
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(6, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//capture enemy piece ->
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(3, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//unblock false -> can't land on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(1, 3)));
+		
+		//unblock false -> can't pass over block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(1, 4)));
+		
+		//jump over one piece to then capture enemy piece -> true
+	 	assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(3, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//unblock true -> can't land on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2), gameManager.makeCoordinate(3, 3)));
+		
+		//unblock true -> can pass over  block
+		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2), gameManager.makeCoordinate(3, 5)));
+		
+		//jump false -> can't jump
+		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 7), gameManager.makeCoordinate(4, 7)));
+		
+		//Fly -> can't end on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(1, 6)));
+		
+		//Fly -> can jump many pieces 
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(4, 7)));
+		
+	    gameManager = gameBuilder.makeGameManager();//reset board
+	    //Fly -> can't go past distance set (5)
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(8, 7)));
+	    
+	    //Fly -> can go to max distance set (5)
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(3, 5)));
+	   
+	    //Distance -> can't go past distance set (4)
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(6, 3), gameManager.makeCoordinate(8, 8)));
+	    
+	    //Distance -> can go to max distance set (4)
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(6, 3), gameManager.makeCoordinate(8, 5)));
+	    
+	    //Exit removes piece
+	    assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(8, 5)));
+	    
+	    //can't move diagonal
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(4, 4), gameManager.makeCoordinate(8, 8)));
+	    
+	    //can't pass over an exit
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(10, 1), gameManager.makeCoordinate(10, 5)));
+	    
+	    //FLY -> can pass over an exit
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(9, 1), gameManager.makeCoordinate(9, 6)));
+	}
+	
+	@SuppressWarnings({
+		"rawtypes", "unchecked"
+	})
+	@Test
+	public void SquareLinearMasterTest() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/edgeTests/SquareLinear.xml"));
+		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		// Exercise the game now: make moves, check the board, etc.
+		
+		//jump over two pieces -> false
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(4, 2)));
+		
+		//jump over one piece at time -> true
+		assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(4, 2)));
+		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
+		gameManager = gameBuilder.makeGameManager();//reset board
+		
+		//jump over one piece at time, multi times -> true
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(6, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//capture enemy piece ->
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(3, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//unblock false -> can't land on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(1, 3)));
+		
+		//unblock false -> can't pass over block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(1, 4)));
+		
+		//jump over one piece to then capture enemy piece -> true
+	 	assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2), gameManager.makeCoordinate(3, 2)));
+		
+		gameManager = gameBuilder.makeGameManager();//reset board
+		//unblock true -> can't land on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2), gameManager.makeCoordinate(3, 3)));
+		
+		//unblock true -> can pass over  block
+		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2), gameManager.makeCoordinate(3, 5)));
+		
+		//jump false -> can't jump
+		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 7), gameManager.makeCoordinate(4, 7)));
+		
+		//Fly -> can't end on block
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(1, 6)));
+		
+		//Fly -> can jump many pieces 
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(4, 7)));
+		
+	    gameManager = gameBuilder.makeGameManager();//reset board
+	    //Fly -> can't go past distance set (5)
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(8, 7)));
+	    
+	    //Fly -> can go to max distance set (5)
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7), gameManager.makeCoordinate(6, 2)));
+	   
+	    //Distance -> can't go past distance set (4)
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(8, 1), gameManager.makeCoordinate(8, 8)));
+	    
+	    //Distance -> can go to max distance set (4)
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(8, 1), gameManager.makeCoordinate(8, 5)));
+	    //Exit removes piece
+	    assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(8, 5)));
+	    
+	    //cant do multi directions
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(8, 1), gameManager.makeCoordinate(6, 4)));
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(8, 6), gameManager.makeCoordinate(4, 5)));
+	    
+	    //can move diagonal
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(4, 4), gameManager.makeCoordinate(8, 8)));
+	    
+	    //can't pass over an exit
+	    assertFalse(gameManager.move(gameManager.makeCoordinate(10, 1), gameManager.makeCoordinate(10, 5)));
+	    
+	    //FLY -> can pass over an exit
+	    assertTrue(gameManager.move(gameManager.makeCoordinate(9, 1), gameManager.makeCoordinate(9, 6)));
 	}
 }

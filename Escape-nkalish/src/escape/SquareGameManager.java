@@ -101,50 +101,337 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 
 	private boolean orthogonalPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
-		// TODO Auto-generated method stub
+		int distance = 0;
+		Player player = this.board.getPieceAt(from).getPlayer();
+		ArrayList<PieceAttributeID> attributeID = new ArrayList<>();
+		ArrayList<SquareCoordinate> visited = new ArrayList<>();
+		visited.add(from);
+		distance = this.addAttributes(attributeID, distance, attributes);
+		if (distance > 0) {
+			ArrayList<ArrayList<SquareCoordinate>> fringes = new ArrayList<>();
+			ArrayList<SquareCoordinate> first = new ArrayList<>();
+			first.add(from);
+			fringes.add(first);
+			for (int x = 1; x <= distance; x++) {
+				int oldVisitedSize = visited.size();
+				ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+				if (fringes.size() < x) {
+					break;
+				}
+				for (SquareCoordinate coordinate : fringes.get(x - 1)) {
+					int xDir = coordinate.getX();
+					int yDir = coordinate.getY();
+					for (int direction = 5; direction <= 8; direction++) {
+						switch (direction) {
+							case (5):
+								SquareCoordinate right = this
+										.makeCoordinate(xDir + 1, yDir);
+								orthogonalCheckCoordinates(to, right, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (6):
+								SquareCoordinate bottom = this.makeCoordinate(xDir,
+										yDir - 1);
+								orthogonalCheckCoordinates(to, bottom, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (7):
+								SquareCoordinate left = this.makeCoordinate(xDir - 1,
+										yDir);
+								orthogonalCheckCoordinates(to, left, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (8):
+								SquareCoordinate top = this.makeCoordinate(xDir,
+										yDir + 1);
+								orthogonalCheckCoordinates(to, top, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+						}
+					}
+				}
+				if (oldVisitedSize == visited.size()) {
+					return false;
+				}
+				fringes.add(nextFringes);
+			}
+		} else {
+			throw new EscapeException("No distance or fly attribute dectected");
+		}
 		return false;
 	}
 
 	private boolean omniPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
-		// TODO Auto-generated method stub
+		int distance = 0;
+		Player player = this.board.getPieceAt(from).getPlayer();
+		ArrayList<PieceAttributeID> attributeID = new ArrayList<>();
+		ArrayList<SquareCoordinate> visited = new ArrayList<>();
+		visited.add(from);
+		distance = this.addAttributes(attributeID, distance, attributes);
+		if (distance > 0) {
+			ArrayList<ArrayList<SquareCoordinate>> fringes = new ArrayList<>();
+			ArrayList<SquareCoordinate> first = new ArrayList<>();
+			first.add(from);
+			fringes.add(first);
+			for (int x = 1; x <= distance; x++) {
+				int oldVisitedSize = visited.size();
+				ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+				if (fringes.size() < x) {
+					break;
+				}
+				for (SquareCoordinate coordinate : fringes.get(x - 1)) {
+					int xDir = coordinate.getX();
+					int yDir = coordinate.getY();
+					for (int direction = 1; direction <= 8; direction++) {
+						switch (direction) {
+							case (1):
+								SquareCoordinate topRight = this
+										.makeCoordinate(xDir + 1, yDir + 1);
+								diagonalCheckCoordinates(to, topRight, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (2):
+								SquareCoordinate bottomRight = this
+										.makeCoordinate(xDir + 1, yDir - 1);
+								diagonalCheckCoordinates(to, bottomRight, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (3):
+								SquareCoordinate bottomLeft = this
+										.makeCoordinate(xDir - 1, yDir - 1);
+								diagonalCheckCoordinates(to, bottomLeft, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (4):
+								SquareCoordinate topLeft = this
+										.makeCoordinate(xDir - 1, yDir + 1);
+								diagonalCheckCoordinates(to, topLeft, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (5):
+								SquareCoordinate right = this
+										.makeCoordinate(xDir + 1, yDir);
+								orthogonalCheckCoordinates(to, right, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (6):
+								SquareCoordinate bottom = this.makeCoordinate(xDir,
+										yDir - 1);
+								orthogonalCheckCoordinates(to, bottom, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (7):
+								SquareCoordinate left = this.makeCoordinate(xDir - 1,
+										yDir);
+								orthogonalCheckCoordinates(to, left, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+							case (8):
+								SquareCoordinate top = this.makeCoordinate(xDir,
+										yDir + 1);
+								orthogonalCheckCoordinates(to, top, visited,
+										nextFringes, attributeID, player, direction);
+								if (visited.contains(to)) {
+									return true;
+								}
+								break;
+						}
+					}
+				}
+				if (oldVisitedSize == visited.size()) {
+					return false;
+				}
+				fringes.add(nextFringes);
+			}
+		} else {
+			throw new EscapeException("No distance or fly attribute dectected");
+		}
 		return false;
 	}
 
 	private boolean linearPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
-		int distance = 0, fly = 0;
+		int distance = 0;
+		Player player = this.board.getPieceAt(from).getPlayer();
 		ArrayList<PieceAttributeID> attributeID = new ArrayList<>();
-		ArrayList<SquareCoordinate> visted = new ArrayList<>();
-		visted.add(from);
-		ArrayList<SquareCoordinate> fringes = new ArrayList<>();
-		fringes.add(from);
-		for (PieceAttribute attribute : attributes) {
-			switch (attribute.getId()) {
-				case DISTANCE:
-					distance = attribute.getIntValue();
-					break;
-				case FLY:
-					fly = attribute.getIntValue();
-					break;
-				case JUMP:
-					if (attribute.isBooleanValue()) {
-						attributeID.add(attribute.getId());
-					}
-					break;
-				case UNBLOCK:
-					if (attribute.isBooleanValue()) {
-						attributeID.add(attribute.getId());
-					}
-				case VALUE:
-					break;
-				default:
-					throw new EscapeException("Attribute ID does not exist");
+		ArrayList<SquareCoordinate> visited = new ArrayList<>();
+		visited.add(from);
+		distance = this.addAttributes(attributeID, distance, attributes);
+		if (distance > 0) {
+			ArrayList<ArrayList<SquareCoordinate>> fringes = new ArrayList<>();
+			ArrayList<SquareCoordinate> first = new ArrayList<>();
+			first.add(from);
+			fringes.add(first);
+			int xDir = from.getX();
+			int yDir = from.getY();
+			for (int direction = 1; direction <= 8; direction++) {
+				switch (direction) {
+					case (1):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate topRight = this.makeCoordinate(xDir + x,
+									yDir + x);
+							diagonalCheckCoordinates(to, topRight, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (2):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate bottomRight = this
+									.makeCoordinate(xDir + x, yDir - x);
+							diagonalCheckCoordinates(to, bottomRight, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (3):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate bottomLeft = this
+									.makeCoordinate(xDir - x, yDir - x);
+							diagonalCheckCoordinates(to, bottomLeft, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (4):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate topLeft = this.makeCoordinate(xDir - x,
+									yDir + x);
+							diagonalCheckCoordinates(to, topLeft, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (5):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate right = this.makeCoordinate(xDir + x,
+									yDir);
+							orthogonalCheckCoordinates(to, right, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (6):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate bottom = this.makeCoordinate(xDir,
+									yDir - x);
+							orthogonalCheckCoordinates(to, bottom, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (7):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate left = this.makeCoordinate(xDir - x,
+									yDir);
+							orthogonalCheckCoordinates(to, left, visited,
+									nextFringes, attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+					case (8):
+						for (int x = 1; x <= distance; x++) {
+							int oldVisitedSize = visited.size();
+							ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
+							SquareCoordinate top = this.makeCoordinate(xDir,
+									yDir + x);
+							orthogonalCheckCoordinates(to, top, visited, nextFringes,
+									attributeID, player, direction);
+							if (oldVisitedSize == visited.size()) {
+								break;
+							}
+							if (visited.contains(to)) {
+								return true;
+							}
+						}
+						break;
+				}
 			}
-		}
-		if (fly > 0) {
-			// TODO make sure it approves linear movement pattern
-			return false;
+		} else {
+			throw new EscapeException("No distance or fly attribute dectected");
 		}
 		return false;
 	}
@@ -156,30 +443,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 		ArrayList<PieceAttributeID> attributeID = new ArrayList<>();
 		ArrayList<SquareCoordinate> visited = new ArrayList<>();
 		visited.add(from);
-		for (PieceAttribute attribute : attributes) {
-			switch (attribute.getId()) {
-				case DISTANCE:
-					distance = attribute.getIntValue();
-					break;
-				case FLY:
-					distance = attribute.getIntValue();
-					attributeID.add(attribute.getId());
-					break;
-				case JUMP:
-					if (attribute.isBooleanValue()) {
-						attributeID.add(attribute.getId());
-					}
-					break;
-				case UNBLOCK:
-					if (attribute.isBooleanValue()) {
-						attributeID.add(attribute.getId());
-					}
-				case VALUE:
-					break;
-				default:
-					throw new EscapeException("Attribute ID does not exist");
-			}
-		}
+		distance = this.addAttributes(attributeID, distance, attributes);
 		if (distance > 0) {
 			ArrayList<ArrayList<SquareCoordinate>> fringes = new ArrayList<>();
 			ArrayList<SquareCoordinate> first = new ArrayList<>();
@@ -195,35 +459,39 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					int xDir = coordinate.getX();
 					int yDir = coordinate.getY();
 					for (int direction = 1; direction <= 4; direction++) {
-						switch(direction) {
-							case(1):
-								SquareCoordinate topRight = this.makeCoordinate(xDir + 1,
-										yDir + 1);
-								diagonalCheckCoordinates(to, topRight, visited, nextFringes, attributeID, player, direction);
+						switch (direction) {
+							case (1):
+								SquareCoordinate topRight = this
+										.makeCoordinate(xDir + 1, yDir + 1);
+								diagonalCheckCoordinates(to, topRight, visited,
+										nextFringes, attributeID, player, direction);
 								if (visited.contains(to)) {
 									return true;
 								}
 								break;
-							case(2):
-								SquareCoordinate bottomRight = this.makeCoordinate(xDir + 1,
-										yDir - 1);
-								diagonalCheckCoordinates(to, bottomRight, visited, nextFringes, attributeID, player, direction);
+							case (2):
+								SquareCoordinate bottomRight = this
+										.makeCoordinate(xDir + 1, yDir - 1);
+								diagonalCheckCoordinates(to, bottomRight, visited,
+										nextFringes, attributeID, player, direction);
 								if (visited.contains(to)) {
 									return true;
 								}
 								break;
-							case(3):
-								SquareCoordinate bottomLeft = this.makeCoordinate(xDir - 1,
-										yDir - 1);
-								diagonalCheckCoordinates(to, bottomLeft, visited, nextFringes, attributeID, player, direction);
+							case (3):
+								SquareCoordinate bottomLeft = this
+										.makeCoordinate(xDir - 1, yDir - 1);
+								diagonalCheckCoordinates(to, bottomLeft, visited,
+										nextFringes, attributeID, player, direction);
 								if (visited.contains(to)) {
 									return true;
 								}
 								break;
-							case(4):
-								SquareCoordinate topLeft = this.makeCoordinate(xDir - 1,
-										yDir + 1);
-								diagonalCheckCoordinates(to, topLeft, visited, nextFringes, attributeID, player, direction);
+							case (4):
+								SquareCoordinate topLeft = this
+										.makeCoordinate(xDir - 1, yDir + 1);
+								diagonalCheckCoordinates(to, topLeft, visited,
+										nextFringes, attributeID, player, direction);
 								if (visited.contains(to)) {
 									return true;
 								}
@@ -269,16 +537,62 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 		}
 	}
 
-	private void diagonalCheckCoordinates(SquareCoordinate to, SquareCoordinate start, ArrayList<SquareCoordinate> visited, 
-			ArrayList<SquareCoordinate> nextFringes, ArrayList<PieceAttributeID> attributeID, Player player, int direction) {
-		if (this.canPieceGoToCoordinate(to, start, attributeID,
-				player)) {
+	private void orthogonalCheckCoordinates(SquareCoordinate to,
+			SquareCoordinate start, ArrayList<SquareCoordinate> visited,
+			ArrayList<SquareCoordinate> nextFringes,
+			ArrayList<PieceAttributeID> attributeID, Player player, int direction) {
+		if (this.canPieceGoToCoordinate(to, start, attributeID, player)) {
 			nextFringes.add(start);
 			if (!visited.contains(start)) {
 				visited.add(start);
 			}
-		} else if (!start.equals(to)
-				&& this.board.getPieceAt(start) != null
+		} else if (!start.equals(to) && this.board.getPieceAt(start) != null
+				&& attributeID.contains(PieceAttributeID.JUMP)
+				&& this.canJumpOrthogonal(to, start, direction, player)) {
+			nextFringes.add(start);
+			if (!visited.contains(start)) {
+				visited.add(start);
+			}
+		}
+	}
+
+	private boolean canJumpOrthogonal(SquareCoordinate to, SquareCoordinate start,
+			int direction, Player player) {
+		switch (direction) {
+			case (5):
+				SquareCoordinate right = this.makeCoordinate(start.getX() + 1,
+						start.getY());
+				return (this.board.getPieceAt(right) == null
+						|| this.canCapturePiece(to, right, player));
+			case (6):
+				SquareCoordinate bottom = this.makeCoordinate(start.getX(),
+						start.getY() - 1);
+				return (this.board.getPieceAt(bottom) == null
+						|| this.canCapturePiece(to, bottom, player));
+			case (7):
+				SquareCoordinate left = this.makeCoordinate(start.getX() - 1,
+						start.getY());
+				return (this.board.getPieceAt(left) == null
+						|| this.canCapturePiece(to, left, player));
+			case (8):
+				SquareCoordinate top = this.makeCoordinate(start.getX(),
+						start.getY() + 1);
+				return (this.board.getPieceAt(top) == null
+						|| this.canCapturePiece(to, top, player));
+		}
+		return false;
+	}
+
+	private void diagonalCheckCoordinates(SquareCoordinate to,
+			SquareCoordinate start, ArrayList<SquareCoordinate> visited,
+			ArrayList<SquareCoordinate> nextFringes,
+			ArrayList<PieceAttributeID> attributeID, Player player, int direction) {
+		if (this.canPieceGoToCoordinate(to, start, attributeID, player)) {
+			nextFringes.add(start);
+			if (!visited.contains(start)) {
+				visited.add(start);
+			}
+		} else if (!start.equals(to) && this.board.getPieceAt(start) != null
 				&& attributeID.contains(PieceAttributeID.JUMP)
 				&& this.canJumpDiagonal(to, start, direction, player)) {
 			nextFringes.add(start);
@@ -347,5 +661,34 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			Player player) {
 		return (start.equals(to) && this.board.getPieceAt(to) != null
 				&& this.board.getPieceAt(to).getPlayer() != player);
+	}
+
+	private int addAttributes(ArrayList<PieceAttributeID> attributeID, int distance,
+			PieceAttribute[] attributes) {
+		for (PieceAttribute attribute : attributes) {
+			switch (attribute.getId()) {
+				case DISTANCE:
+					distance = attribute.getIntValue();
+					break;
+				case FLY:
+					distance = attribute.getIntValue();
+					attributeID.add(attribute.getId());
+					break;
+				case JUMP:
+					if (attribute.isBooleanValue()) {
+						attributeID.add(attribute.getId());
+					}
+					break;
+				case UNBLOCK:
+					if (attribute.isBooleanValue()) {
+						attributeID.add(attribute.getId());
+					}
+				case VALUE:
+					break;
+				default:
+					throw new EscapeException("Attribute ID does not exist");
+			}
+		}
+		return distance;
 	}
 }

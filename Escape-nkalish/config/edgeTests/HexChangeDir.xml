@@ -136,56 +136,7 @@
         <player>PLAYER2</player>
     </locationInitializers>
     
-    <locationInitializers>
-        <x>-1</x>
-        <y>0</y>
-        <locationType>CLEAR</locationType>
-        <pieceName>HUMMINGBIRD</pieceName>
-        <player>PLAYER2</player>
-    </locationInitializers>
-    
-     <locationInitializers>
-        <x>-5</x>
-        <y>0</y>
-        <locationType>EXIT</locationType>
-    </locationInitializers>
-    
-    <locationInitializers>
-        <x>1</x>
-        <y>2</y>
-        <locationType>CLEAR</locationType>
-        <pieceName>HUMMINGBIRD</pieceName>
-        <player>PLAYER2</player>
-    </locationInitializers>
-    
-    <locationInitializers>
-        <x>5</x>
-        <y>2</y>
-        <locationType>EXIT</locationType>
-    </locationInitializers>
-    
-     <locationInitializers>
-        <x>0</x>
-        <y>3</y>
-        <locationType>CLEAR</locationType>
-        <pieceName>FOX</pieceName>
-        <player>PLAYER2</player>
-    </locationInitializers>
-    
-    <locationInitializers>
-        <x>4</x>
-        <y>3</y>
-        <locationType>EXIT</locationType>
-    </locationInitializers>
-    
-    <locationInitializers>
-        <x>-2</x>
-        <y>-1</y>
-        <locationType>CLEAR</locationType>
-        <pieceName>FROG</pieceName>
-        <player>PLAYER2</player>
-    </locationInitializers>
-    
+   
     
     
     <!-- Piece items, an array of pieceTypes, 1 or more -->
@@ -200,7 +151,7 @@
         <attributes>
             <id>DISTANCE</id>
             <attrType>INTEGER</attrType>
-            <intValue>100</intValue>
+            <intValue>6</intValue>
         </attributes>
         <attributes>
             <id>UNBLOCK</id>
