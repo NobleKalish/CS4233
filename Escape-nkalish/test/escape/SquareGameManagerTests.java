@@ -77,8 +77,8 @@ public class SquareGameManagerTests {
 				.makeGameManager();
 
 		// capture enemy piece ->
-//		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
-//				gameManager.makeCoordinate(3, 3)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
+				gameManager.makeCoordinate(3, 3)));
 		
 		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
 				.makeGameManager();
@@ -111,22 +111,37 @@ public class SquareGameManagerTests {
 		// Fly -> can't end on block
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(7, 9)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// Fly -> can't end on block
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(7, 9)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// Fly -> can jump many pieces
 		assertTrue(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(10, 12)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// Fly -> can't go past distance set (5)
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(14, 14)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// Fly -> can go to max distance set (5)
 		assertTrue(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(13, 13)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// FLY -> can pass over an exit
 		assertTrue(gameManager.move(gameManager.makeCoordinate(22, 1),
@@ -144,17 +159,23 @@ public class SquareGameManagerTests {
 		// unblock false -> can't land on block
 		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(1, 3)));
-
-		// unblock false -> can't pass over block
-		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 6),
-				gameManager.makeCoordinate(4, 8)));
-
+		
 		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
 				.makeGameManager();
-		
+
+		// unblock false -> can't pass over block
+//		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 6),
+//				gameManager.makeCoordinate(4, 8)));
+//
+//		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+//				.makeGameManager();
+//		
 		// unblock true -> can't land on block
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 3),
 				gameManager.makeCoordinate(2, 4)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// unblock true -> can pass over block
 		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 3),
@@ -171,14 +192,23 @@ public class SquareGameManagerTests {
 		// jump over one piece to then capture enemy piece -> true
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 1),
 				gameManager.makeCoordinate(3, 3)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// jump over one piece at time, multi times -> true
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(7, 3)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// jump false -> can't jump
 		assertFalse(gameManager.move(gameManager.makeCoordinate(9, 9),
 				gameManager.makeCoordinate(11, 11)));
+		
+		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+				.makeGameManager();
 
 		// jump over one piece at time -> true
 		assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 4)));
