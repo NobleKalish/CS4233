@@ -84,7 +84,7 @@ HEX:
 			- Diagonal unblock
 				- 
 		- OrthoGameManager
-			- Can have Orthogonal/omni
+			- Can have Orthogonal/omni/linear
 		- HexGameManager
 			- Can have Linear/omni 
 	- Implement getPieceAt
