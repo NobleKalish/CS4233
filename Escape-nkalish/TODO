@@ -1,71 +1,4 @@
 TODO:
-
-SQUARE BOARD DESIGN(Easiest design first):
-- Implement basic coordinate system (x, y)
-	- Create a square board
-		- Config maxX=8, maxY=8
-		- Board.getMaxX = 8: TRUE
-		- Board.getMaxY = 8: TRUE
-		- Make a board that has 8 rows and 8 columns 
-	- putPieceAt & getPieceAt
-		- assertNotNull(getPieceAt(2,2)): TRUE
-	- putSquareAt & getSquareAt
-		- assertNotNull(getSquareAt(3,5): TRUE
-		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
--SQUARE COORDINATE:
-	- DistacneTo
-		- (1,1)->(2,2): 1 PASS
-	 	- (1,2)->(3,5): 3 PASS
-	 	- (1,2)->(5,5): 5 PASS
-
-ORTHOSQUARE:
-- Similar system as SQUARE BOARD
-	- Create an ortho square board
-		- Config maxX=8, maxY=8
-		- Board.getMaxX = 8: TRUE
-		- Board.getMaxY = 8: TRUE
-		- Make a board that has 8 rows and 8 columns 
-	- putPieceAt & getPieceAt
-		- assertNotNull(getPieceAt(2,2)): TRUE
-	- putSquareAt & getSquareAt
-		- assertNotNull(getSquareAt(3,5): TRUE
-		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
--ORTHO SQUARE COORDINATE:
-	- DistacneTo
-		- (1,1)->(2,2): 2 PASS
-	 	- (1,2)->(3,5): 5 PASS
-	 	- (1,2)->(5,5): 7 PASS
-
-HEX:
-- Can be inifinite or finite
-	- Create an Hex board
-		- config maxX=10, maxY=10
-		- Board.getMaxX = 10, Board.getMinX = -10: TRUE
-		- Board.getMaxY = 10, Board.getMinY = -10: TRUE
-		- Make board with 0,0 in the middke of the board
-	- putPieceAt & getPieceAt
-		- assertNotNull(getPieceAt(2,2)): TRUE
-		- assertNotNull(getPieceAt(-2,2)): TRUE
-		- assertNotNull(getPieceAt(2,-2)): TRUE
-		- assertNotNull(getPieceAt(-2,-2)): TRUE
-	- putSquareAt & getSquareAt
-		- assertNotNull(getSquareAt(3,5): TRUE
-		- assertEquals(BLOCK, getSquareAt(3,5)): TRUE
-		- assertNotNull(getSquareAt(-3,5): TRUE
-		- assertEquals(BLOCK, getSquareAt(-3,5)): TRUE
-		- assertNotNull(getSquareAt(3,-5): TRUE
-		- assertEquals(BLOCK, getSquareAt(3,-5)): TRUE
-		- assertNotNull(getSquareAt(-3,-5): TRUE
-		- assertEquals(BLOCK, getSquareAt(-3,-5)): TRUE
-- HEX COORDINATE:
-	- DistanceTo
-		- (1,1)->(2,2): 2 PASS
-	 	- (1,2)->(3,5): 5 PASS
-	 	- (1,2)->(5,5): 7 PASS
-	 	- (1,2)->(-5,-3): 7 PASS
-	 	- (1,2)->(-5,7): 7 PASS
-		
-		
 							BETA
 =============================================================================
 
@@ -80,13 +13,117 @@ HEX:
 		- SquareGameManager
 			- Can have linear/orthogonal/diagonal/omni
 			- Diagonal no attributes
-				- move((8,1), (7,2)): TRUE
+				- (8,1) -> (7,2): TRUE
+				- (5,4) -> (9,9): FALSE
 			- Diagonal unblock
-				- 
+				- (2,2) -> (1,3): FALSE
+				- (3,3) -> (1,5): TRUE
+			- Diagonal fly
+				- (8,8) -> (7,9): FALSE
+				- (8,8) -> (10,12): TRUE
+			- Diagonal jump
+			 	- (1,1) -> (3,3): TRUE
+			 	- (9,9) -> (11,11): FALSE
+			- linear no attributes
+				- (2,2) -> (3,2): TRUE
+				- (8,1) -> (8,8): FALSE
+			- linear unblock
+				- (1,2) -> (1,3): FALSE
+				- (3,2) -> (3,5): TRUE
+			- linear fly
+				- (1,7) -> (1,6): FALSE
+				- (1,7) -> (4,7): TRUE
+			- linear jump
+			 	- (1,2) -> (4,2): FALSE
+			 	- (2,2) -> (6,2): TRUE
+			- orthogonal no attributes
+				- (2,2) -> (3,2): TRUE
+				- (6,3) -> (8,8): FALSE
+			- orthogonal unblock
+				- (1,2) -> (1,3): FALSE
+				- (3,2) -> (3,5): TRUE
+			- orthogonal fly
+				- (1,7) -> (1,6): FALSE
+				- (1,7) -> (4,7): TRUE
+			- orthogonal jump
+			 	- (1,2) -> (4,2): FALSE
+			 	- (1,2) -> (3,2): TRUE
+			- omni no attributes
+				- (2,2) -> (3,2): TRUE
+				- (6,1) -> (8,8): FALSE
+			- omni unblock
+				- (1,2) -> (1,3): FALSE
+				- (3,2) -> (3,5): TRUE
+			- omni fly
+				- (1,7) -> (1,6): FALSE
+				- (1,7) -> (4,7): TRUE
+			- omni jump
+			 	- (1,2) -> (4,2): FALSE
+			 	- (2,2) -> (6,2): TRUE
 		- OrthoGameManager
 			- Can have Orthogonal/omni/linear
+			- linear no attributes
+				- (2,2) -> (3,2): TRUE
+				- (8,1) -> (8,5): FALSE
+			- linear unblock
+				- (1,2) -> (1,3): FALSE
+				- (3,2) -> (3,5): TRUE
+			- linear fly
+				- (1,7) -> (1,6): FALSE
+				- (1,7) -> (4,7): TRUE
+			- linear jump
+			 	- (1,2) -> (4,2): FALSE
+			 	- (1,2) -> (3,2): TRUE
+			- orthogonal no attributes
+				- (2,2) -> (3,2): TRUE
+				- (6,3) -> (8,8): FALSE
+			- orthogonal unblock
+				- (1,2) -> (1,3): FALSE
+				- (3,2) -> (3,5): TRUE
+			- orthogonal fly
+				- (1,7) -> (1,6): FALSE
+				- (1,7) -> (4,7): TRUE
+			- orthogonal jump
+			 	- (1,2) -> (4,2): FALSE
+			 	- (2,2) -> (4,2): TRUE
+			- omni no attributes
+				- (2,2) -> (3,2): TRUE
+				- (6,1) -> (8,8): FALSE
+			- omni unblock
+				- (1,2) -> (1,3): FALSE
+				- (3,2) -> (3,5): TRUE
+			- omni fly
+				- (1,7) -> (1,6): FALSE
+				- (1,7) -> (3,5): TRUE
+			- omni jump
+			 	- (1,2) -> (4,2): FALSE
+			 	- (2,2) -> (6,2): TRUE
 		- HexGameManager
 			- Can have Linear/omni 
+			- linear no attributes
+				- (2,-2) -> (2,-1): TRUE
+				- (-1,0) -> (2,-1): FALSE
+			- linear unblock
+				- (2,-3) -> (1,-3): FALSE
+				- (2,-1) -> (0,-1): TRUE
+			- linear fly
+				- (0,1) -> (1,0): FALSE
+				- (0,1) -> (-3,4): TRUE
+			- linear jump
+			 	- (2,-3) -> (2,0): FALSE
+			 	- (2,-2) -> (2,2): TRUE
+			- omni no attributes
+				- (2,-2) -> (2,1): TRUE
+				- (-1,0) -> (-6,5): FALSE
+			- omni unblock
+				- (2,-3) -> (1,-3): FALSE
+				- (2,-1) -> (0,-1): TRUE
+			- omni fly
+				- (0,1) -> (1,0): FALSE
+				- (0,1) -> (-3,4): TRUE
+			- omni jump
+			 	- (2,-3) -> (2,0): FALSE
+			 	- (2,-2) -> (2,0): TRUE
 	- Implement getPieceAt
 		- SquareGameManager (SquareGameManager.xml)
 			- getPieceAt(2,2)-> EscapePiece(PLAYER1, HORSE): TRUE 
