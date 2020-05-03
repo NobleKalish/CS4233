@@ -52,7 +52,11 @@ public class OrthoPathFinding {
 				if (oldVisitedSize == visited.size()) {
 					return false;
 				}
-				fringes.add(nextFringes);
+				if (fringes.size() == x + 1) {
+					fringes.get(x).addAll(nextFringes);
+				} else {
+					fringes.add(nextFringes);
+				}
 			}
 		} else {
 			throw new EscapeException("No distance or fly attribute dectected");

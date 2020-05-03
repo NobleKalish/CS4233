@@ -21,7 +21,7 @@ public class HexPathFinding {
 	public boolean omniPathFinding(HexCoordinate from, HexCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
-		Player player = this.board.getPieceAt(from).getPlayer();
+ 		Player player = this.board.getPieceAt(from).getPlayer();
 		ArrayList<PieceAttributeID> attributeID = new ArrayList<>();
 		ArrayList<HexCoordinate> visited = new ArrayList<>();
 		visited.add(from);
@@ -52,7 +52,11 @@ public class HexPathFinding {
 				if (oldVisitedSize == visited.size()) {
 					return false;
 				}
-				fringes.add(nextFringes);
+				if (fringes.size() == x + 1) {
+					fringes.get(x).addAll(nextFringes);
+				} else {
+					fringes.add(nextFringes);
+				}
 			}
 		} else {
 			throw new EscapeException("No distance or fly attribute dectected");
