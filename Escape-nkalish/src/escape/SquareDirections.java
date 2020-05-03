@@ -9,25 +9,16 @@ import escape.exception.EscapeException;
 public enum SquareDirections {
 	TOP, TOPRIGHT, RIGHT, BOTTOMRIGHT, BOTTOM, BOTTOMLEFT, LEFT, TOPLEFT;
 	
-	static public ArrayList<SquareDirections> getOrthogonalDirections() {
-		List<SquareDirections> orthoList =  Arrays.asList(RIGHT, LEFT, TOP, BOTTOM);
-		ArrayList<SquareDirections> allOrtho =  new ArrayList<SquareDirections>();
-		allOrtho.addAll(orthoList);
-		return allOrtho;
+	static public List<SquareDirections> getOrthogonalDirections() {
+		return Arrays.asList(RIGHT, LEFT, TOP, BOTTOM);
 	}
 	
-	static public ArrayList<SquareDirections> getOmniDirections() {
-		List<SquareDirections> orthoList =  Arrays.asList(RIGHT, LEFT, BOTTOM, TOP, TOPRIGHT, TOPLEFT, BOTTOMRIGHT, BOTTOMLEFT);
-		ArrayList<SquareDirections> allOrtho =  new ArrayList<SquareDirections>();
-		allOrtho.addAll(orthoList);
-		return allOrtho;
+	static public List<SquareDirections> getOmniDirections() {
+		return Arrays.asList(RIGHT, LEFT, BOTTOM, TOP, TOPRIGHT, TOPLEFT, BOTTOMRIGHT, BOTTOMLEFT);
 	}
 	
-	static public ArrayList<SquareDirections> getDiagonalDirections() {
-		List<SquareDirections> orthoList =  Arrays.asList(TOPRIGHT, TOPLEFT, BOTTOMRIGHT, BOTTOMLEFT);
-		ArrayList<SquareDirections> allOrtho =  new ArrayList<SquareDirections>();
-		allOrtho.addAll(orthoList);
-		return allOrtho;
+	static public List<SquareDirections> getDiagonalDirections() {
+		return Arrays.asList(TOPRIGHT, TOPLEFT, BOTTOMRIGHT, BOTTOMLEFT);
 	}
 	
 	static public SquareCoordinate getNeighbor(SquareCoordinate start, SquareDirections direction) {
