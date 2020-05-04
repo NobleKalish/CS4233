@@ -28,6 +28,9 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	
 	@Override
 	public boolean move(OrthoSquareCoordinate from, OrthoSquareCoordinate to) {
+		if (from.equals(to)) {
+			return false;
+		}
 		EscapePiece movingPiece = this.getPieceAt(from);
 		PieceAttribute[] attributes = null;
 		MovementPatternID movementPattern = null;
@@ -73,8 +76,6 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 						return true;
 					}
 					return false;
-				default:
-					throw new EscapeException("Unknown movement pattern");
 			}
 		}
 		return false;

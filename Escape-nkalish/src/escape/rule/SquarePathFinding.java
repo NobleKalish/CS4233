@@ -130,8 +130,8 @@ public class SquarePathFinding {
 					ArrayList<SquareCoordinate> nextFringes = new ArrayList<>();
 					SquareCoordinate neighbor = SquareDirections.getNeighbor(start,
 							direction);
-					start = checkCoordinate(to, neighbor, visited, nextFringes, attributeID,
-							player, direction, x);
+					start = checkCoordinate(to, neighbor, visited, nextFringes,
+							attributeID, player, direction, x);
 					if (oldVisitedSize == visited.size()) {
 						break;
 					}
@@ -193,15 +193,17 @@ public class SquarePathFinding {
 	}
 
 	private boolean canJump(SquareCoordinate to, SquareCoordinate start,
-			SquareDirections direction, Player player, ArrayList<PieceAttributeID> attributeID) {
+			SquareDirections direction, Player player,
+			ArrayList<PieceAttributeID> attributeID) {
 		SquareCoordinate neighbor = SquareDirections.getNeighbor(start, direction);
 		return ((this.board.getPieceAt(neighbor) == null
 				|| this.canCapturePiece(to, neighbor, player))
-						&& (this.board.getLocationType(neighbor) != LocationType.BLOCK || attributeID.contains(PieceAttributeID.UNBLOCK)));
+				&& (this.board.getLocationType(neighbor) != LocationType.BLOCK
+						|| attributeID.contains(PieceAttributeID.UNBLOCK)));
 	}
 
-	private SquareCoordinate checkCoordinate(SquareCoordinate to, SquareCoordinate start,
-			ArrayList<SquareCoordinate> visited,
+	private SquareCoordinate checkCoordinate(SquareCoordinate to,
+			SquareCoordinate start, ArrayList<SquareCoordinate> visited,
 			ArrayList<SquareCoordinate> nextFringes,
 			ArrayList<PieceAttributeID> attributeID, Player player,
 			SquareDirections direction, int distance) {
@@ -214,7 +216,8 @@ public class SquarePathFinding {
 				&& attributeID.contains(PieceAttributeID.JUMP)
 				&& this.canJump(to, start, direction, player, attributeID)) {
 			ArrayList<SquareCoordinate> jumpedCoordinate = new ArrayList<>();
-			SquareCoordinate neighbor = SquareDirections.getNeighbor(start, direction);
+			SquareCoordinate neighbor = SquareDirections.getNeighbor(start,
+					direction);
 			jumpedCoordinate.add(neighbor);
 			if (fringes.size() == distance + 1) {
 				fringes.get(distance).addAll(jumpedCoordinate);
@@ -269,9 +272,17 @@ public class SquarePathFinding {
 		for (PieceAttribute attribute : attributes) {
 			switch (attribute.getId()) {
 				case DISTANCE:
+					if (distance != 0) {
+						throw new EscapeException(
+								"You cannot have a fly and distane attribute!");
+					}
 					distance = attribute.getIntValue();
 					break;
 				case FLY:
+					if (distance != 0) {
+						throw new EscapeException(
+								"You cannot have a fly and distane attribute!");
+					}
 					distance = attribute.getIntValue();
 					attributeID.add(attribute.getId());
 					break;

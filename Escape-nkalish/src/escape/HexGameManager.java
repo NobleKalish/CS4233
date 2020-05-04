@@ -1,14 +1,11 @@
 package escape;
 
-import java.util.ArrayList;
 import escape.board.HexBoard;
 import escape.board.LocationType;
 import escape.board.coordinate.HexCoordinate;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 import escape.piece.MovementPatternID;
-import escape.piece.PieceAttributeID;
-import escape.piece.Player;
 import escape.rule.HexPathFinding;
 import escape.util.LocationInitializer;
 import escape.util.PieceTypeInitializer;
@@ -30,6 +27,9 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 
 	@Override
 	public boolean move(HexCoordinate from, HexCoordinate to) {
+		if (from.equals(to)) {
+			return false;
+		}
 		EscapePiece movingPiece = this.getPieceAt(from);
 		PieceAttribute[] attributes = null;
 		MovementPatternID movementPattern = null;
@@ -50,9 +50,6 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 				}
 			}
 			switch (movementPattern) {
-				case DIAGONAL:
-					throw new EscapeException(
-							"Movement Pattern is not allowed on Hex board!");
 				case LINEAR:
 					if (pathFinding.linearPathFinding(from, to, attributes)) {
 						if (this.board.getLocationType(to) == LocationType.EXIT) {
@@ -75,11 +72,6 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 						return true;
 					}
 					return false;
-				case ORTHOGONAL:
-					throw new EscapeException(
-							"Movement Pattern is not allowed on Hex board!");
-				default:
-					throw new EscapeException("Unknown movement pattern");
 			}
 		}
 		return false;

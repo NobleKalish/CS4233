@@ -3,6 +3,7 @@ package escape;
 import static org.junit.Assert.*;
 import java.io.File;
 import org.junit.Test;
+import escape.exception.EscapeException;
 
 public class EscapeGameBuilderTests {
 	private EscapeGameManager<?> gameManager;
@@ -33,4 +34,11 @@ public class EscapeGameBuilderTests {
 		assertNotNull(gameManager);
 		assertEquals(HexGameManager.class, gameManager.getClass());
 	}
+	
+//	@Test
+//	public void testExceptions() throws Exception {
+//		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+//				new File("config/edgeTests/Bad.xml"));
+//		assertEquals(EscapeException.class, gameBuilder.makeGameManager());
+//	}
 }

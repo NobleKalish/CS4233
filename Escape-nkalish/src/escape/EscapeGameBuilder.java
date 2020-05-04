@@ -63,8 +63,7 @@ public class EscapeGameBuilder {
 						gameInitializer.getyMax(),
 						gameInitializer.getLocationInitializers(),
 						gameInitializer.getPieceTypes());
-			default:
-				throw new EscapeException("Coordinate Type does not exist!");
 		}
+		return null;
 	}
 }

@@ -37,6 +37,9 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 
 	@Override
 	public boolean move(SquareCoordinate from, SquareCoordinate to) {
+		if (from.equals(to)) {
+			return false;
+		}
 		EscapePiece movingPiece = this.getPieceAt(from);
 		PieceAttribute[] attributes = null;
 		MovementPatternID movementPattern = null;

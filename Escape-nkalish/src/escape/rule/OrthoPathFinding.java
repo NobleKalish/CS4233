@@ -5,6 +5,7 @@ import escape.OrthoDirections;
 import escape.board.LocationType;
 import escape.board.OrthoSquareBoard;
 import escape.board.coordinate.OrthoSquareCoordinate;
+import escape.board.coordinate.SquareCoordinate;
 import escape.exception.EscapeException;
 import escape.piece.PieceAttributeID;
 import escape.piece.Player;
@@ -105,9 +106,15 @@ public class OrthoPathFinding {
 		for (PieceAttribute attribute : attributes) {
 			switch (attribute.getId()) {
 				case DISTANCE:
+					if (distance != 0) {
+						throw new EscapeException("You cannot have a fly and distane attribute!");
+					}
 					distance = attribute.getIntValue();
 					break;
 				case FLY:
+					if (distance != 0) {
+						throw new EscapeException("You cannot have a fly and distane attribute!");
+					}
 					distance = attribute.getIntValue();
 					attributeID.add(attribute.getId());
 					break;
@@ -120,10 +127,6 @@ public class OrthoPathFinding {
 					if (attribute.isBooleanValue()) {
 						attributeID.add(attribute.getId());
 					}
-				case VALUE:
-					break;
-				default:
-					throw new EscapeException("Attribute ID does not exist");
 			}
 		}
 		return distance;

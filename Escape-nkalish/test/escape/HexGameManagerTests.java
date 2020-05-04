@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.HexCoordinate;
+import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 import escape.piece.PieceName;
 import escape.piece.Player;
@@ -238,5 +239,18 @@ public class HexGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(-2, -1),
 				gameManager.makeCoordinate(-1, -3)));
 
+	}
+	
+	@Test
+	public void testBadHexConfig() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/edgeTests/Bad.xml"));
+		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		assertThrows(EscapeException.class, () -> gameManager.move(gameManager.makeCoordinate(2, 2),
+				gameManager.makeCoordinate(2, 3)));
+		assertThrows(EscapeException.class, () -> gameManager.move(gameManager.makeCoordinate(5, 5),
+				gameManager.makeCoordinate(4, 4)));
+		assertThrows(EscapeException.class, () -> gameManager.move(gameManager.makeCoordinate(1, 1),
+				gameManager.makeCoordinate(4, 4)));
 	}
 }

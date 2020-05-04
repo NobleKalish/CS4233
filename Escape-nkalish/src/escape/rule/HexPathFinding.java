@@ -5,6 +5,7 @@ import escape.HexDirections;
 import escape.board.HexBoard;
 import escape.board.LocationType;
 import escape.board.coordinate.HexCoordinate;
+import escape.board.coordinate.OrthoSquareCoordinate;
 import escape.exception.EscapeException;
 import escape.piece.PieceAttributeID;
 import escape.piece.Player;
@@ -21,7 +22,7 @@ public class HexPathFinding {
 	public boolean omniPathFinding(HexCoordinate from, HexCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
- 		Player player = this.board.getPieceAt(from).getPlayer();
+		Player player = this.board.getPieceAt(from).getPlayer();
 		ArrayList<PieceAttributeID> attributeID = new ArrayList<>();
 		ArrayList<HexCoordinate> visited = new ArrayList<>();
 		visited.add(from);
@@ -130,8 +131,8 @@ public class HexPathFinding {
 
 	private boolean canPieceGoToCoordinate(HexCoordinate to, HexCoordinate start,
 			ArrayList<PieceAttributeID> attributeID, Player player) {
-		if ((this.board.getXMax() != 0 && start.getX() <= 0)
-				&& (this.board.getYMax() != 0 && start.getY() <= 0)) {
+		if ((this.board.getXMax() != 0 && start.getX() < 0)
+				&& (this.board.getYMax() != 0 && start.getY() < 0)) {
 			return false;
 		}
 		if (this.canCapturePiece(to, start, player)) {
@@ -177,9 +178,17 @@ public class HexPathFinding {
 		for (PieceAttribute attribute : attributes) {
 			switch (attribute.getId()) {
 				case DISTANCE:
+					if (distance != 0) {
+						throw new EscapeException(
+								"You cannot have a fly and distane attribute!");
+					}
 					distance = attribute.getIntValue();
 					break;
 				case FLY:
+					if (distance != 0) {
+						throw new EscapeException(
+								"You cannot have a fly and distane attribute!");
+					}
 					distance = attribute.getIntValue();
 					attributeID.add(attribute.getId());
 					break;
@@ -192,10 +201,6 @@ public class HexPathFinding {
 					if (attribute.isBooleanValue()) {
 						attributeID.add(attribute.getId());
 					}
-				case VALUE:
-					break;
-				default:
-					throw new EscapeException("Attribute ID does not exist");
 			}
 		}
 		return distance;
