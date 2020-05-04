@@ -2,12 +2,15 @@ DESIGN DECISIONS
 
 		ALPHA
 ==============================
-
-
+For Alpha I created a board for each type of Coordinate: Square, OrthoSquare, and Hex. I did this because it would allow me to use the static variable makeCoordinate in each of the different coordinate classes.
+This allows for expandability as BoardBuilder still programs to an interface and uses the interface functions correctly. If someone wanted to add a coordinate and board type they would only need to add those classes and add a to the switch statement in BoardBuilder.
+This allows for no modification to existing code except for adding a case. This allows for expansion and compartmentalization. 
 
 		BETA
 ==============================
-
+For beta I created three different game managers. This was done because each game manager could use the specific type of board it needed to work. This allows for game builder to be programmed to the interface of GameManager.
+Creating different game managers allows for unique implementation of the path finding necessary for the move function without the client having access to it. I also created three rule classes for each coordinate and board type.
+They have public functions that can be called by the game managers themselves without opening them up to the client who only interacts through the game manager. 
 
 
 

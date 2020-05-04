@@ -18,6 +18,13 @@ public class SquarePathFinding {
 		this.board = board;
 	}
 
+	/**
+	 * Function used to determine the path finding for a PieceType with the movement pattern of orthogonal
+	 * @param from The originating coordinate
+	 * @param to The coordinate the piece is going to.
+	 * @param attributes The attributes associated with the PieceType
+	 * @return A boolean on if a piece can go from the From coordinate to the To coordinate.
+	 */
 	public boolean orthogonalPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
@@ -64,6 +71,13 @@ public class SquarePathFinding {
 		return false;
 	}
 
+	/**
+	 * Function used to determine the path finding for a PieceType with the movement pattern of omni
+	 * @param from The originating coordinate
+	 * @param to The coordinate the piece is going to.
+	 * @param attributes The attributes associated with the PieceType
+	 * @return A boolean on if a piece can go from the From coordinate to the To coordinate.
+	 */
 	public boolean omniPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
@@ -110,6 +124,13 @@ public class SquarePathFinding {
 		return false;
 	}
 
+	/**
+	 * Function used to determine the path finding for a PieceType with the movement pattern of linear
+	 * @param from The originating coordinate
+	 * @param to The coordinate the piece is going to.
+	 * @param attributes The attributes associated with the PieceType
+	 * @return A boolean on if a piece can go from the From coordinate to the To coordinate.
+	 */
 	public boolean linearPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
@@ -146,6 +167,13 @@ public class SquarePathFinding {
 		return false;
 	}
 
+	/**
+	 * Function used to determine the path finding for a PieceType with the movement pattern of diagonal
+	 * @param from The originating coordinate
+	 * @param to The coordinate the piece is going to.
+	 * @param attributes The attributes associated with the PieceType
+	 * @return A boolean on if a piece can go from the From coordinate to the To coordinate.
+	 */
 	public boolean diagonalPathFinding(SquareCoordinate from, SquareCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;

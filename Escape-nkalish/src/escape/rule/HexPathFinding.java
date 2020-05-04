@@ -19,6 +19,13 @@ public class HexPathFinding {
 		this.board = board;
 	}
 
+	/**
+	 * Function used to determine the path finding for a PieceType with the movement pattern of omni
+	 * @param from The originating coordinate
+	 * @param to The coordinate the piece is going to.
+	 * @param attributes The attributes associated with the PieceType
+	 * @return A boolean on if a piece can go from the From coordinate to the To coordinate.
+	 */
 	public boolean omniPathFinding(HexCoordinate from, HexCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
@@ -65,6 +72,13 @@ public class HexPathFinding {
 		return false;
 	}
 
+	/**
+	 * Function used to determine the path finding for a PieceType with the movement pattern of linear
+	 * @param from The originating coordinate
+	 * @param to The coordinate the piece is going to.
+	 * @param attributes The attributes associated with the PieceType
+	 * @return A boolean on if a piece can go from the From coordinate to the To coordinate.
+	 */
 	public boolean linearPathFinding(HexCoordinate from, HexCoordinate to,
 			PieceAttribute[] attributes) {
 		int distance = 0;
