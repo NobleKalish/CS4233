@@ -11,6 +11,10 @@ package escape;
 import java.io.*;
 import javax.xml.bind.*;
 import escape.exception.EscapeException;
+import escape.gameManager.EscapeGameManager;
+import escape.gameManager.HexGameManager;
+import escape.gameManager.OrthoGameManager;
+import escape.gameManager.SquareGameManager;
 import escape.util.EscapeGameInitializer;
 
 /**

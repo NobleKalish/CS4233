@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.OrthoSquareCoordinate;
+import escape.gameManager.EscapeGameManager;
 import escape.piece.EscapePiece;
 import escape.piece.PieceName;
 import escape.piece.Player;

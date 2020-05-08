@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 import java.io.File;
 import org.junit.Test;
 import escape.exception.EscapeException;
+import escape.gameManager.EscapeGameManager;
+import escape.gameManager.HexGameManager;
+import escape.gameManager.OrthoGameManager;
+import escape.gameManager.SquareGameManager;
 
 public class EscapeGameBuilderTests {
 	private EscapeGameManager<?> gameManager;

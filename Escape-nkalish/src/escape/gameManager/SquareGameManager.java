@@ -1,12 +1,12 @@
-package escape;
+package escape.gameManager;
 
 import escape.board.LocationType;
 import escape.board.SquareBoard;
 import escape.board.coordinate.SquareCoordinate;
 import escape.exception.EscapeException;
+import escape.pathFinding.SquarePathFinding;
 import escape.piece.EscapePiece;
 import escape.piece.MovementPatternID;
-import escape.rule.SquarePathFinding;
 import escape.util.LocationInitializer;
 import escape.util.PieceTypeInitializer;
 import escape.util.PieceTypeInitializer.PieceAttribute;

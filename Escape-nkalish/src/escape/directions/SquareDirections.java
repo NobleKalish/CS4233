@@ -1,4 +1,4 @@
-package escape;
+package escape.directions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

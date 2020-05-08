@@ -11,6 +11,7 @@ package escape.util;
 import java.util.Arrays;
 import javax.xml.bind.annotation.XmlRootElement;
 import escape.board.coordinate.CoordinateID;
+import escape.rule.Rule;
 
 /**
  * An example of reading a game configuration file and the board and piece initializers
@@ -28,6 +29,9 @@ public class EscapeGameInitializer {
 
 	// Piece items
 	private PieceTypeInitializer[] pieceTypes; // At least one
+
+	// Rule items
+	private Rule[] rules;
 
 	public EscapeGameInitializer() {
 		// Needed for JAXB
@@ -107,6 +111,14 @@ public class EscapeGameInitializer {
 	 */
 	public void setPieceTypes(PieceTypeInitializer... types) {
 		this.pieceTypes = types;
+	}
+	
+	public void setRules(Rule... rules) {
+		this.rules = rules;
+	}
+	
+	public Rule[] rules() {
+		return this.rules;
 	}
 
 	/*

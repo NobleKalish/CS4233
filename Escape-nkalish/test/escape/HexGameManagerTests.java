@@ -5,6 +5,7 @@ import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.HexCoordinate;
 import escape.exception.EscapeException;
+import escape.gameManager.EscapeGameManager;
 import escape.piece.EscapePiece;
 import escape.piece.PieceName;
 import escape.piece.Player;

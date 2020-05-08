@@ -1,40 +1,39 @@
-package escape;
+package escape.gameManager;
 
+import escape.board.HexBoard;
 import escape.board.LocationType;
-import escape.board.OrthoSquareBoard;
-import escape.board.coordinate.OrthoSquareCoordinate;
+import escape.board.coordinate.HexCoordinate;
 import escape.exception.EscapeException;
+import escape.pathFinding.HexPathFinding;
 import escape.piece.EscapePiece;
 import escape.piece.MovementPatternID;
-import escape.rule.OrthoPathFinding;
 import escape.util.LocationInitializer;
 import escape.util.PieceTypeInitializer;
 import escape.util.PieceTypeInitializer.PieceAttribute;
 
-public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate>{
+public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 	private PieceTypeInitializer[] pieceTypes;
-	private OrthoSquareBoard board;
+	private HexBoard board;
 
-	
-	public OrthoGameManager(int xMax, int yMax,
+	public HexGameManager(int xMax, int yMax,
 			LocationInitializer[] locationInitializers,
 			PieceTypeInitializer[] pieceTypes) {
-		this.board = new OrthoSquareBoard();
+		this.board = new HexBoard();
 		board.setXMax(xMax);
 		board.setYMax(yMax);
-		this.makeOrthoBoard(board, locationInitializers);
+		this.makeHexBoard(board, locationInitializers);
 		this.pieceTypes = pieceTypes;
-	}	
-	
+	}
+
 	@Override
-	public boolean move(OrthoSquareCoordinate from, OrthoSquareCoordinate to) {
+	public boolean move(HexCoordinate from, HexCoordinate to) {
 		if (from.equals(to)) {
 			return false;
 		}
 		EscapePiece movingPiece = this.getPieceAt(from);
 		PieceAttribute[] attributes = null;
 		MovementPatternID movementPattern = null;
-		OrthoPathFinding pathFinding = new OrthoPathFinding(this.board);
+		HexPathFinding pathFinding = new HexPathFinding(this.board);
 		if (movingPiece != null) {
 			if (this.getPieceAt(to) != null
 					&& this.getPieceAt(to).getPlayer() == movingPiece.getPlayer()) {
@@ -51,8 +50,6 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 				}
 			}
 			switch (movementPattern) {
-				case DIAGONAL:
-					throw new EscapeException("Movement Pattern is not allowed on Orthogonal board!");
 				case LINEAR:
 					if (pathFinding.linearPathFinding(from, to, attributes)) {
 						if (this.board.getLocationType(to) == LocationType.EXIT) {
@@ -65,8 +62,7 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 					}
 					return false;
 				case OMNI:
-				case ORTHOGONAL:
-					if (pathFinding.orthogonalPathFinding(from, to, attributes)) {
+					if (pathFinding.omniPathFinding(from, to, attributes)) {
 						if (this.board.getLocationType(to) == LocationType.EXIT) {
 							this.board.putPieceAt(null, from);
 						} else {
@@ -82,19 +78,20 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	}
 
 	@Override
-	public EscapePiece getPieceAt(OrthoSquareCoordinate coordinate) {
+	public EscapePiece getPieceAt(HexCoordinate coordinate) {
 		return this.board.getPieceAt(coordinate);
 	}
 
 	@Override
-	public OrthoSquareCoordinate makeCoordinate(int x, int y) {
-		return OrthoSquareCoordinate.makeCoordinate(x, y);
+	public HexCoordinate makeCoordinate(int x, int y) {
+		return HexCoordinate.makeCoordinate(x, y);
 	}
-	
-	private void makeOrthoBoard(OrthoSquareBoard board, LocationInitializer[] locationInitializers) {
+
+	private void makeHexBoard(HexBoard board,
+			LocationInitializer[] locationInitializers) {
 		if (locationInitializers != null) {
 			for (LocationInitializer li : locationInitializers) {
-				OrthoSquareCoordinate coord = OrthoSquareCoordinate.makeCoordinate(li.x, li.y);
+				HexCoordinate coord = HexCoordinate.makeCoordinate(li.x, li.y);
 				if (li.pieceName != null) {
 					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
 							coord);

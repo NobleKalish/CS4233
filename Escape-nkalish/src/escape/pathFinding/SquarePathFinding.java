@@ -1,10 +1,10 @@
-package escape.rule;
+package escape.pathFinding;
 
 import java.util.ArrayList;
-import escape.SquareDirections;
 import escape.board.LocationType;
 import escape.board.SquareBoard;
 import escape.board.coordinate.SquareCoordinate;
+import escape.directions.SquareDirections;
 import escape.exception.EscapeException;
 import escape.piece.PieceAttributeID;
 import escape.piece.Player;

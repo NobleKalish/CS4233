@@ -1,11 +1,11 @@
-package escape.rule;
+package escape.pathFinding;
 
 import java.util.ArrayList;
-import escape.HexDirections;
 import escape.board.HexBoard;
 import escape.board.LocationType;
 import escape.board.coordinate.HexCoordinate;
 import escape.board.coordinate.OrthoSquareCoordinate;
+import escape.directions.HexDirections;
 import escape.exception.EscapeException;
 import escape.piece.PieceAttributeID;
 import escape.piece.Player;

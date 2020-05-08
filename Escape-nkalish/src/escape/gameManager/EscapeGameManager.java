@@ -5,8 +5,9 @@
  * v2.0 which accompanies this distribution, and is available at
  * https://www.eclipse.org/legal/epl-2.0/ Copyright ©2016-2020 Gary F. Pollice
  *******************************************************************************/
-package escape;
+package escape.gameManager;
 
+import escape.GameObserver;
 import escape.board.coordinate.Coordinate;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
