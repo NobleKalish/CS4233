@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <escapeGameInitializer>
 	<coordinateType>HEX</coordinateType>
+	<rules>
+		<id>REMOVE</id>
+	</rules>
     <!-- Board items -->
     <locationInitializers> <!-- An array of these, 0 or more -->
         <x>0</x>

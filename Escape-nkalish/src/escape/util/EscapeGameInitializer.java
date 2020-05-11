@@ -117,19 +117,8 @@ public class EscapeGameInitializer {
 		this.rules = rules;
 	}
 	
-	public Rule[] rules() {
+	public Rule[] getRules() {
 		return this.rules;
-	}
-
-	/*
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "EscapeGameInitializer [xMax=" + xMax + ", yMax=" + yMax
-				+ ", coordinateType=" + coordinateType + ", locationInitializers="
-				+ Arrays.toString(locationInitializers) + ", types="
-				+ Arrays.toString(pieceTypes) + "]";
 	}
 
 }

@@ -56,17 +56,17 @@ public class EscapeGameBuilder {
 				return new HexGameManager(gameInitializer.getxMax(),
 						gameInitializer.getyMax(),
 						gameInitializer.getLocationInitializers(),
-						gameInitializer.getPieceTypes());
+						gameInitializer.getPieceTypes(), gameInitializer.getRules());
 			case ORTHOSQUARE:
 				return new OrthoGameManager(gameInitializer.getxMax(),
 						gameInitializer.getyMax(),
 						gameInitializer.getLocationInitializers(),
-						gameInitializer.getPieceTypes());
+						gameInitializer.getPieceTypes(), gameInitializer.getRules());
 			case SQUARE:
 				return new SquareGameManager(gameInitializer.getxMax(),
 						gameInitializer.getyMax(),
 						gameInitializer.getLocationInitializers(),
-						gameInitializer.getPieceTypes());
+						gameInitializer.getPieceTypes(), gameInitializer.getRules());
 		}
 		return null;
 	}

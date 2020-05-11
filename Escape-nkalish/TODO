@@ -1,163 +1,27 @@
 TODO:
-							BETA
+							GAMMA
 =============================================================================
-
-- Implement EscapeGameManager
-	- SquareGameManager
-		- Creates a SquareBoard
-	- OrthoGameManger
-		- Creates a OrthoSquareBoard
-	- HexGameManager
-		- Creates a HexBoard
-	- Implement Move
-		- SquareGameManager
-			- Can have linear/orthogonal/diagonal/omni
-			- Diagonal no attributes
-				- (8,1) -> (7,2): TRUE
-				- (5,4) -> (9,9): FALSE
-			- Diagonal unblock
-				- (2,2) -> (1,3): FALSE
-				- (3,3) -> (1,5): TRUE
-			- Diagonal fly
-				- (8,8) -> (7,9): FALSE
-				- (8,8) -> (10,12): TRUE
-			- Diagonal jump
-			 	- (1,1) -> (3,3): TRUE
-			 	- (9,9) -> (11,11): FALSE
-			- linear no attributes
-				- (2,2) -> (3,2): TRUE
-				- (8,1) -> (8,8): FALSE
-			- linear unblock
-				- (1,2) -> (1,3): FALSE
-				- (3,2) -> (3,5): TRUE
-			- linear fly
-				- (1,7) -> (1,6): FALSE
-				- (1,7) -> (4,7): TRUE
-			- linear jump
-			 	- (1,2) -> (4,2): FALSE
-			 	- (2,2) -> (6,2): TRUE
-			- orthogonal no attributes
-				- (2,2) -> (3,2): TRUE
-				- (6,3) -> (8,8): FALSE
-			- orthogonal unblock
-				- (1,2) -> (1,3): FALSE
-				- (3,2) -> (3,5): TRUE
-			- orthogonal fly
-				- (1,7) -> (1,6): FALSE
-				- (1,7) -> (4,7): TRUE
-			- orthogonal jump
-			 	- (1,2) -> (4,2): FALSE
-			 	- (1,2) -> (3,2): TRUE
-			- omni no attributes
-				- (2,2) -> (3,2): TRUE
-				- (6,1) -> (8,8): FALSE
-			- omni unblock
-				- (1,2) -> (1,3): FALSE
-				- (3,2) -> (3,5): TRUE
-			- omni fly
-				- (1,7) -> (1,6): FALSE
-				- (1,7) -> (4,7): TRUE
-			- omni jump
-			 	- (1,2) -> (4,2): FALSE
-			 	- (2,2) -> (6,2): TRUE
-		- OrthoGameManager
-			- Can have Orthogonal/omni/linear
-			- linear no attributes
-				- (2,2) -> (3,2): TRUE
-				- (8,1) -> (8,5): FALSE
-			- linear unblock
-				- (1,2) -> (1,3): FALSE
-				- (3,2) -> (3,5): TRUE
-			- linear fly
-				- (1,7) -> (1,6): FALSE
-				- (1,7) -> (4,7): TRUE
-			- linear jump
-			 	- (1,2) -> (4,2): FALSE
-			 	- (1,2) -> (3,2): TRUE
-			- orthogonal no attributes
-				- (2,2) -> (3,2): TRUE
-				- (6,3) -> (8,8): FALSE
-			- orthogonal unblock
-				- (1,2) -> (1,3): FALSE
-				- (3,2) -> (3,5): TRUE
-			- orthogonal fly
-				- (1,7) -> (1,6): FALSE
-				- (1,7) -> (4,7): TRUE
-			- orthogonal jump
-			 	- (1,2) -> (4,2): FALSE
-			 	- (2,2) -> (4,2): TRUE
-			- omni no attributes
-				- (2,2) -> (3,2): TRUE
-				- (6,1) -> (8,8): FALSE
-			- omni unblock
-				- (1,2) -> (1,3): FALSE
-				- (3,2) -> (3,5): TRUE
-			- omni fly
-				- (1,7) -> (1,6): FALSE
-				- (1,7) -> (3,5): TRUE
-			- omni jump
-			 	- (1,2) -> (4,2): FALSE
-			 	- (2,2) -> (6,2): TRUE
-		- HexGameManager
-			- Can have Linear/omni 
-			- linear no attributes
-				- (2,-2) -> (2,-1): TRUE
-				- (-1,0) -> (2,-1): FALSE
-			- linear unblock
-				- (2,-3) -> (1,-3): FALSE
-				- (2,-1) -> (0,-1): TRUE
-			- linear fly
-				- (0,1) -> (1,0): FALSE
-				- (0,1) -> (-3,4): TRUE
-			- linear jump
-			 	- (2,-3) -> (2,0): FALSE
-			 	- (2,-2) -> (2,2): TRUE
-			- omni no attributes
-				- (2,-2) -> (2,1): TRUE
-				- (-1,0) -> (-6,5): FALSE
-			- omni unblock
-				- (2,-3) -> (1,-3): FALSE
-				- (2,-1) -> (0,-1): TRUE
-			- omni fly
-				- (0,1) -> (1,0): FALSE
-				- (0,1) -> (-3,4): TRUE
-			- omni jump
-			 	- (2,-3) -> (2,0): FALSE
-			 	- (2,-2) -> (2,0): TRUE
-	- Implement getPieceAt
-		- SquareGameManager (SquareGameManager.xml)
-			- getPieceAt(2,2)-> EscapePiece(PLAYER1, HORSE): TRUE 
-		- OrthoGameManager
-			- 
-		- HexGameManager
-			- 
-	- Implement makeCoordinate
-		- SquareGameManager
-			- makeCoordinate(2,2) -> SquareCoordinate(2,2): True
-		- OrthoGameManager
-			- 
-		- HexGameManager
-			- 
-			
-- Move (Checklist)
-	- There exists a piece at the from coordinate 
-	- If a piece exists at the to coordinate it is of opposite player
-	- 
-
-- Modify EscapeGameBuilder
-	- Create a instance by providing a config file path
-		- Create board(reuse board builder class?)
-		- Add pieces to board
-		- Add non-clear block to board
-		- Create an instance of game manager that uses the coordinates the board will be using
-			- SquareEscapeBoard
-				- Creates instance of a SquareGameManager: TRUE
-			- OrthoEscapeBoard
-				- Creates instance of a OrthoGameManager: TRUE
-			- HexEscapeBoard
-				- Creates instance of a HexGameManager: TRUE
-
-
+- ADD OBSERVER
+	- For every time move returns false or an exception notify the observer
+	- When the game is won notify the observer
+- ADD RULES
+	- TURN LIMIT
+		- when limit is hit notify the observer with the winner
+	- POINT LIMIT
+		- when limit is hit notify the observer with the winner
+	- TURN/POINT LIMIT
+		- Which ever limit is reached first end the game and notify observer
+	- REMOVE
+		- Remove when piece captures
+	- POINT CONFLICT
+		- Attack piece has a higher value
+			- Captures defending piece
+		- Attack piece has a lower value
+			- Defending piece captures attacking piece
+		- Attack piece has equal value
+			- Both pieces are captured
+	- CANNOT REMOVE
+		- Return false if it tries to capture a piece
 
 
 

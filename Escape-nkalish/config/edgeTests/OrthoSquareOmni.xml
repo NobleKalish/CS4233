@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <escapeGameInitializer>
 	<coordinateType>ORTHOSQUARE</coordinateType>
+	<rules>
+		<id>REMOVE</id>
+	</rules>
     <!-- Board items -->
     <xMax>50</xMax>
     <yMax>50</yMax>
