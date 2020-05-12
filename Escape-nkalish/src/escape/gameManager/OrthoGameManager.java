@@ -51,10 +51,10 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 		MovementPatternID movementPattern = null;
 		OrthoPathFinding pathFinding = new OrthoPathFinding(this.board);
 		if (movingPiece != null) {
-			// if ((movingPiece.getPlayer() == Player.PLAYER1) != isPlayer1Turn) {
-			// this.notifyObservers("Piece does not belong to player!");
-			// return false;
-			// }
+			if ((movingPiece.getPlayer() == Player.PLAYER1) != isPlayer1Turn) {
+				this.notifyObservers("Piece does not belong to player!");
+				return false;
+			}
 			int value = this.getValue(movingPiece);
 			if (this.getPieceAt(to) != null
 					&& this.getPieceAt(to).getPlayer() == movingPiece.getPlayer()) {
@@ -105,6 +105,7 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 						if (movingPiece.getPlayer() == Player.PLAYER2) {
 							turns++;
 						}
+						isPlayer1Turn = !isPlayer1Turn;
 						return true;
 					}
 					this.notifyObservers("Piece cannot move to location!");
@@ -134,6 +135,7 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 						if (movingPiece.getPlayer() == Player.PLAYER2) {
 							turns++;
 						}
+						isPlayer1Turn = !isPlayer1Turn;
 						return true;
 					}
 					this.notifyObservers("Piece cannot move to location!");
@@ -152,6 +154,10 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	@Override
 	public OrthoSquareCoordinate makeCoordinate(int x, int y) {
 		return OrthoSquareCoordinate.makeCoordinate(x, y);
+	}
+
+	public void setIsPlayer1Turn() {
+		this.isPlayer1Turn = !this.isPlayer1Turn;
 	}
 
 	private boolean checkCanCaputure(OrthoSquareCoordinate to, int value) {

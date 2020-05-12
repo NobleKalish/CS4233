@@ -9,6 +9,7 @@ import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.SquareCoordinate;
 import escape.gameManager.EscapeGameManager;
+import escape.gameManager.SquareGameManager;
 import escape.piece.EscapePiece;
 import escape.piece.PieceName;
 import escape.piece.Player;
@@ -21,7 +22,7 @@ public class SquareGameManagerTests {
 	public void testSquareGameManager() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/SquareEscapeGame.xml"));
-		EscapeGameManager<SquareCoordinate> gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 		assertNotNull(gameManager);
 		assertEquals(SquareCoordinate.makeCoordinate(2, 2),
@@ -34,34 +35,39 @@ public class SquareGameManagerTests {
 	public void testDiagonalMovement() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareDiagonal.xml"));
-		EscapeGameManager<SquareCoordinate> gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(SquareCoordinate.makeCoordinate(8, 1),
 				SquareCoordinate.makeCoordinate(7, 2)));
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(SquareCoordinate.makeCoordinate(7, 2),
 				SquareCoordinate.makeCoordinate(8, 3)));
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(SquareCoordinate.makeCoordinate(8, 3),
 				SquareCoordinate.makeCoordinate(7, 4)));
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(SquareCoordinate.makeCoordinate(7, 4),
 				SquareCoordinate.makeCoordinate(5, 4)));
+		gameManager.setIsPlayer1Turn();
 		assertFalse(gameManager.move(SquareCoordinate.makeCoordinate(5, 4),
 				SquareCoordinate.makeCoordinate(6, 4)));
 		assertFalse(gameManager.move(SquareCoordinate.makeCoordinate(5, 4),
 				SquareCoordinate.makeCoordinate(9, 9)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 1),
 				gameManager.makeCoordinate(4, 4)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(16, 1),
 				gameManager.makeCoordinate(21, 6)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(7, 2),
@@ -73,24 +79,25 @@ public class SquareGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(7, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 3)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(16, 1),
 				gameManager.makeCoordinate(20, 5)));
 
 		assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(20, 5)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(30, 1),
@@ -101,39 +108,40 @@ public class SquareGameManagerTests {
 	public void testDiagonalFlyMovement() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareDiagonal.xml"));
-		EscapeGameManager<SquareCoordinate> gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(7, 9)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(7, 9)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(10, 12)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(14, 14)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(8, 8),
 				gameManager.makeCoordinate(13, 13)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(22, 1),
 				gameManager.makeCoordinate(27, 6)));
 
@@ -143,27 +151,28 @@ public class SquareGameManagerTests {
 	public void testDiagonalUnblockMovement() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareDiagonal.xml"));
-		EscapeGameManager<SquareCoordinate> gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(1, 3)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 6),
 				gameManager.makeCoordinate(4, 8)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 3),
 				gameManager.makeCoordinate(2, 4)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
-
+		
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 3),
 				gameManager.makeCoordinate(1, 5)));
 	}
@@ -172,25 +181,25 @@ public class SquareGameManagerTests {
 	public void testDiagonalJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareDiagonal.xml"));
-		EscapeGameManager<SquareCoordinate> gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 1),
 				gameManager.makeCoordinate(3, 3)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(7, 3)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(9, 9),
 				gameManager.makeCoordinate(11, 11)));
 
-		gameManager = (EscapeGameManager<SquareCoordinate>) gameBuilder
+		gameManager = (SquareGameManager) gameBuilder
 				.makeGameManager();
 
 		assertNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 4)));
@@ -203,16 +212,17 @@ public class SquareGameManagerTests {
 	public void SquareOmniTest() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(6, 1),
 				gameManager.makeCoordinate(8, 8)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(6, 1),
 				gameManager.makeCoordinate(8, 5)));
 
@@ -227,7 +237,7 @@ public class SquareGameManagerTests {
 	public void testOmniFly() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(1, 6)));
@@ -235,7 +245,7 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(4, 7)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(8, 2)));
@@ -251,7 +261,7 @@ public class SquareGameManagerTests {
 	public void testOmniJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(4, 2)));
@@ -260,17 +270,17 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 2)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 7),
 				gameManager.makeCoordinate(4, 7)));
@@ -280,7 +290,7 @@ public class SquareGameManagerTests {
 	public void testOmniUnblock() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 3)));
@@ -291,6 +301,7 @@ public class SquareGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 3)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 5)));
 	}
@@ -299,7 +310,7 @@ public class SquareGameManagerTests {
 	public void testOrthoJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(4, 2)));
@@ -308,12 +319,12 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 2)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(3, 2)));
@@ -326,7 +337,7 @@ public class SquareGameManagerTests {
 	public void testOrthoFly() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(1, 6)));
@@ -334,7 +345,7 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(4, 7)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(8, 7)));
@@ -350,7 +361,7 @@ public class SquareGameManagerTests {
 	public void testOrthoUnblock() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 3)));
@@ -358,11 +369,12 @@ public class SquareGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 4)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 3)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 5)));
 	}
@@ -371,16 +383,17 @@ public class SquareGameManagerTests {
 	public void SquareOrthoTest() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(6, 3),
 				gameManager.makeCoordinate(8, 8)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(6, 3),
 				gameManager.makeCoordinate(8, 5)));
 
@@ -398,7 +411,7 @@ public class SquareGameManagerTests {
 	public void testLinearJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(4, 2)));
@@ -407,12 +420,12 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 2)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(3, 2)));
@@ -425,7 +438,7 @@ public class SquareGameManagerTests {
 	public void testLinearUnblock() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 3)));
@@ -433,8 +446,9 @@ public class SquareGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 4)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
+		gameManager.setIsPlayer1Turn();
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 3)));
 
@@ -447,7 +461,7 @@ public class SquareGameManagerTests {
 	public void testLinearFly() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(1, 6)));
@@ -455,7 +469,7 @@ public class SquareGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(4, 7)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(8, 7)));
@@ -471,17 +485,18 @@ public class SquareGameManagerTests {
 	public void SquareLinearTest() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/SquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 1),
 				gameManager.makeCoordinate(8, 8)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(8, 1),
 				gameManager.makeCoordinate(8, 5)));
 		
@@ -492,6 +507,7 @@ public class SquareGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 6),
 				gameManager.makeCoordinate(4, 5)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(4, 4),
 				gameManager.makeCoordinate(8, 8)));
 

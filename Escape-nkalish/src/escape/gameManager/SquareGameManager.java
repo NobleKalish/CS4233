@@ -48,6 +48,10 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 	public SquareCoordinate makeCoordinate(int x, int y) {
 		return SquareCoordinate.makeCoordinate(x, y);
 	}
+	
+	public void setIsPlayer1Turn() {
+		this.isPlayer1Turn = !this.isPlayer1Turn;
+	}
 
 	@Override
 	public boolean move(SquareCoordinate from, SquareCoordinate to) {
@@ -61,10 +65,10 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			this.notifyObservers("Piece must exist!");
 			return false;
 		}
-		// if ((movingPiece.getPlayer() == Player.PLAYER1) != isPlayer1Turn) {
-		// this.notifyObservers("Piece does not belong to player!");
-		// return false;
-		// }
+		 if ((movingPiece.getPlayer() == Player.PLAYER1) != isPlayer1Turn) {
+		 this.notifyObservers("Piece does not belong to player!");
+		 return false;
+		 }
 		value = this.getValue(movingPiece);
 		PieceAttribute[] attributes = null;
 		MovementPatternID movementPattern = null;
@@ -111,6 +115,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					if (movingPiece.getPlayer() == Player.PLAYER2) {
 						turns++;
 					}
+					isPlayer1Turn = !isPlayer1Turn;
 					return true;
 				}
 				this.notifyObservers("Piece cannot move to location!");
@@ -140,6 +145,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					if (movingPiece.getPlayer() == Player.PLAYER2) {
 						turns++;
 					}
+					isPlayer1Turn = !isPlayer1Turn;
 					return true;
 				}
 				this.notifyObservers("Piece cannot move to location!");
@@ -169,6 +175,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					if (movingPiece.getPlayer() == Player.PLAYER2) {
 						turns++;
 					}
+					isPlayer1Turn = !isPlayer1Turn;
 					return true;
 				}
 				this.notifyObservers("Piece cannot move to location!");
@@ -198,6 +205,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					if (movingPiece.getPlayer() == Player.PLAYER2) {
 						turns++;
 					}
+					isPlayer1Turn = !isPlayer1Turn;
 					return true;
 				}
 				this.notifyObservers("Piece cannot move to location!");

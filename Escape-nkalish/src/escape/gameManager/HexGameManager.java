@@ -51,10 +51,10 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 		MovementPatternID movementPattern = null;
 		HexPathFinding pathFinding = new HexPathFinding(this.board);
 		if (movingPiece != null) {
-			// if ((movingPiece.getPlayer() == Player.PLAYER1) != isPlayer1Turn) {
-			// this.notifyObservers("Piece does not belong to player!");
-			// return false;
-			// }
+			if ((movingPiece.getPlayer() == Player.PLAYER1) != isPlayer1Turn) {
+				this.notifyObservers("Piece does not belong to player!");
+				return false;
+			}
 			int value = this.getValue(movingPiece);
 			if (this.getPieceAt(to) != null
 					&& this.getPieceAt(to).getPlayer() == movingPiece.getPlayer()) {
@@ -99,6 +99,7 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 						if (movingPiece.getPlayer() == Player.PLAYER2) {
 							turns++;
 						}
+						isPlayer1Turn = !isPlayer1Turn;
 						return true;
 					}
 					this.notifyObservers("Piece cannot move to location!");
@@ -129,6 +130,7 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 						if (movingPiece.getPlayer() == Player.PLAYER2) {
 							turns++;
 						}
+						isPlayer1Turn = !isPlayer1Turn;
 						return true;
 					}
 					this.notifyObservers("Piece cannot move to location!");
@@ -150,6 +152,10 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 	@Override
 	public HexCoordinate makeCoordinate(int x, int y) {
 		return HexCoordinate.makeCoordinate(x, y);
+	}
+	
+	public void setIsPlayer1Turn() {
+		this.isPlayer1Turn = !this.isPlayer1Turn;
 	}
 	
 	private boolean checkCanCaputure(HexCoordinate to, int value) {

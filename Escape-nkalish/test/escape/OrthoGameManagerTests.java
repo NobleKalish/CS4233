@@ -9,6 +9,7 @@ import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.OrthoSquareCoordinate;
 import escape.gameManager.EscapeGameManager;
+import escape.gameManager.OrthoGameManager;
 import escape.piece.EscapePiece;
 import escape.piece.PieceName;
 import escape.piece.Player;
@@ -22,7 +23,7 @@ public class OrthoGameManagerTests {
 	public void testOrthoSquareGameManager() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/OrthoEscapeGame.xml"));
-		EscapeGameManager<OrthoSquareCoordinate> gameManager = (EscapeGameManager<OrthoSquareCoordinate>) gameBuilder
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder
 				.makeGameManager();
 		assertNotNull(gameManager);
 		assertEquals(OrthoSquareCoordinate.makeCoordinate(2, 2),
@@ -35,7 +36,7 @@ public class OrthoGameManagerTests {
 	public void testOrthoJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(4, 2)));
@@ -44,12 +45,12 @@ public class OrthoGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 2)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
-		gameManager = gameBuilder.makeGameManager();// reset board
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();// reset board
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = gameBuilder.makeGameManager();// reset board
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();// reset board
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 7),
 				gameManager.makeCoordinate(4, 7)));
@@ -62,7 +63,7 @@ public class OrthoGameManagerTests {
 	public void testOrthoFly() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(1, 6)));
@@ -70,7 +71,7 @@ public class OrthoGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(4, 7)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(8, 7)));
@@ -86,7 +87,7 @@ public class OrthoGameManagerTests {
 	public void testOrthoUnblock() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 3)));
@@ -94,11 +95,12 @@ public class OrthoGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 4)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 3)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 5)));
 	}
@@ -107,16 +109,17 @@ public class OrthoGameManagerTests {
 	public void OrthoSquareOrthoMasterTest() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOrtho.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(6, 3),
 				gameManager.makeCoordinate(8, 8)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(6, 3),
 				gameManager.makeCoordinate(8, 5)));
 
@@ -133,7 +136,7 @@ public class OrthoGameManagerTests {
 	public void testOmniJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(4, 2)));
@@ -142,12 +145,12 @@ public class OrthoGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 2)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(3, 2)));
@@ -163,7 +166,7 @@ public class OrthoGameManagerTests {
 	public void testOmniFly() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(1, 6)));
@@ -171,7 +174,7 @@ public class OrthoGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(4, 7)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(8, 7)));
@@ -187,7 +190,7 @@ public class OrthoGameManagerTests {
 	public void testOmniUblock() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 3)));
@@ -195,11 +198,12 @@ public class OrthoGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 4)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 3)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 5)));
 	}
@@ -208,16 +212,17 @@ public class OrthoGameManagerTests {
 	public void OrthoSquareOmniMasterTest() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareOmni.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(6, 3),
 				gameManager.makeCoordinate(8, 8)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(6, 3),
 				gameManager.makeCoordinate(8, 5)));
 
@@ -226,7 +231,7 @@ public class OrthoGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(4, 4),
 				gameManager.makeCoordinate(8, 8)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 1),
 				gameManager.makeCoordinate(10, 5)));
@@ -236,7 +241,7 @@ public class OrthoGameManagerTests {
 	public void testLinearJump() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(4, 2)));
@@ -245,12 +250,12 @@ public class OrthoGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(4, 2)));
 		assertNotNull(gameManager.getPieceAt(gameManager.makeCoordinate(4, 2)));
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(6, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(3, 2)));
@@ -263,7 +268,7 @@ public class OrthoGameManagerTests {
 	public void testLinearFly() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(1, 6)));
@@ -271,7 +276,7 @@ public class OrthoGameManagerTests {
 		assertTrue(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(4, 7)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 7),
 				gameManager.makeCoordinate(8, 7)));
@@ -288,7 +293,7 @@ public class OrthoGameManagerTests {
 	public void testLinearUnblock() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 3)));
@@ -296,8 +301,9 @@ public class OrthoGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 2),
 				gameManager.makeCoordinate(1, 4)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		
+		gameManager.setIsPlayer1Turn();
 		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 2),
 				gameManager.makeCoordinate(3, 3)));
 
@@ -309,16 +315,17 @@ public class OrthoGameManagerTests {
 	public void OrthoSquareLinearMasterTest() throws Exception {
 		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
 				new File("config/edgeTests/OrthoSquareLinear.xml"));
-		EscapeGameManager gameManager = gameBuilder.makeGameManager();
+		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2),
 				gameManager.makeCoordinate(3, 2)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 
 		assertFalse(gameManager.move(gameManager.makeCoordinate(8, 1),
 				gameManager.makeCoordinate(8, 8)));
 
+		gameManager.setIsPlayer1Turn();
 		assertTrue(gameManager.move(gameManager.makeCoordinate(8, 1),
 				gameManager.makeCoordinate(8, 5)));
 
@@ -334,7 +341,7 @@ public class OrthoGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(4, 4),
 				gameManager.makeCoordinate(8, 8)));
 
-		gameManager = gameBuilder.makeGameManager();
+		gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 1),
 				gameManager.makeCoordinate(10, 5)));
 	}
