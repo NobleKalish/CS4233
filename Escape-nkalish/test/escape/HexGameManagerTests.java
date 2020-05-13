@@ -1,11 +1,12 @@
 package escape;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import org.junit.Test;
 import escape.board.coordinate.HexCoordinate;
 import escape.exception.EscapeException;
-import escape.gameManager.EscapeGameManager;
 import escape.gameManager.HexGameManager;
 import escape.piece.EscapePiece;
 import escape.piece.PieceName;
@@ -259,5 +260,86 @@ public class HexGameManagerTests {
 				gameManager.makeCoordinate(4, 4)));
 		assertThrows(EscapeException.class, () -> gameManager.move(gameManager.makeCoordinate(1, 1),
 				gameManager.makeCoordinate(4, 4)));
+	}
+	
+	@Test
+	public void squareNoRules() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/hexTests/doesNotHaveREMOVE.xml"));
+		HexGameManager gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(5, -3), gameManager.makeCoordinate(0, 0)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, -3), gameManager.makeCoordinate(1, 2)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(0, 0), gameManager.makeCoordinate(1, 2)));
+	} 
+	
+	@Test
+	public void squareScoreLimit() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/hexTests/hasSCORE.xml"));
+		HexGameManager gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(7, 7)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(7, 7)));
+	}
+	
+	@Test
+	public void squareHasRemove() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/hexTests/hasREMOVE.xml"));
+		HexGameManager gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, -3), gameManager.makeCoordinate(0, 0)));
+	}
+	
+	@Test
+	public void squareHasPointConflict() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/hexTests/hasPOINT_CONFLICT.xml"));
+		HexGameManager gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(12, 6)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(12, 6)), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 8), gameManager.makeCoordinate(10, 10)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(10, 10)), EscapePiece.makePiece(Player.PLAYER2, PieceName.HORSE));
+		
+		gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 10), gameManager.makeCoordinate(5, 8)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(5, 8)), EscapePiece.makePiece(Player.PLAYER2, PieceName.HORSE));
+	}
+	
+	@Test
+	public void squareHasTurnLimit() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/hexTests/hasTURN_LIMIT.xml"));
+		HexGameManager gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		GameObserver testObserver = new TestObserver();
+		gameManager.addGameObserver(testObserver);
+		gameManager.removeObserver(testObserver);
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(2, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(10, 10)));
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(5, 5)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 10), gameManager.makeCoordinate(10, 11)));
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(2, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(10, 10)));
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(5, 5)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 10), gameManager.makeCoordinate(10, 11)));
+	}
+	
+	@Test
+	public void squareCoverageTests() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/hexTests/SampleEscapeGame.xml"));
+		HexGameManager gameManager = (HexGameManager) gameBuilder.makeGameManager();
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(5, 3), gameManager.makeCoordinate(7, 7)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(10, 10)));
 	}
 }

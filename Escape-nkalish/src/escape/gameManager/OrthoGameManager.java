@@ -26,7 +26,8 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	private int player1Points = 0;
 	private int player2Points = 0;
 	private ArrayList<GameObserver> observers;
-	private int turns = 1;
+	private int turns = 0;
+	private boolean isGameDone = false;
 
 	public OrthoGameManager(int xMax, int yMax,
 			LocationInitializer[] locationInitializers,
@@ -74,6 +75,11 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 					movementPattern = pieceType.getMovementPattern();
 				}
 			}
+			this.checkEndOfGame(player1Points, player2Points, turns);
+			if (isGameDone) {
+				this.notifyObservers("Game has ended.");
+				return false;
+			}
 			switch (movementPattern) {
 				case DIAGONAL:
 					this.notifyObservers(
@@ -87,25 +93,9 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 							this.board.putPieceAt(null, from);
 							this.addPlayerPoints(movingPiece, value);
 						} else {
-							if (this.canRemovePieces()) {
-								if (this.checkCanCaputure(to, value)) {
-									this.board.putPieceAt(movingPiece, to);
-									this.board.putPieceAt(null, from);
-								} else {
-									this.board.putPieceAt(null, from);
-								}
-							} else {
-								this.notifyObservers(
-										"Piece cannot move to location!");
-								return false;
-							}
-							this.board.putPieceAt(movingPiece, to);
-							this.board.putPieceAt(null, from);
+							return checkLanding(to, from, value, movingPiece);
 						}
-						if (movingPiece.getPlayer() == Player.PLAYER2) {
-							turns++;
-						}
-						isPlayer1Turn = !isPlayer1Turn;
+						endTurn(movingPiece);
 						return true;
 					}
 					this.notifyObservers("Piece cannot move to location!");
@@ -117,25 +107,9 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 							this.board.putPieceAt(null, from);
 							this.addPlayerPoints(movingPiece, value);
 						} else {
-							if (this.canRemovePieces()) {
-								if (this.checkCanCaputure(to, value)) {
-									this.board.putPieceAt(movingPiece, to);
-									this.board.putPieceAt(null, from);
-								} else {
-									this.board.putPieceAt(null, from);
-								}
-							} else {
-								this.notifyObservers(
-										"Piece cannot move to location!");
-								return false;
-							}
-							this.board.putPieceAt(movingPiece, to);
-							this.board.putPieceAt(null, from);
+							return checkLanding(to, from, value, movingPiece);
 						}
-						if (movingPiece.getPlayer() == Player.PLAYER2) {
-							turns++;
-						}
-						isPlayer1Turn = !isPlayer1Turn;
+						endTurn(movingPiece);
 						return true;
 					}
 					this.notifyObservers("Piece cannot move to location!");
@@ -218,10 +192,13 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	}
 
 	private boolean checkPointLimit(int player1Points2, int player2Points2) {
-		for (Rule rule : this.rules) {
-			if (rule.getId() == RuleID.SCORE) {
-				if (rule.getIntValue() <= turns) {
-					return true;
+		if (this.rules != null) {
+			for (Rule rule : this.rules) {
+				if (rule.getId() == RuleID.SCORE) {
+					if (rule.getIntValue() <= this.player1Points
+							|| rule.getIntValue() <= this.player2Points) {
+						return true;
+					}
 				}
 			}
 		}
@@ -229,14 +206,55 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	}
 
 	private boolean checkTurnLimit(int turns) {
-		for (Rule rule : this.rules) {
-			if (rule.getId() == RuleID.TURN_LIMIT) {
-				if (rule.getIntValue() <= turns) {
-					return true;
+		if (this.rules != null) {
+			for (Rule rule : this.rules) {
+				if (rule.getId() == RuleID.TURN_LIMIT) {
+					if (rule.getIntValue() <= turns) {
+						return true;
+					}
 				}
 			}
 		}
 		return false;
+	}
+	
+	private void checkEndOfGame(int player1Points2, int player2Points2, int turns2) {
+		if (this.checkTurnLimit(turns)) {
+			this.calculateWinner(player1Points2, player2Points2);
+			this.isGameDone = true;
+		} else if (this.checkPointLimit(player1Points, player2Points)) {
+			this.calculateWinner(player1Points2, player2Points2);
+			this.isGameDone = true;
+		}
+	}
+	
+	private boolean checkLanding(OrthoSquareCoordinate to, OrthoSquareCoordinate from, int value, EscapePiece movingPiece) {
+		if (this.canRemovePieces()) {
+			if (this.checkCanCaputure(to, value)) {
+				this.board.putPieceAt(movingPiece, to);
+				this.board.putPieceAt(null, from);
+				endTurn(movingPiece);
+				return true;
+			} else {
+				this.board.putPieceAt(null, from);
+				endTurn(movingPiece);
+				return true;
+			}
+		} else if (this.board.getPieceAt(to) != null) {
+			this.notifyObservers("Piece cannot move to location!");
+			return false;
+		}
+		this.board.putPieceAt(movingPiece, to);
+		this.board.putPieceAt(null, from);
+		endTurn(movingPiece);
+		return true;
+	}
+	
+	private void endTurn(EscapePiece movingPiece) {
+		if (movingPiece.getPlayer() == Player.PLAYER2) {
+			turns++;
+		}
+		isPlayer1Turn = !isPlayer1Turn;
 	}
 
 	public GameObserver addGameObserver(GameObserver observer) {

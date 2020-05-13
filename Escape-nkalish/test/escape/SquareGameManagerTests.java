@@ -514,4 +514,123 @@ public class SquareGameManagerTests {
 		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 1),
 				gameManager.makeCoordinate(10, 5)));
 	}
+	
+	@Test
+	public void squareNoRules() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/doesNotHaveREMOVE.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(1, 1)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(1, 2)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 1), gameManager.makeCoordinate(1, 2)));
+	} 
+	
+	@Test
+	public void squareScoreLimit() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/hasSCORE.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(1, 1)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(1, 1)));
+	}
+	
+	@Test
+	public void squareHasRemove() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/hasREMOVE.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 3), gameManager.makeCoordinate(2, 2)));
+	}
+	
+	@Test
+	public void squareHasPointConflict() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/hasPOINT_CONFLICT.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(12, 6)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(12, 6)), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 8), gameManager.makeCoordinate(10, 10)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(10, 10)), EscapePiece.makePiece(Player.PLAYER2, PieceName.HORSE));
+		
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 10), gameManager.makeCoordinate(5, 8)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(5, 8)), EscapePiece.makePiece(Player.PLAYER2, PieceName.HORSE));
+	}
+	
+	@Test
+	public void squareHasTurnLimit() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/hasTURN_LIMIT.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		GameObserver testObserver = new TestObserver();
+		gameManager.addGameObserver(testObserver);
+		gameManager.removeObserver(testObserver);
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(2, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(3, 3)));
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(5, 5)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(3, 3), gameManager.makeCoordinate(10, 11)));
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(2, 2)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(3, 3)));
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(2, 2), gameManager.makeCoordinate(5, 5)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(3, 3), gameManager.makeCoordinate(10, 11)));
+	}
+	
+	@Test
+	public void squareCoverageTests() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/SampleEscapeGame.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(5, 3), gameManager.makeCoordinate(7, 7)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(3, 3)));
+	}
+	
+	@Test
+	public void squareNoRules2() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/doesNotHaveREMOVE2.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertFalse(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(1, 1)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(6, 6)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(1, 1), gameManager.makeCoordinate(6, 6)));
+	}
+	
+	@Test
+	public void squareHasPointConflict2() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/hasPOINT_CONFLICT2.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		gameManager.addGameObserver(new TestObserver());
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(12, 6)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(12, 6)), EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 8), gameManager.makeCoordinate(10, 10)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(10, 10)), EscapePiece.makePiece(Player.PLAYER2, PieceName.HORSE));
+		
+		gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		assertTrue(gameManager.move(gameManager.makeCoordinate(10, 10), gameManager.makeCoordinate(5, 8)));
+		assertEquals(gameManager.getPieceAt(gameManager.makeCoordinate(5, 8)), EscapePiece.makePiece(Player.PLAYER2, PieceName.HORSE));
+	}
+	
+	@Test
+	public void squareHasRemove2() throws Exception {
+		EscapeGameBuilder gameBuilder = new EscapeGameBuilder(
+				new File("config/GamaXMLs/squareTests/hasREMOVE2.xml"));
+		SquareGameManager gameManager = (SquareGameManager) gameBuilder.makeGameManager();
+		
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 3), gameManager.makeCoordinate(2, 2)));
+	}
 }

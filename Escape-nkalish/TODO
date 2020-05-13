@@ -7,21 +7,70 @@ TODO:
 - ADD RULES
 	- TURN LIMIT
 		- when limit is hit notify the observer with the winner
+			- SQUAREBOARD
+				- (5,5) -> (2,2): TRUE
+				- (10,11) -> (3,3): TRUE
+				- (2,2) -> (5,5): TRUE
+				- (3,3) -> (10, 11): TRUE
+				- (5,5) -> (2,2): TRUE
+				- (10,11) -> (3,3): TRUE
+				- (2,2) -> (5,5): FALSE
+				- (3,3) -> (10, 11): FALSE
+			- ORTHOBOARD
+				- (5,5) -> (2,2): TRUE
+				- (10,11) -> (10,10): TRUE
+				- (2,2) -> (5,5): TRUE
+				- (10,10) -> (10, 11): TRUE
+				- (5,5) -> (2,2): TRUE
+				- (10,11) -> (10,10): TRUE
+				- (2,2) -> (5,5): FALSE
+				- (10,10) -> (10, 11): FALSE
+			- HEXBOARD
+				- 
 	- POINT LIMIT
 		- when limit is hit notify the observer with the winner
-	- TURN/POINT LIMIT
-		- Which ever limit is reached first end the game and notify observer
+			- SQUAREBOARD
+				- (5,5) -> (1,1): TRUE
+				- (10, 11) -> (1,1): FALSE
+			- ORTHOBOARD
+				- (5,5) -> (1,1): TRUE
+				- (10, 11) -> (1,1): FALSE
+			- HEXBOARD
+				- 
 	- REMOVE
 		- Remove when piece captures
+			- SQUAREBOARD
+				- (5,3) -> (2,2): TRUE
+			- ORTHOBOARD
+				- (5,3) -> (2,2): TRUE
+			- HEXBOARD
+				- 
 	- POINT CONFLICT
 		- Attack piece has a higher value
-			- Captures defending piece
-		- Attack piece has a lower value
-			- Defending piece captures attacking piece
-		- Attack piece has equal value
-			- Both pieces are captured
+			- SQUAREBOARD
+				- (5,5) -> (12,6): TRUE
+				- (12,6) = (Player1, HORSE): TRUE
+				- (5,8) -> (10,10): TRUE
+				- (10,10) = (Player2, HORSE): TRUE
+			- ORTHOBOARD
+				- (5,5) -> (12,6): TRUE
+				- (12,6) = (Player1, HORSE): TRUE
+				- (5,8) -> (10,10): TRUE
+				- (10,10) = (Player2, HORSE): TRUE
+			- HEXBOARD
+				- 
 	- CANNOT REMOVE
 		- Return false if it tries to capture a piece
+			- SQUAREBOARD
+				- (5,5) -> (1,1): FALSE
+				- (5,5) -> (1,2): TRUE
+				- (1,1) -> (1,2): FALSE
+			- ORTHOBOARD
+				- (5,5) -> (1,1): FALSE
+				- (5,5) -> (1,2): TRUE
+				- (1,1) -> (1,2): FALSE
+			- HEXBOARD
+				- 
 
 
 
