@@ -17,6 +17,7 @@ package escape.piece;
 public class EscapePiece {
 	private final PieceName name;
 	private final Player player;
+	private int value;
 
 	/**
 	 * Constructor that takes the player and piece name.
@@ -80,6 +81,14 @@ public class EscapePiece {
 		if (player != other.player)
 			return false;
 		return true;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 	
 }

@@ -366,8 +366,8 @@ public class OrthoGameManagerTests {
 		OrthoGameManager gameManager = (OrthoGameManager) gameBuilder.makeGameManager();
 		gameManager.addGameObserver(new TestObserver());
 		
-		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(1, 1)));
-		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(1, 1)));
+		assertTrue(gameManager.move(gameManager.makeCoordinate(5, 5), gameManager.makeCoordinate(7, 7)));
+		assertFalse(gameManager.move(gameManager.makeCoordinate(10, 11), gameManager.makeCoordinate(7, 7)));
 	}
 	
 	@Test

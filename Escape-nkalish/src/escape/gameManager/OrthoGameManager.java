@@ -25,19 +25,18 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	private boolean isPlayer1Turn = true;
 	private int player1Points = 0;
 	private int player2Points = 0;
-	private ArrayList<GameObserver> observers;
+	private ArrayList<GameObserver> observers = new ArrayList<>();;
 	private int turns = 0;
 	private boolean isGameDone = false;
 
 	public OrthoGameManager(int xMax, int yMax,
 			LocationInitializer[] locationInitializers,
 			PieceTypeInitializer[] pieceTypes, Rule[] rules) {
+		this.pieceTypes = pieceTypes;
 		this.board = new OrthoSquareBoard();
 		board.setXMax(xMax);
 		board.setYMax(yMax);
 		this.makeOrthoBoard(board, locationInitializers);
-		this.pieceTypes = pieceTypes;
-		this.observers = new ArrayList<>();
 		this.rules = rules;
 	}
 
@@ -56,7 +55,7 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 				this.notifyObservers("Piece does not belong to player!");
 				return false;
 			}
-			int value = this.getValue(movingPiece);
+			int value = movingPiece.getValue();
 			if (this.getPieceAt(to) != null
 					&& this.getPieceAt(to).getPlayer() == movingPiece.getPlayer()) {
 				this.notifyObservers(
@@ -134,7 +133,8 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 		this.isPlayer1Turn = !this.isPlayer1Turn;
 	}
 
-	private boolean checkCanCaputure(OrthoSquareCoordinate to, int value) {
+	private boolean checkCanCaputure(OrthoSquareCoordinate to, int value,
+			EscapePiece movingPiece) {
 		int defendingPieceValue = 0;
 		for (Rule rule : this.rules) {
 			if (rule.getId() == RuleID.REMOVE) {
@@ -142,10 +142,12 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 			} else if (rule.getId() == RuleID.POINT_CONFLICT) {
 				EscapePiece defendingPiece = this.board.getPieceAt(to);
 				if (defendingPiece != null) {
-					defendingPieceValue = this.getValue(defendingPiece);
+					defendingPieceValue = defendingPiece.getValue();
 					if (defendingPieceValue > value) {
+						defendingPiece.setValue(defendingPieceValue - value);
 						return false;
 					} else if (defendingPieceValue < value) {
+						movingPiece.setValue(value - defendingPieceValue);
 						return true;
 					} else {
 						this.board.putPieceAt(null, to);
@@ -217,7 +219,7 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 		}
 		return false;
 	}
-	
+
 	private void checkEndOfGame(int player1Points2, int player2Points2, int turns2) {
 		if (this.checkTurnLimit(turns)) {
 			this.calculateWinner(player1Points2, player2Points2);
@@ -227,10 +229,11 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 			this.isGameDone = true;
 		}
 	}
-	
-	private boolean checkLanding(OrthoSquareCoordinate to, OrthoSquareCoordinate from, int value, EscapePiece movingPiece) {
+
+	private boolean checkLanding(OrthoSquareCoordinate to,
+			OrthoSquareCoordinate from, int value, EscapePiece movingPiece) {
 		if (this.canRemovePieces()) {
-			if (this.checkCanCaputure(to, value)) {
+			if (this.checkCanCaputure(to, value, movingPiece)) {
 				this.board.putPieceAt(movingPiece, to);
 				this.board.putPieceAt(null, from);
 				endTurn(movingPiece);
@@ -249,7 +252,7 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 		endTurn(movingPiece);
 		return true;
 	}
-	
+
 	private void endTurn(EscapePiece movingPiece) {
 		if (movingPiece.getPlayer() == Player.PLAYER2) {
 			turns++;
@@ -274,6 +277,9 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 	}
 
 	private int getValue(EscapePiece movingPiece) {
+		if (this.pieceTypes == null) {
+			return 0;
+		}
 		for (PieceTypeInitializer pieceType : pieceTypes) {
 			if (pieceType.getPieceName() == movingPiece.getName()) {
 				for (PieceAttribute attribute : pieceType.getAttributes()) {
@@ -302,8 +308,10 @@ public class OrthoGameManager implements EscapeGameManager<OrthoSquareCoordinate
 				OrthoSquareCoordinate coord = OrthoSquareCoordinate
 						.makeCoordinate(li.x, li.y);
 				if (li.pieceName != null) {
-					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
-							coord);
+					EscapePiece piece = new EscapePiece(li.player, li.pieceName);
+					int value = getValue(piece);
+					piece.setValue(value);
+					board.putPieceAt(piece, coord);
 				}
 				if (li.locationType != null
 						&& li.locationType != LocationType.CLEAR) {

@@ -25,19 +25,18 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 	private boolean isPlayer1Turn = true;
 	private int player1Points = 0;
 	private int player2Points = 0;
-	private ArrayList<GameObserver> observers;
+	private ArrayList<GameObserver> observers = new ArrayList<>();;
 	private int turns = 0;
 	private boolean isGameDone = false;
 
 	public HexGameManager(int xMax, int yMax,
 			LocationInitializer[] locationInitializers,
 			PieceTypeInitializer[] pieceTypes, Rule[] rules) {
+		this.pieceTypes = pieceTypes;
 		this.board = new HexBoard();
 		board.setXMax(xMax);
 		board.setYMax(yMax);
 		this.makeHexBoard(board, locationInitializers);
-		this.pieceTypes = pieceTypes;
-		this.observers = new ArrayList<>();
 		this.rules = rules;
 	}
 
@@ -56,15 +55,17 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 				this.notifyObservers("Piece does not belong to player!");
 				return false;
 			}
-			int value = this.getValue(movingPiece);
+			int value = movingPiece.getValue();
 			if (this.getPieceAt(to) != null
 					&& this.getPieceAt(to).getPlayer() == movingPiece.getPlayer()) {
-				this.notifyObservers("Cannot capture piece belonging to same player!");
+				this.notifyObservers(
+						"Cannot capture piece belonging to same player!");
 				return false;
 			}
 			if (this.board.getLocationType(to) != null
 					&& this.board.getLocationType(to).equals(LocationType.BLOCK)) {
-				this.notifyObservers("Cannot land in location that is a block type!");
+				this.notifyObservers(
+						"Cannot land in location that is a block type!");
 				return false;
 			}
 			for (PieceTypeInitializer pieceType : this.pieceTypes) {
@@ -106,7 +107,8 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 					this.notifyObservers("Piece cannot move to location!");
 					return false;
 				default:
-					this.notifyObservers("Movement Pattern is not allowed on Hex board!");
+					this.notifyObservers(
+							"Movement Pattern is not allowed on Hex board!");
 					return false;
 			}
 		}
@@ -123,11 +125,11 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 	public HexCoordinate makeCoordinate(int x, int y) {
 		return HexCoordinate.makeCoordinate(x, y);
 	}
-	
+
 	public void setIsPlayer1Turn() {
 		this.isPlayer1Turn = !this.isPlayer1Turn;
 	}
-	
+
 	private void checkEndOfGame(int player1Points2, int player2Points2, int turns2) {
 		if (this.checkTurnLimit(turns)) {
 			this.calculateWinner(player1Points2, player2Points2);
@@ -137,10 +139,11 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 			this.isGameDone = true;
 		}
 	}
-	
-	private boolean checkLanding(HexCoordinate to, HexCoordinate from, int value, EscapePiece movingPiece) {
+
+	private boolean checkLanding(HexCoordinate to, HexCoordinate from, int value,
+			EscapePiece movingPiece) {
 		if (this.canRemovePieces()) {
-			if (this.checkCanCaputure(to, value)) {
+			if (this.checkCanCaputure(to, value, movingPiece)) {
 				this.board.putPieceAt(movingPiece, to);
 				this.board.putPieceAt(null, from);
 				endTurn(movingPiece);
@@ -159,15 +162,15 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 		endTurn(movingPiece);
 		return true;
 	}
-	
+
 	private void endTurn(EscapePiece movingPiece) {
 		if (movingPiece.getPlayer() == Player.PLAYER2) {
 			turns++;
 		}
 		isPlayer1Turn = !isPlayer1Turn;
 	}
-	
-	private boolean checkCanCaputure(HexCoordinate to, int value) {
+
+	private boolean checkCanCaputure(HexCoordinate to, int value, EscapePiece movingPiece) {
 		int defendingPieceValue = 0;
 		for (Rule rule : this.rules) {
 			if (rule.getId() == RuleID.REMOVE) {
@@ -175,10 +178,12 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 			} else if (rule.getId() == RuleID.POINT_CONFLICT) {
 				EscapePiece defendingPiece = this.board.getPieceAt(to);
 				if (defendingPiece != null) {
-					defendingPieceValue = this.getValue(defendingPiece);
+					defendingPieceValue = defendingPiece.getValue();
 					if (defendingPieceValue > value) {
+						defendingPiece.setValue(defendingPieceValue-value);
 						return false;
 					} else if (defendingPieceValue < value) {
+						movingPiece.setValue(value-defendingPieceValue);
 						return true;
 					} else {
 						this.board.putPieceAt(null, to);
@@ -272,9 +277,9 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 
 	private void addPlayerPoints(EscapePiece movingPiece, int value) {
 		if (movingPiece.getPlayer() == Player.PLAYER1) {
-			this.player1Points += value;
+			this.player1Points += this.getValue(movingPiece);
 		} else {
-			this.player2Points += value;
+			this.player2Points += this.getValue(movingPiece);
 		}
 	}
 
@@ -284,8 +289,10 @@ public class HexGameManager implements EscapeGameManager<HexCoordinate> {
 			for (LocationInitializer li : locationInitializers) {
 				HexCoordinate coord = HexCoordinate.makeCoordinate(li.x, li.y);
 				if (li.pieceName != null) {
-					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
-							coord);
+					EscapePiece piece = new EscapePiece(li.player, li.pieceName);
+					int value = getValue(piece);
+					piece.setValue(value);
+					board.putPieceAt(piece, coord);
 				}
 				if (li.locationType != null
 						&& li.locationType != LocationType.CLEAR) {

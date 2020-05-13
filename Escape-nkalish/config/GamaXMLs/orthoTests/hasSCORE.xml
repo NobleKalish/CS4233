@@ -22,8 +22,8 @@
 		<pieceName>HORSE</pieceName>
 	</locationInitializers>
 	<locationInitializers>
-		<x>1</x>
-		<y>1</y>
+		<x>7</x>
+		<y>7</y>
 		<locationType>EXIT</locationType>
 	</locationInitializers>
 	<!-- Piece items, an array of pieceTypes, 1 or more -->

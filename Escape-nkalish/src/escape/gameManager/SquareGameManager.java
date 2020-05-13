@@ -24,20 +24,19 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 	private boolean isPlayer1Turn = true;
 	private int player1Points = 0;
 	private int player2Points = 0;
-	private ArrayList<GameObserver> observers;
+	private ArrayList<GameObserver> observers = new ArrayList<>();
 	private int turns = 0;
 	private boolean isGameDone = false;
 
 	public SquareGameManager(int xMax, int yMax,
 			LocationInitializer[] locationInitializers,
 			PieceTypeInitializer[] pieceTypes, Rule[] rules) {
+		this.pieceTypes = pieceTypes;
 		this.board = new SquareBoard();
 		board.setXMax(xMax);
 		board.setYMax(yMax);
 		this.makeSquareBoard(board, locationInitializers);
-		this.pieceTypes = pieceTypes;
 		this.rules = rules;
-		this.observers = new ArrayList<>();
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			this.notifyObservers("Piece does not belong to player!");
 			return false;
 		}
-		value = this.getValue(movingPiece);
+		value = movingPiece.getValue();
 		PieceAttribute[] attributes = null;
 		MovementPatternID movementPattern = null;
 		SquarePathFinding pathFinding = new SquarePathFinding(this.board);
@@ -143,7 +142,8 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 					} else {
 						return checkLanding(to, from, value, movingPiece);
 					}
-					endTurn(movingPiece);;
+					endTurn(movingPiece);
+					;
 					return true;
 				}
 				this.notifyObservers("Piece cannot move to location!");
@@ -154,7 +154,8 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 		}
 	}
 
-	private boolean checkCanCaputure(SquareCoordinate to, int value) {
+	private boolean checkCanCaputure(SquareCoordinate to, int value,
+			EscapePiece movingPiece) {
 		int defendingPieceValue = 0;
 		for (Rule rule : this.rules) {
 			if (rule.getId() == RuleID.REMOVE) {
@@ -162,10 +163,12 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			} else if (rule.getId() == RuleID.POINT_CONFLICT) {
 				EscapePiece defendingPiece = this.board.getPieceAt(to);
 				if (defendingPiece != null) {
-					defendingPieceValue = this.getValue(defendingPiece);
+					defendingPieceValue = defendingPiece.getValue();
 					if (defendingPieceValue > value) {
+						defendingPiece.setValue(defendingPieceValue - value);
 						return false;
 					} else if (defendingPieceValue < value) {
+						movingPiece.setValue(value - defendingPieceValue);
 						return true;
 					} else {
 						this.board.putPieceAt(null, to);
@@ -223,7 +226,7 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 		}
 		return false;
 	}
-	
+
 	private void endTurn(EscapePiece movingPiece) {
 		if (movingPiece.getPlayer() == Player.PLAYER2) {
 			turns++;
@@ -281,10 +284,11 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			this.player2Points += value;
 		}
 	}
-	
-	private boolean checkLanding(SquareCoordinate to, SquareCoordinate from, int value, EscapePiece movingPiece) {
+
+	private boolean checkLanding(SquareCoordinate to, SquareCoordinate from,
+			int value, EscapePiece movingPiece) {
 		if (this.canRemovePieces()) {
-			if (this.checkCanCaputure(to, value)) {
+			if (this.checkCanCaputure(to, value, movingPiece)) {
 				this.board.putPieceAt(movingPiece, to);
 				this.board.putPieceAt(null, from);
 				endTurn(movingPiece);
@@ -310,8 +314,10 @@ public class SquareGameManager implements EscapeGameManager<SquareCoordinate> {
 			for (LocationInitializer li : locationInitializers) {
 				SquareCoordinate coord = SquareCoordinate.makeCoordinate(li.x, li.y);
 				if (li.pieceName != null) {
-					board.putPieceAt(new EscapePiece(li.player, li.pieceName),
-							coord);
+					EscapePiece piece = new EscapePiece(li.player, li.pieceName);
+					int value = getValue(piece);
+					piece.setValue(value);
+					board.putPieceAt(piece, coord);
 				}
 				if (li.locationType != null
 						&& li.locationType != LocationType.CLEAR) {
