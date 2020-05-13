@@ -26,7 +26,14 @@ TODO:
 				- (2,2) -> (5,5): FALSE
 				- (10,10) -> (10, 11): FALSE
 			- HEXBOARD
-				- 
+				- (5,5) -> (2,2): TRUE
+				- (10,11) -> (10,10): TRUE
+				- (2,2) -> (5,5): TRUE
+				- (10,10) -> (10, 11): TRUE
+				- (5,5) -> (2,2): TRUE
+				- (10,11) -> (10,10): TRUE
+				- (2,2) -> (5,5): FALSE
+				- (10,10) -> (10, 11): FALSE
 	- POINT LIMIT
 		- when limit is hit notify the observer with the winner
 			- SQUAREBOARD
@@ -36,7 +43,8 @@ TODO:
 				- (5,5) -> (1,1): TRUE
 				- (10, 11) -> (1,1): FALSE
 			- HEXBOARD
-				- 
+				- (5,5) -> (7,7): TRUE
+				- (10, 11) -> (7,7): FALSE
 	- REMOVE
 		- Remove when piece captures
 			- SQUAREBOARD
@@ -44,7 +52,7 @@ TODO:
 			- ORTHOBOARD
 				- (5,3) -> (2,2): TRUE
 			- HEXBOARD
-				- 
+				- (5,-3) -> (0,0): TRUE
 	- POINT CONFLICT
 		- Attack piece has a higher value
 			- SQUAREBOARD
@@ -58,7 +66,10 @@ TODO:
 				- (5,8) -> (10,10): TRUE
 				- (10,10) = (Player2, HORSE): TRUE
 			- HEXBOARD
-				- 
+				- (5,5) -> (12,6): TRUE
+				- (12,6) = (Player1, HORSE): TRUE
+				- (5,8) -> (10,10): TRUE
+				- (10,10) = (Player2, HORSE): TRUE 
 	- CANNOT REMOVE
 		- Return false if it tries to capture a piece
 			- SQUAREBOARD
@@ -70,7 +81,9 @@ TODO:
 				- (5,5) -> (1,2): TRUE
 				- (1,1) -> (1,2): FALSE
 			- HEXBOARD
-				- 
+				- (5,-3) -> (0,0): FALSE
+				- (5,-3) -> (1,2): TRUE
+				- (0,0) -> (1,2): FALSE
 
 
 
